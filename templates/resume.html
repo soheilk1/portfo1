@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soheil Karami - Modern IT Resume</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #e5e7eb;
+            color: #1f2937;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+        @media print {
+            body { background-color: white; font-size: 0.92rem; }
+            .page-container {
+                box-shadow: none !important;
+                margin: 0 !important;
+                max-width: 100% !important;
+                min-height: auto !important;
+            }
+            a[href]:after { content: none !important; }
+            .print-row { display: flex !important; flex-direction: row !important; }
+            .print-sidebar { width: 33.3333% !important; padding: 1.5rem !important; gap: 1rem !important; }
+            .print-main { width: 66.6667% !important; padding: 1.5rem !important; }
+            .no-print { display: none !important; }
+
+            /* Aggressively compress vertical spacing for print to fit one page */
+            section { margin-bottom: 1rem !important; }
+            .mb-6 { margin-bottom: 0.75rem !important; }
+            .mb-8 { margin-bottom: 1rem !important; }
+            .gap-8 { gap: 1rem !important; }
+        }
+        .section-heading {
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-size: 0.875rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+            border-bottom: 2px solid currentColor;
+            padding-bottom: 0.25rem;
+        }
+
+        /* AI Widget Animations */
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .animate-fade-in { animation: fadeIn 0.3s ease-out forwards; }
+
+        @keyframes highlightFlash {
+            0% { background-color: #fef08a; }
+            100% { background-color: transparent; }
+        }
+        .highlight-update { animation: highlightFlash 2s ease-out forwards; }
+
+        .typing-dot {
+            animation: typing 1.4s infinite ease-in-out;
+            fill: currentColor;
+        }
+        .typing-dot:nth-child(1) { animation-delay: -0.32s; }
+        .typing-dot:nth-child(2) { animation-delay: -0.16s; }
+        @keyframes typing {
+            0%, 80%, 100% { transform: scale(0); }
+            40% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body class="antialiased py-8 print:py-0">
+
+    <div class="page-container max-w-5xl mx-auto shadow-2xl flex flex-col md:flex-row print-row min-h-[1056px] bg-white relative">
+
+        <!-- Sidebar (Left Column) -->
+        <aside class="w-full md:w-1/3 print-sidebar bg-slate-900 text-white p-8 flex flex-col gap-8">
+
+            <!-- Header section in sidebar -->
+            <div>
+                <h1 class="text-3xl font-bold tracking-tight mb-2">Soheil<br><span class="text-blue-400">Karami</span></h1>
+                <h2 class="text-sm font-semibold tracking-wide text-slate-300 uppercase">Cloud & DevSecOps Engineer</h2>
+            </div>
+
+            <!-- Contact Info -->
+            <div class="text-sm space-y-3 text-slate-300">
+                <div class="flex items-start gap-3">
+                    <svg class="w-5 h-5 text-blue-400 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                    <span>Kuala Lumpur, Malaysia</span>
+                </div>
+                <div class="flex items-start gap-3">
+                    <svg class="w-5 h-5 text-blue-400 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path></svg>
+                    <a href="https://soheilk.pythonanywhere.com/resume.html" target="_blank" class="hover:text-white transition">soheilk.pythonanywhere.com/resume.html</a>
+                </div>
+            </div>
+
+            <!-- Technical Skills -->
+            <div>
+                <h3 class="section-heading text-blue-400 border-blue-400">Technical Skills</h3>
+                <div class="space-y-4 text-sm text-slate-300">
+                    <div>
+                        <h4 class="font-bold text-white mb-1">Cloud & Infrastructure</h4>
+                        <p>Microsoft Azure, AWS, VMware, Linux OS, Windows Server, Active Directory</p>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-white mb-1">Networking & Security</h4>
+                        <p>Cisco Network Design, Firewalls, LAN/WAN, Vulnerability Assessments, MS Forefront TMG</p>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-white mb-1">Programming</h4>
+                        <p>Python, Flutter, Java, JSP, PHP, HTML5</p>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-white mb-1">Databases & Ops</h4>
+                        <p>MySQL, SQL Server, Office 365 Admin, Disaster Recovery</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Certifications -->
+            <div>
+                <h3 class="section-heading text-blue-400 border-blue-400">Certifications</h3>
+                <ul class="list-none space-y-2 text-sm text-slate-300">
+                    <li class="flex items-start gap-2">
+                        <span class="text-blue-400 mt-1">▹</span>
+                        <span class="font-semibold text-white">Google AI Professional</span>
+                    </li>
+                    <li class="flex items-start gap-2">
+                        <span class="text-blue-400 mt-1">▹</span>
+                        <span>Cyber Security Certificate</span>
+                    </li>
+                    <li class="flex items-start gap-2">
+                        <span class="text-blue-400 mt-1">▹</span>
+                        <span>Python Zero to Mastery</span>
+                    </li>
+                    <li class="flex items-start gap-2">
+                        <span class="text-blue-400 mt-1">▹</span>
+                        <span>Info Systems Management</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Education -->
+            <div>
+                <h3 class="section-heading text-blue-400 border-blue-400">Education</h3>
+                <div class="space-y-4 text-sm text-slate-300">
+                    <div>
+                        <h4 class="font-bold text-white leading-tight">Master of Science<br>Software Management</h4>
+                        <p class="text-xs mt-1 text-slate-400">Limkokwing University of Creative Technology, KL</p>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-white leading-tight">Bachelor of ICT</h4>
+                        <p class="text-xs mt-1 text-slate-400">Limkokwing University of Creative Technology, KL</p>
+                    </div>
+                </div>
+            </div>
+
+        </aside>
+
+        <!-- Main Content (Right Column) -->
+        <main class="w-full md:w-2/3 print-main p-8 md:p-10 bg-white text-gray-800 relative">
+
+            <!-- Summary -->
+            <section class="mb-8">
+                <h3 class="section-heading text-slate-800 border-slate-300 flex justify-between items-center">
+                    <span>Professional Profile</span>
+                    <button id="btn-tts" class="no-print text-xs bg-blue-50 text-blue-600 border border-blue-200 hover:bg-blue-100 hover:text-blue-700 font-semibold py-1 px-3 rounded-full flex items-center gap-1.5 transition disabled:opacity-50">
+                        <span class="text-sm">✨</span> Listen to Pitch
+                    </button>
+                </h3>
+                <p id="professional-summary-text" class="text-sm leading-relaxed text-gray-700 transition-colors duration-500 rounded p-1 -ml-1">
+                    Forward-thinking IT professional and DevSecOps Engineer with extensive experience in infrastructure management, cloud solutions, and systems administration. Adept at bridging the gap between development and operations with a specialized focus on web and application security. Proven track record in designing Microsoft Azure cloud solutions, managing VMware environments, and implementing robust cybersecurity policies. Strong Python programmer, bringing a security-first approach to backend development, continuous improvement, and scalable network design.
+                </p>
+            </section>
+
+            <!-- Experience -->
+            <section class="mb-8">
+                <h3 class="section-heading text-slate-800 border-slate-300">Work Experience</h3>
+
+                <!-- Current Job -->
+                <div class="mb-6 relative border-l-2 border-slate-200 pl-4 ml-2">
+                    <div class="absolute w-3 h-3 bg-blue-500 rounded-full -left-[7px] top-1.5 ring-4 ring-white"></div>
+                    <div class="flex flex-col sm:flex-row sm:justify-between sm:items-baseline mb-1">
+                        <h4 class="font-bold text-slate-900 text-base">Project Manager</h4>
+                        <span class="text-xs font-bold text-blue-600 tracking-wider">2020 – Present</span>
+                    </div>
+                    <p class="text-sm font-medium text-slate-500 mb-2">Culluc.Group PTY LTD</p>
+                    <ul class="list-disc list-outside ml-4 text-sm text-gray-700 space-y-1.5">
+                        <li>Direct and manage full-lifecycle IT and technical projects, aligning cloud and infrastructure deliverables with overarching business goals.</li>
+                        <li>Coordinate cross-functional development and operations teams to streamline deployments and enhance system security posture.</li>
+                        <li>Oversee project timelines, resource allocation, and stakeholder communication to ensure on-time and successful delivery.</li>
+                    </ul>
+                </div>
+
+                <!-- Job 1 -->
+                <div class="mb-6 relative border-l-2 border-slate-200 pl-4 ml-2">
+                    <div class="absolute w-3 h-3 bg-slate-300 rounded-full -left-[7px] top-1.5 ring-4 ring-white"></div>
+                    <div class="flex flex-col sm:flex-row sm:justify-between sm:items-baseline mb-1">
+                        <h4 class="font-bold text-slate-900 text-base">IT Manager</h4>
+                        <span class="text-xs font-bold text-slate-500 tracking-wider">2016 – 2020</span>
+                    </div>
+                    <p class="text-sm font-medium text-slate-500 mb-2">PM Empire Group SDN. BHD. (Bookingee.com)</p>
+                    <ul class="list-disc list-outside ml-4 text-sm text-gray-700 space-y-1.5">
+                        <li>Directed comprehensive system maintenance, ensuring optimal performance and security of company infrastructure.</li>
+                        <li>Led backend development and website development initiatives to support dynamic business operations.</li>
+                        <li>Managed and maintained computer networks, servers, routers, switches, virtual hosts, and storage arrays to ensure seamless connectivity.</li>
+                        <li>Assisted in migrating business applications and data to cloud platforms, optimizing retrieval processes.</li>
+                    </ul>
+                </div>
+
+                <!-- Job 2 -->
+                <div class="mb-6 relative border-l-2 border-slate-200 pl-4 ml-2">
+                    <div class="absolute w-3 h-3 bg-slate-300 rounded-full -left-[7px] top-1.5 ring-4 ring-white"></div>
+                    <div class="flex flex-col sm:flex-row sm:justify-between sm:items-baseline mb-1">
+                        <h4 class="font-bold text-slate-900 text-base">Information Security Manager</h4>
+                        <span class="text-xs font-bold text-slate-500 tracking-wider">2007 – 2011</span>
+                    </div>
+                    <p class="text-sm font-medium text-slate-500 mb-2">Dr. Jahangir Pharmaceutical & Hygienic Co.</p>
+                    <ul class="list-disc list-outside ml-4 text-sm text-gray-700 space-y-1.5">
+                        <li>Monitored and enforced server and client security policies utilizing tools such as Avira Security Center.</li>
+                        <li>Managed shared internet traffic on LAN using MS Forefront TMG, Bandwidth Splitter, and Surf Control.</li>
+                        <li>Protected sensitive business data by implementing strict preventative measures to minimize downtime and mitigate security risks.</li>
+                    </ul>
+                </div>
+
+                <!-- Job 3 -->
+                <div class="relative border-l-2 border-slate-200 pl-4 ml-2">
+                    <div class="absolute w-3 h-3 bg-slate-300 rounded-full -left-[7px] top-1.5 ring-4 ring-white"></div>
+                    <div class="flex flex-col sm:flex-row sm:justify-between sm:items-baseline mb-1">
+                        <h4 class="font-bold text-slate-900 text-base">Maintenance Manager</h4>
+                        <span class="text-xs font-bold text-slate-500 tracking-wider">2003 – 2007</span>
+                    </div>
+                    <p class="text-sm font-medium text-slate-500 mb-2">Canon Co.</p>
+                    <ul class="list-disc list-outside ml-4 text-sm text-gray-700 space-y-1.5">
+                        <li>Oversaw system maintenance, technical customer service, and specialized marketing initiatives.</li>
+                        <li>Performed intricate hardware maintenance, diagnostics, and repair for enterprise machines.</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Highlights -->
+            <section>
+                <h3 class="section-heading text-slate-800 border-slate-300">Functional Experience Highlights</h3>
+
+                <div class="mb-4 bg-slate-50 rounded-lg p-4 border border-slate-100">
+                    <h4 class="font-bold text-slate-800 text-sm mb-2 flex items-center gap-2">
+                        <svg class="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 002-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+                        Cloud Infrastructure & DevSecOps
+                    </h4>
+                    <ul class="list-disc list-outside ml-4 text-sm text-gray-700 space-y-1">
+                        <li>Designed, deployed, and maintained Microsoft Azure cloud solutions following industry best practices.</li>
+                        <li>Conducted rigorous system vulnerability assessments and collaborated with teams to mitigate risks.</li>
+                        <li>Diagnosed and resolved cloud application failures, ensuring regulatory compliance.</li>
+                    </ul>
+                </div>
+
+                <div class="bg-slate-50 rounded-lg p-4 border border-slate-100">
+                    <h4 class="font-bold text-slate-800 text-sm mb-2 flex items-center gap-2">
+                        <svg class="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01"></path></svg>
+                        IT Systems Administration
+                    </h4>
+                    <ul class="list-disc list-outside ml-4 text-sm text-gray-700 space-y-1">
+                        <li>Managed VMware virtual environments and configured storage servers for enterprise data management.</li>
+                        <li>Provided critical technical support for Hospital Information Systems, troubleshooting OS and hardware issues.</li>
+                        <li>Administered Office 365 accounts, managed user access, and executed disaster recovery preparedness.</li>
+                    </ul>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- ✨ AI WIDGET (Hidden on print) -->
+    <div class="fixed bottom-6 right-6 z-50 no-print flex flex-col items-end">
+
+        <!-- Widget Panel -->
+        <div id="ai-panel" class="hidden animate-fade-in bg-white shadow-2xl rounded-2xl border border-slate-200 w-80 sm:w-96 mb-4 overflow-hidden flex flex-col h-[500px]">
+
+            <!-- Header -->
+            <div class="bg-slate-900 text-white p-4 flex justify-between items-center">
+                <div class="flex items-center gap-2">
+                    <span class="text-xl">✨</span>
+                    <h3 class="font-bold">Resume AI Assistant</h3>
+                </div>
+                <button id="close-panel-btn" class="text-slate-400 hover:text-white transition">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+
+            <!-- Tabs -->
+            <div class="flex border-b border-slate-200">
+                <button id="tab-chat" class="flex-1 py-3 text-sm font-semibold text-blue-600 border-b-2 border-blue-600 bg-blue-50/50 transition">Ask Questions</button>
+                <button id="tab-tailor" class="flex-1 py-3 text-sm font-semibold text-slate-500 border-b-2 border-transparent hover:bg-slate-50 transition">Tailor to Job</button>
+                <button id="tab-interview" class="flex-1 py-3 text-sm font-semibold text-slate-500 border-b-2 border-transparent hover:bg-slate-50 transition">Interview Q's</button>
+            </div>
+
+            <!-- Tab Content: Chat -->
+            <div id="content-chat" class="flex-1 flex flex-col overflow-hidden">
+                <div id="chat-messages" class="flex-1 overflow-y-auto p-4 space-y-4 bg-slate-50">
+                    <!-- Initial Message -->
+                    <div class="flex gap-2">
+                        <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center shrink-0 border border-blue-200 text-lg">✨</div>
+                        <div class="bg-white p-3 rounded-2xl rounded-tl-none border border-slate-200 text-sm text-slate-700 shadow-sm">
+                            Hi! I'm an AI assistant trained on Soheil's resume. Ask me anything about his experience, skills, or certifications!
+                        </div>
+                    </div>
+                </div>
+                <!-- Chat Input -->
+                <div class="p-3 border-t border-slate-200 bg-white">
+                    <form id="chat-form" class="flex gap-2">
+                        <input type="text" id="chat-input" class="flex-1 border border-slate-300 rounded-full px-4 py-2 text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition" placeholder="e.g. What is his Azure experience?">
+                        <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white rounded-full p-2 w-10 h-10 flex items-center justify-center shrink-0 transition disabled:opacity-50">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg>
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Tab Content: Tailor -->
+            <div id="content-tailor" class="hidden flex-1 flex flex-col overflow-hidden bg-white p-4">
+                <p class="text-sm text-slate-600 mb-3">Paste a job description below. The AI will rewrite the "Professional Profile" section on the resume to highlight matching skills.</p>
+                <textarea id="jd-input" class="w-full flex-1 border border-slate-300 rounded-lg p-3 text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 resize-none transition mb-3" placeholder="Paste job description here..."></textarea>
+
+                <div id="tailor-error" class="hidden text-xs text-red-600 mb-2 p-2 bg-red-50 rounded border border-red-200"></div>
+
+                <button id="btn-tailor" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-semibold py-2.5 rounded-lg shadow flex items-center justify-center gap-2 transition disabled:opacity-70">
+                    <span>✨ Optimize Resume Summary</span>
+                </button>
+            </div>
+
+            <!-- Tab Content: Interview Questions -->
+            <div id="content-interview" class="hidden flex-1 flex flex-col overflow-hidden bg-white p-4">
+                <p class="text-sm text-slate-600 mb-3">Generate custom, targeted interview questions based on Soheil's exact experience and tech stack.</p>
+                <div id="interview-results" class="flex-1 overflow-y-auto mb-3 text-sm text-slate-700 space-y-3 p-3 bg-slate-50 border border-slate-200 rounded-lg hidden"></div>
+
+                <button id="btn-generate-qs" class="w-full mt-auto bg-slate-900 hover:bg-slate-800 text-white font-semibold py-2.5 rounded-lg shadow flex items-center justify-center gap-2 transition disabled:opacity-70">
+                    <span>✨ Generate Questions</span>
+                </button>
+            </div>
+
+        </div>
+
+        <!-- Floating Action Button -->
+        <button id="fab" class="bg-blue-600 hover:bg-blue-700 text-white rounded-full h-14 px-6 flex items-center justify-center shadow-lg hover:shadow-xl transition-all gap-2 font-semibold">
+            <span class="text-xl">✨</span>
+            <span>Explore AI Features</span>
+        </button>
+    </div>
+
+    <!-- Application Logic -->
+    <script>
+
+        // --- Gemini API Configuration ---
+        const apiKey = "AIzaSyDfMmzWuLCkxOGKwrScqJNjaWarkBdQJvw"; // Provided by execution environment
+        const modelEndpoint = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent";
+
+        // Context data describing the resume so the LLM understands who Soheil is
+        const resumeContextData = `
+            Name: Soheil Karami
+            Role: Cloud & DevSecOps Engineer, IT Operations Manager
+            Location: Kuala Lumpur, Malaysia
+            Contact: Soheil3005@hotmail.com, 01127838984, https://soheilk.pythonanywhere.com/resume.html
+
+            Technical Skills:
+            - Cloud & Infrastructure: Microsoft Azure, AWS, VMware, Linux OS, Windows Server, Active Directory
+            - Networking & Security: Cisco Network Design, Firewalls, LAN/WAN, Vulnerability Assessments, MS Forefront TMG
+            - Programming: Python, Flutter, Java, JSP, PHP, HTML5
+            - Databases & Ops: MySQL, SQL Server, Office 365 Admin, Disaster Recovery
+
+            Certifications:
+            - Google AI Professional Certificate
+            - Certificate of Cyber Security
+            - Certificate of Python Zero to Mastery
+            - Certificate in Information Systems Management (Aptech)
+
+            Education:
+            - Master of Science Software Management (Limkokwing University)
+            - Bachelor of ICT (Limkokwing University)
+
+            Work Experience:
+            1. Project Manager at Culluc.Group PTY LTD [2020 - Present]
+               - Direct and manage full-lifecycle IT and technical projects.
+               - Coordinate cross-functional teams for system deployments.
+               - Oversee project timelines and resource allocation.
+            2. IT Manager at PM Empire Group SDN. BHD. (Bookingee.com) [2016 - 2020]
+            2. Information Security Manager at Dr. Jahangir Pharmaceutical & Hygienic Co. [2007 - 2011]
+               - Monitored server/client security policies using Avira.
+               - Managed LAN traffic using MS Forefront TMG.
+               - Preventative measures against security risks.
+            3. Maintenance Manager at Canon Co. [2003 - 2007]
+               - Hardware maintenance, system maintenance.
+        `;
+
+        // API Fetch Logic with Exponential Backoff
+        async function fetchWithRetry(url, options, retries = 5) {
+            const delays = [1000, 2000, 4000, 8000, 16000];
+            for (let i = 0; i < retries; i++) {
+                try {
+                    const response = await fetch(url, options);
+                    if (!response.ok) {
+                        const errText = await response.text();
+                        throw new Error(`HTTP error! status: ${response.status}, message: ${errText}`);
+                    }
+                    return await response.json();
+                } catch (error) {
+                    if (i === retries - 1) throw error;
+                    await new Promise(res => setTimeout(res, delays[i]));
+                }
+            }
+        }
+
+        async function callGemini(prompt, systemInstruction) {
+            const url = `${modelEndpoint}?key=${apiKey}`;
+            const payload = {
+                contents: [{ parts: [{ text: prompt }] }],
+                systemInstruction: { parts: [{ text: systemInstruction }] }
+            };
+            const result = await fetchWithRetry(url, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload)
+            });
+            return result.candidates?.[0]?.content?.parts?.[0]?.text || "No response generated.";
+        }
+
+        // --- UI Element References ---
+        const fab = document.getElementById('fab');
+        const panel = document.getElementById('ai-panel');
+        const closeBtn = document.getElementById('close-panel-btn');
+
+        const tabChat = document.getElementById('tab-chat');
+        const tabTailor = document.getElementById('tab-tailor');
+        const tabInterview = document.getElementById('tab-interview');
+        const contentChat = document.getElementById('content-chat');
+        const contentTailor = document.getElementById('content-tailor');
+        const contentInterview = document.getElementById('content-interview');
+
+        // Toggle Widget
+        fab.addEventListener('click', () => {
+            panel.classList.remove('hidden');
+            fab.classList.add('hidden');
+        });
+        closeBtn.addEventListener('click', () => {
+            panel.classList.add('hidden');
+            fab.classList.remove('hidden');
+        });
+
+        // Tabs Logic
+        function switchTab(activeBtn, inactiveBtns, showContent, hideContents) {
+            activeBtn.classList.replace('text-slate-500', 'text-blue-600');
+            activeBtn.classList.replace('border-transparent', 'border-blue-600');
+            activeBtn.classList.replace('hover:bg-slate-50', 'bg-blue-50/50');
+
+            inactiveBtns.forEach(btn => {
+                btn.classList.replace('text-blue-600', 'text-slate-500');
+                btn.classList.replace('border-blue-600', 'border-transparent');
+                btn.classList.replace('bg-blue-50/50', 'hover:bg-slate-50');
+            });
+
+            showContent.classList.remove('hidden');
+            hideContents.forEach(content => content.classList.add('hidden'));
+        }
+        tabChat.addEventListener('click', () => switchTab(tabChat, [tabTailor, tabInterview], contentChat, [contentTailor, contentInterview]));
+        tabTailor.addEventListener('click', () => switchTab(tabTailor, [tabChat, tabInterview], contentTailor, [contentChat, contentInterview]));
+        tabInterview.addEventListener('click', () => switchTab(tabInterview, [tabChat, tabTailor], contentInterview, [contentChat, contentTailor]));
+
+        // --- Feature 1: Chatbot Logic ---
+        const chatForm = document.getElementById('chat-form');
+        const chatInput = document.getElementById('chat-input');
+        const chatMessages = document.getElementById('chat-messages');
+
+        function appendMessage(role, text) {
+            const msgDiv = document.createElement('div');
+            msgDiv.className = "flex gap-2 animate-fade-in";
+
+            // basic bold formatting for AI
+            const formattedText = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+
+            if (role === 'user') {
+                msgDiv.classList.add("flex-row-reverse");
+                msgDiv.innerHTML = `
+                    <div class="bg-blue-600 text-white p-3 rounded-2xl rounded-tr-none text-sm shadow-sm max-w-[85%] break-words">
+                        ${formattedText}
+                    </div>
+                `;
+            } else {
+                msgDiv.innerHTML = `
+                    <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center shrink-0 border border-blue-200 text-lg">✨</div>
+                    <div class="bg-white p-3 rounded-2xl rounded-tl-none border border-slate-200 text-sm text-slate-700 shadow-sm max-w-[85%] break-words">
+                        ${formattedText}
+                    </div>
+                `;
+            }
+            chatMessages.appendChild(msgDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function showTypingIndicator() {
+            const id = 'typing-' + Date.now();
+            const msgDiv = document.createElement('div');
+            msgDiv.id = id;
+            msgDiv.className = "flex gap-2 animate-fade-in";
+            msgDiv.innerHTML = `
+                <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center shrink-0 border border-blue-200 text-lg">✨</div>
+                <div class="bg-white p-3 rounded-2xl rounded-tl-none border border-slate-200 flex items-center gap-1 shadow-sm">
+                    <svg class="w-1.5 h-1.5 typing-dot text-slate-400" viewBox="0 0 10 10"><circle cx="5" cy="5" r="5"/></svg>
+                    <svg class="w-1.5 h-1.5 typing-dot text-slate-400" viewBox="0 0 10 10"><circle cx="5" cy="5" r="5"/></svg>
+                    <svg class="w-1.5 h-1.5 typing-dot text-slate-400" viewBox="0 0 10 10"><circle cx="5" cy="5" r="5"/></svg>
+                </div>
+            `;
+            chatMessages.appendChild(msgDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+            return id;
+        }
+
+        chatForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const query = chatInput.value.trim();
+            if (!query) return;
+
+            // UI updates
+            appendMessage('user', query);
+            chatInput.value = '';
+            const submitBtn = chatForm.querySelector('button');
+            submitBtn.disabled = true;
+            const typingId = showTypingIndicator();
+
+            const systemInstruction = `
+                You are an AI assistant representing Soheil Karami.
+                You are helpful, professional, and confident.
+                Use ONLY the following resume data to answer questions.
+                Keep answers concise (max 2-3 sentences) and highly relevant.
+                If asked something outside the resume, politely decline and say you only have access to Soheil's professional background.
+
+                Resume Data:
+                ${resumeContextData}
+            `;
+
+            try {
+                const responseText = await callGemini(query, systemInstruction);
+                document.getElementById(typingId).remove();
+                appendMessage('ai', responseText);
+            } catch (error) {
+                document.getElementById(typingId).remove();
+                appendMessage('ai', "Sorry, I'm having trouble connecting right now. Please try again later.");
+                console.error(error);
+            } finally {
+                submitBtn.disabled = false;
+            }
+        });
+
+        // --- Feature 2: Tailor Resume Logic ---
+        const btnTailor = document.getElementById('btn-tailor');
+        const jdInput = document.getElementById('jd-input');
+        const summaryTextEl = document.getElementById('professional-summary-text');
+        const tailorError = document.getElementById('tailor-error');
+
+        btnTailor.addEventListener('click', async () => {
+            const jd = jdInput.value.trim();
+            tailorError.classList.add('hidden');
+
+            if (!jd) {
+                tailorError.textContent = "Please paste a job description first.";
+                tailorError.classList.remove('hidden');
+                return;
+            }
+
+            // Loading state
+            const originalBtnText = btnTailor.innerHTML;
+            btnTailor.disabled = true;
+            btnTailor.innerHTML = `
+                <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                Generating...
+            `;
+
+            const prompt = `Here is the job description:\n\n${jd}`;
+            const systemInstruction = `
+                You are an expert career coach and resume writer.
+                Your task is to rewrite Soheil Karami's "Professional Profile" summary so it perfectly aligns with the provided job description.
+
+                Rules:
+                1. Write ONLY the paragraph. No intros, no outtros, no markdown formatting.
+                2. Maximum length is 4-5 sentences.
+                3. Highlight the specific skills from Soheil's resume that match the job description.
+                4. DO NOT invent new experience. Only reframe existing experience.
+                5. Maintain a professional, executive tone.
+
+                Here is Soheil's complete resume context:
+                ${resumeContextData}
+            `;
+
+            try {
+                const newSummary = await callGemini(prompt, systemInstruction);
+
+                // Update DOM directly
+                summaryTextEl.textContent = newSummary;
+
+                // Add highlight animation to draw attention
+                summaryTextEl.classList.remove('highlight-update');
+                void summaryTextEl.offsetWidth; // trigger reflow
+                summaryTextEl.classList.add('highlight-update');
+
+                // Reset UI
+                jdInput.value = '';
+
+                // Optional: show a success message inside the button briefly
+                btnTailor.innerHTML = `<span>✅ Summary Updated!</span>`;
+                setTimeout(() => {
+                    btnTailor.innerHTML = originalBtnText;
+                    btnTailor.disabled = false;
+                }, 2000);
+
+            } catch (error) {
+                tailorError.textContent = "Failed to connect to AI. Please try again.";
+                tailorError.classList.remove('hidden');
+                btnTailor.innerHTML = originalBtnText;
+                btnTailor.disabled = false;
+                console.error(error);
+            }
+        });
+
+        // --- Feature 3: Interview Questions Logic ---
+        const btnGenerateQs = document.getElementById('btn-generate-qs');
+        const interviewResults = document.getElementById('interview-results');
+
+        btnGenerateQs.addEventListener('click', async () => {
+            const originalBtnText = btnGenerateQs.innerHTML;
+            btnGenerateQs.disabled = true;
+            btnGenerateQs.innerHTML = `
+                <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                Generating...
+            `;
+
+            const prompt = "Generate 3 tailored interview questions for this candidate.";
+            const systemInstruction = `
+                You are an expert technical recruiter. Based on Soheil Karami's resume, generate exactly 3 insightful technical or behavioral interview questions to ask him.
+                Format your response entirely in raw HTML using an unordered list (<ul class="list-disc pl-4 space-y-2">). Use <li> for each question.
+                Wrap the main question in <strong> tags. Follow each question with a brief <em> "What to listen for: ..." </em> explanation.
+                Output ONLY raw HTML. Do not use markdown backticks.
+
+                Resume Context:
+                ${resumeContextData}
+            `;
+
+            try {
+                const questionsHtml = await callGemini(prompt, systemInstruction);
+                interviewResults.innerHTML = questionsHtml;
+                interviewResults.classList.remove('hidden');
+                btnGenerateQs.innerHTML = `<span>✨ Generate New Questions</span>`;
+            } catch (error) {
+                interviewResults.innerHTML = '<span class="text-red-600">Failed to load questions. Try again.</span>';
+                interviewResults.classList.remove('hidden');
+                btnGenerateQs.innerHTML = originalBtnText;
+            } finally {
+                btnGenerateQs.disabled = false;
+            }
+        });
+
+        // --- Feature 4: Audio Elevator Pitch (TTS) ---
+        const btnTts = document.getElementById('btn-tts');
+        let currentAudio = null;
+
+        function pcmToWav(pcmData, sampleRate) {
+            const numChannels = 1;
+            const byteRate = sampleRate * numChannels * 2;
+            const blockAlign = numChannels * 2;
+            const buffer = new ArrayBuffer(44 + pcmData.length);
+            const view = new DataView(buffer);
+
+            function writeString(view, offset, string) {
+                for (let i = 0; i < string.length; i++) {
+                    view.setUint8(offset + i, string.charCodeAt(i));
+                }
+            }
+
+            writeString(view, 0, 'RIFF');
+            view.setUint32(4, 36 + pcmData.length, true);
+            writeString(view, 8, 'WAVE');
+            writeString(view, 12, 'fmt ');
+            view.setUint32(16, 16, true);
+            view.setUint16(20, 1, true);
+            view.setUint16(22, numChannels, true);
+            view.setUint32(24, sampleRate, true);
+            view.setUint32(28, byteRate, true);
+            view.setUint16(32, blockAlign, true);
+            view.setUint16(34, 16, true);
+            writeString(view, 36, 'data');
+            view.setUint32(40, pcmData.length, true);
+
+            const pcmArray = new Uint8Array(pcmData);
+            for (let i = 0; i < pcmArray.length; i++) {
+                view.setUint8(44 + i, pcmArray[i]);
+            }
+            return buffer;
+        }
+
+        btnTts.addEventListener('click', async () => {
+            if (currentAudio) {
+                currentAudio.pause();
+                currentAudio = null;
+                btnTts.innerHTML = '<span class="text-sm">✨</span> Listen to Pitch';
+                return;
+            }
+
+            const originalText = btnTts.innerHTML;
+            btnTts.disabled = true;
+            btnTts.innerHTML = `<svg class="animate-spin h-4 w-4 text-blue-600" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Loading...`;
+
+            const ttsUrl = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-tts:generateContent?key=' + apiKey;
+            const payload = {
+                contents: [{ parts: [{ text: "Say cheerfully and professionally: Hi, I'm Soheil Karami! I am a DevSecOps Engineer and IT Project Manager based in Kuala Lumpur. I bridge the gap between development and operations with a specialized focus on cloud infrastructure and web security. I'd love to bring my expertise in Azure and cybersecurity to your team!" }] }],
+                generationConfig: {
+                    responseModalities: ["AUDIO"],
+                    speechConfig: { voiceConfig: { prebuiltVoiceConfig: { voiceName: "Puck" } } }
+                }
+            };
+
+            try {
+                const response = await fetchWithRetry(ttsUrl, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(payload)
+                });
+
+                const audioData = response.candidates?.[0]?.content?.parts?.[0]?.inlineData;
+                if (!audioData) throw new Error("No audio returned");
+
+                const binaryString = atob(audioData.data);
+                const pcmData = new Uint8Array(binaryString.length);
+                for (let i = 0; i < binaryString.length; i++) {
+                    pcmData[i] = binaryString.charCodeAt(i);
+                }
+
+                // Extract sample rate from mimeType, default 24000
+                const rateMatch = audioData.mimeType.match(/rate=(\d+)/);
+                const sampleRate = rateMatch ? parseInt(rateMatch[1]) : 24000;
+
+                const wavBuffer = pcmToWav(pcmData.buffer, sampleRate);
+                const blob = new Blob([wavBuffer], { type: 'audio/wav' });
+                const audioUrl = URL.createObjectURL(blob);
+
+                currentAudio = new Audio(audioUrl);
+                currentAudio.onended = () => {
+                    btnTts.innerHTML = '<span class="text-sm">✨</span> Listen to Pitch';
+                    currentAudio = null;
+                };
+
+                currentAudio.play();
+                btnTts.innerHTML = '⏹ Stop Playing';
+                btnTts.disabled = false;
+
+            } catch (error) {
+                console.error("TTS Error:", error);
+                btnTts.innerHTML = '<span class="text-sm">⚠️</span> Error';
+                setTimeout(() => {
+                    btnTts.innerHTML = originalText;
+                    btnTts.disabled = false;
+                }, 2000);
+            }
+        });
+
+    </script>
+</body>
+</html>
