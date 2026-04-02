@@ -95,7 +95,7 @@
                 </div>
                 <div class="flex items-start gap-3">
                     <svg class="w-5 h-5 text-blue-400 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path></svg>
-                    <a href="https://soheilk.pythonanywhere.com/resume.html" target="_blank" class="hover:text-white transition">soheilk.pythonanywhere.com/resume.html</a>
+                    <a href="https://soheilk.pythonanywhere.com/" target="_blank" class="hover:text-white transition">soheilk.pythonanywhere.com</a>
                 </div>
             </div>
 
@@ -346,145 +346,286 @@
         </div>
 
         <!-- Floating Action Button -->
-    <button id="fab" class="bg-blue-600 hover:bg-blue-700 text-white rounded-full h-14 px-6 flex items-center justify-center shadow-lg hover:shadow-xl transition-all gap-2 font-semibold">
-        <span class="text-xl">✨</span>
-        <span>Explore AI Features</span>
-    </button>
-</div>
+        <button id="fab" class="bg-blue-600 hover:bg-blue-700 text-white rounded-full h-14 px-6 flex items-center justify-center shadow-lg hover:shadow-xl transition-all gap-2 font-semibold">
+            <span class="text-xl">✨</span>
+            <span>Explore AI Features</span>
+        </button>
+    </div>
 
-<!-- Application Logic -->
+    <!-- Application Logic -->
+    <script>
+        /*
+           --- BACKEND CONFIGURATION ---
+           We now point to your local PythonAnywhere server instead of Google directly.
+           This fixes the 404 errors and keeps your API Key completely safe from the public!
+        */
 
-<script>
-    /*
-       --- BACKEND CONFIGURATION ---
-       We now point to your local server instead of Google directly.
-       This fixes the 404 error and keeps your API Key safe.
-    */
-    const SERVER_URL = "http://127.0.0.1:5000"; // Update this if your port is different
+        // IMPORTANT: If you are testing this locally on your PC, leave this as http://127.0.0.1:5000
+        // Once you upload this to PythonAnywhere, change it to "https://soheilk.pythonanywhere.com"
+        const SERVER_URL = "https://soheilk.pythonanywhere.com";
 
-    // Context data describing the resume
-    const resumeContextData = `
-        Name: Soheil Karami
-        Role: Cloud & DevSecOps Engineer, IT Operations Manager
-        Location: Kuala Lumpur, Malaysia
-        ... (rest of your context data) ...
-    `;
+        // Context data describing the resume
+        const resumeContextData = `
+            Name: Soheil Karami
+            Role: Cloud & DevSecOps Engineer, IT Operations Manager
+            Location: Kuala Lumpur, Malaysia
+            Contact: Soheil3005@hotmail.com, 01127838984, https://soheilk.pythonanywhere.com/resume.html
 
-    // Generic function to talk to your server.py
-    async function askServer(endpoint, payload) {
-        const response = await fetch(`${SERVER_URL}${endpoint}`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(payload)
+            Technical Skills:
+            - Cloud & Infrastructure: Microsoft Azure, AWS, VMware, Linux OS, Windows Server, Active Directory
+            - Networking & Security: Cisco Network Design, Firewalls, LAN/WAN, Vulnerability Assessments, MS Forefront TMG
+            - Programming: Python, Flutter, Java, JSP, PHP, HTML5
+            - Databases & Ops: MySQL, SQL Server, Office 365 Admin, Disaster Recovery
+
+            Certifications:
+            - Google AI Professional Certificate
+            - Certificate of Cyber Security
+            - Certificate of Python Zero to Mastery
+            - Certificate in Information Systems Management (Aptech)
+
+            Work Experience:
+            1. Project Manager at Culluc.Group PTY LTD [2020 - Present]
+               - Direct and manage full-lifecycle IT and technical projects.
+               - Coordinate cross-functional teams for system deployments.
+            2. IT Manager at PM Empire Group SDN. BHD. (Bookingee.com) [2016 - 2020]
+            3. Information Security Manager at Dr. Jahangir Pharmaceutical & Hygienic Co. [2007 - 2011]
+            4. Maintenance Manager at Canon Co. [2003 - 2007]
+        `;
+
+        // Generic function to talk to your server.py
+        async function askServer(endpoint, payload) {
+            const response = await fetch(`${SERVER_URL}${endpoint}`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload)
+            });
+
+            if (!response.ok) {
+                const err = await response.json();
+                throw new Error(err.error || "Server Error");
+            }
+            return await response.json();
+        }
+
+        // --- UI Element References ---
+        const fab = document.getElementById('fab');
+        const panel = document.getElementById('ai-panel');
+        const closeBtn = document.getElementById('close-panel-btn');
+
+        const tabChat = document.getElementById('tab-chat');
+        const tabTailor = document.getElementById('tab-tailor');
+        const tabInterview = document.getElementById('tab-interview');
+        const contentChat = document.getElementById('content-chat');
+        const contentTailor = document.getElementById('content-tailor');
+        const contentInterview = document.getElementById('content-interview');
+
+        // Toggle Widget
+        fab.addEventListener('click', () => {
+            panel.classList.remove('hidden');
+            fab.classList.add('hidden');
+        });
+        closeBtn.addEventListener('click', () => {
+            panel.classList.add('hidden');
+            fab.classList.remove('hidden');
         });
 
-        if (!response.ok) {
-            const err = await response.json();
-            throw new Error(err.error || "Server Error");
-        }
-        return await response.json();
-    }
+        // Tabs Logic
+        function switchTab(activeBtn, inactiveBtns, showContent, hideContents) {
+            activeBtn.classList.replace('text-slate-500', 'text-blue-600');
+            activeBtn.classList.replace('border-transparent', 'border-blue-600');
+            activeBtn.classList.replace('hover:bg-slate-50', 'bg-blue-50/50');
 
-    // --- Feature 1: Chatbot Logic ---
-    const chatForm = document.getElementById('chat-form');
-    const chatInput = document.getElementById('chat-input');
-    const chatMessages = document.getElementById('chat-messages');
-
-    chatForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const query = chatInput.value.trim();
-        if (!query) return;
-
-        appendMessage('user', query);
-        chatInput.value = '';
-        const typingId = showTypingIndicator();
-
-        try {
-            // We send the query to your server's /chat or /generate endpoint
-            const data = await askServer("/chat", {
-                message: query,
-                context: resumeContextData
+            inactiveBtns.forEach(btn => {
+                btn.classList.replace('text-blue-600', 'text-slate-500');
+                btn.classList.replace('border-blue-600', 'border-transparent');
+                btn.classList.replace('bg-blue-50/50', 'hover:bg-slate-50');
             });
 
-            document.getElementById(typingId).remove();
-            appendMessage('ai', data.reply);
-        } catch (error) {
-            document.getElementById(typingId).remove();
-            appendMessage('ai', "⚠️ Error: " + error.message);
+            showContent.classList.remove('hidden');
+            hideContents.forEach(content => content.classList.add('hidden'));
         }
-    });
+        tabChat.addEventListener('click', () => switchTab(tabChat, [tabTailor, tabInterview], contentChat, [contentTailor, contentInterview]));
+        tabTailor.addEventListener('click', () => switchTab(tabTailor, [tabChat, tabInterview], contentTailor, [contentChat, contentInterview]));
+        tabInterview.addEventListener('click', () => switchTab(tabInterview, [tabChat, tabTailor], contentInterview, [contentChat, contentTailor]));
 
-    // --- Feature 2: Tailor Resume Logic ---
-    const btnTailor = document.getElementById('btn-tailor');
-    const jdInput = document.getElementById('jd-input');
-    const summaryTextEl = document.getElementById('professional-summary-text');
+        // --- Helper Functions for UI ---
+        function appendMessage(role, text) {
+            const msgDiv = document.createElement('div');
+            msgDiv.className = "flex gap-2 animate-fade-in";
+            const formattedText = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
 
-    btnTailor.addEventListener('click', async () => {
-        const jd = jdInput.value.trim();
-        if (!jd) return;
+            if (role === 'user') {
+                msgDiv.classList.add("flex-row-reverse");
+                msgDiv.innerHTML = `
+                    <div class="bg-blue-600 text-white p-3 rounded-2xl rounded-tr-none text-sm shadow-sm max-w-[85%] break-words">
+                        ${formattedText}
+                    </div>
+                `;
+            } else {
+                msgDiv.innerHTML = `
+                    <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center shrink-0 border border-blue-200 text-lg">✨</div>
+                    <div class="bg-white p-3 rounded-2xl rounded-tl-none border border-slate-200 text-sm text-slate-700 shadow-sm max-w-[85%] break-words">
+                        ${formattedText}
+                    </div>
+                `;
+            }
+            const chatMessages = document.getElementById('chat-messages');
+            chatMessages.appendChild(msgDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
 
-        btnTailor.disabled = true;
-        const originalText = btnTailor.innerHTML;
-        btnTailor.innerHTML = "Optimizing...";
+        function showTypingIndicator() {
+            const id = 'typing-' + Date.now();
+            const msgDiv = document.createElement('div');
+            msgDiv.id = id;
+            msgDiv.className = "flex gap-2 animate-fade-in";
+            msgDiv.innerHTML = `
+                <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center shrink-0 border border-blue-200 text-lg">✨</div>
+                <div class="bg-white p-3 rounded-2xl rounded-tl-none border border-slate-200 flex items-center gap-1 shadow-sm">
+                    <svg class="w-1.5 h-1.5 typing-dot text-slate-400" viewBox="0 0 10 10"><circle cx="5" cy="5" r="5"/></svg>
+                    <svg class="w-1.5 h-1.5 typing-dot text-slate-400" viewBox="0 0 10 10"><circle cx="5" cy="5" r="5"/></svg>
+                    <svg class="w-1.5 h-1.5 typing-dot text-slate-400" viewBox="0 0 10 10"><circle cx="5" cy="5" r="5"/></svg>
+                </div>
+            `;
+            const chatMessages = document.getElementById('chat-messages');
+            chatMessages.appendChild(msgDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+            return id;
+        }
 
-        try {
-            const data = await askServer("/tailor", {
-                job_description: jd,
-                context: resumeContextData
-            });
 
-            summaryTextEl.textContent = data.new_summary;
-            summaryTextEl.classList.add('highlight-update');
-            btnTailor.innerHTML = "✅ Done!";
-        } catch (error) {
-            alert("Tailoring failed: " + error.message);
-        } finally {
-            setTimeout(() => {
-                btnTailor.disabled = false;
+        // --- Feature 1: Chatbot Logic ---
+        const chatForm = document.getElementById('chat-form');
+        const chatInput = document.getElementById('chat-input');
+
+        chatForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const query = chatInput.value.trim();
+            if (!query) return;
+
+            appendMessage('user', query);
+            chatInput.value = '';
+
+            const submitBtn = chatForm.querySelector('button');
+            submitBtn.disabled = true;
+            const typingId = showTypingIndicator();
+
+            try {
+                // We send the query to your server's /chat endpoint
+                const data = await askServer("/chat", {
+                    message: query,
+                    context: resumeContextData
+                });
+
+                document.getElementById(typingId).remove();
+                appendMessage('ai', data.reply || data.response); // Supports depending on how your Python script maps it
+            } catch (error) {
+                document.getElementById(typingId).remove();
+                appendMessage('ai', "⚠️ Error: " + error.message);
+            } finally {
+                submitBtn.disabled = false;
+            }
+        });
+
+        // --- Feature 2: Tailor Resume Logic ---
+        const btnTailor = document.getElementById('btn-tailor');
+        const jdInput = document.getElementById('jd-input');
+        const summaryTextEl = document.getElementById('professional-summary-text');
+        const tailorError = document.getElementById('tailor-error');
+
+        btnTailor.addEventListener('click', async () => {
+            const jd = jdInput.value.trim();
+            tailorError.classList.add('hidden');
+            if (!jd) return;
+
+            btnTailor.disabled = true;
+            const originalText = btnTailor.innerHTML;
+            btnTailor.innerHTML = `
+                <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                Optimizing...`;
+
+            try {
+                const data = await askServer("/tailor", {
+                    job_description: jd,
+                    context: resumeContextData
+                });
+
+                summaryTextEl.textContent = data.new_summary || data.response;
+                summaryTextEl.classList.remove('highlight-update');
+                void summaryTextEl.offsetWidth; // trigger reflow
+                summaryTextEl.classList.add('highlight-update');
+
+                jdInput.value = '';
+                btnTailor.innerHTML = "✅ Done!";
+            } catch (error) {
+                tailorError.textContent = "⚠️ " + error.message;
+                tailorError.classList.remove('hidden');
                 btnTailor.innerHTML = originalText;
-            }, 2000);
-        }
-    });
+            } finally {
+                setTimeout(() => {
+                    btnTailor.disabled = false;
+                    if(btnTailor.innerHTML === "✅ Done!") btnTailor.innerHTML = originalText;
+                }, 2000);
+            }
+        });
 
-    // --- Feature 3: Interview Questions ---
-    const btnGenerateQs = document.getElementById('btn-generate-qs');
-    const interviewResults = document.getElementById('interview-results');
+        // --- Feature 3: Interview Questions ---
+        const btnGenerateQs = document.getElementById('btn-generate-qs');
+        const interviewResults = document.getElementById('interview-results');
 
-    btnGenerateQs.addEventListener('click', async () => {
-        btnGenerateQs.disabled = true;
-        try {
-            const data = await askServer("/interview-questions", { context: resumeContextData });
-            interviewResults.innerHTML = data.questions_html;
-            interviewResults.classList.remove('hidden');
-        } catch (error) {
-            console.error(error);
-        } finally {
-            btnGenerateQs.disabled = false;
-        }
-    });
+        btnGenerateQs.addEventListener('click', async () => {
+            const originalBtnText = btnGenerateQs.innerHTML;
+            btnGenerateQs.disabled = true;
+            btnGenerateQs.innerHTML = `
+                <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                Generating...`;
 
-    // --- Feature 4: Audio Pitch (Using Browser TTS for reliability) ---
-    const btnTts = document.getElementById('btn-tts');
-    btnTts.addEventListener('click', () => {
-        const text = "Hi, I'm Soheil Karami! I am a DevSecOps Engineer and IT Project Manager based in Kuala Lumpur. I specialize in Azure cloud infrastructure and cybersecurity.";
+            try {
+                const data = await askServer("/interview-questions", { context: resumeContextData });
+                interviewResults.innerHTML = data.questions_html || data.response;
+                interviewResults.classList.remove('hidden');
+                btnGenerateQs.innerHTML = `<span>✨ Generate New Questions</span>`;
+            } catch (error) {
+                interviewResults.innerHTML = '<span class="text-red-600 text-xs font-mono break-words">⚠️ Error: ' + error.message + '</span>';
+                interviewResults.classList.remove('hidden');
+                btnGenerateQs.innerHTML = originalBtnText;
+            } finally {
+                btnGenerateQs.disabled = false;
+            }
+        });
 
-        if (window.speechSynthesis.speaking) {
-            window.speechSynthesis.cancel();
-            btnTts.innerHTML = '<span class="text-sm">✨</span> Listen to Pitch';
-        } else {
-            const utterance = new SpeechSynthesisUtterance(text);
-            utterance.onend = () => btnTts.innerHTML = '<span class="text-sm">✨</span> Listen to Pitch';
-            window.speechSynthesis.speak(utterance);
-            btnTts.innerHTML = '⏹ Stop Playing';
-        }
-    });
+        // --- Feature 4: Audio Pitch (Using Browser Built-in TTS) ---
+        // This is a great fallback! It uses the browser's free speech engine, so no API calls are needed.
+        const btnTts = document.getElementById('btn-tts');
 
-    // UI Helpers (Keep your existing appendMessage, showTypingIndicator, and Tab logic functions here)
-    function appendMessage(role, text) { /* ... same as your current code ... */ }
-    function showTypingIndicator() { /* ... same as your current code ... */ }
-    function switchTab(...) { /* ... same as your current code ... */ }
+        btnTts.addEventListener('click', () => {
+            const text = "Hi, I'm Soheil Karami! I am a DevSecOps Engineer and IT Project Manager based in Kuala Lumpur. I bridge the gap between development and operations with a specialized focus on cloud infrastructure and web security. I'd love to bring my expertise in Azure and cybersecurity to your team!";
 
-</script>
+            if (window.speechSynthesis.speaking) {
+                window.speechSynthesis.cancel();
+                btnTts.innerHTML = '<span class="text-sm">✨</span> Listen to Pitch';
+            } else {
+                const utterance = new SpeechSynthesisUtterance(text);
 
+                // Try to find a good English voice
+                const voices = window.speechSynthesis.getVoices();
+                const preferredVoice = voices.find(voice => voice.lang.includes('en') && (voice.name.includes('Google') || voice.name.includes('Daniel')));
+                if (preferredVoice) utterance.voice = preferredVoice;
+
+                utterance.onend = () => {
+                    btnTts.innerHTML = '<span class="text-sm">✨</span> Listen to Pitch';
+                };
+
+                window.speechSynthesis.speak(utterance);
+                btnTts.innerHTML = '⏹ Stop Playing';
+            }
+        });
+
+        // Ensure voices are loaded (some browsers load them asynchronously)
+        window.speechSynthesis.onvoiceschanged = () => {
+            window.speechSynthesis.getVoices();
+        };
+
+    </script>
 </body>
 </html>
