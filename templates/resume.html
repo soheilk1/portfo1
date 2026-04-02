@@ -353,426 +353,137 @@
 </div>
 
 <!-- Application Logic -->
+
 <script>
-    // --- Gemini API Configuration ---
-    // Using your exact API key
-    const apiKey = "AIzaSyB0V0lro7mpdEv6v3DK_TvxZOMsCw92SoU";
+    /*
+       --- BACKEND CONFIGURATION ---
+       We now point to your local server instead of Google directly.
+       This fixes the 404 error and keeps your API Key safe.
+    */
+    const SERVER_URL = "http://127.0.0.1:5000"; // Update this if your port is different
 
-    // We are using the highly stable 'gemini-1.5-flash' model on the universal v1beta endpoint.
-    const modelEndpoint = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent";
-
-    // Context data describing the resume so the LLM understands who Soheil is
+    // Context data describing the resume
     const resumeContextData = `
         Name: Soheil Karami
-            Role: Cloud & DevSecOps Engineer, IT Operations Manager
-            Location: Kuala Lumpur, Malaysia
-            Contact: Soheil3005@hotmail.com, 01127838984, https://soheilk.pythonanywhere.com/resume.html
+        Role: Cloud & DevSecOps Engineer, IT Operations Manager
+        Location: Kuala Lumpur, Malaysia
+        ... (rest of your context data) ...
+    `;
 
-            Technical Skills:
-            - Cloud & Infrastructure: Microsoft Azure, AWS, VMware, Linux OS, Windows Server, Active Directory
-            - Networking & Security: Cisco Network Design, Firewalls, LAN/WAN, Vulnerability Assessments, MS Forefront TMG
-            - Programming: Python, Flutter, Java, JSP, PHP, HTML5
-            - Databases & Ops: MySQL, SQL Server, Office 365 Admin, Disaster Recovery
-
-            Certifications:
-            - Google AI Professional Certificate
-            - Certificate of Cyber Security
-            - Certificate of Python Zero to Mastery
-            - Certificate in Information Systems Management (Aptech)
-
-            Education:
-            - Master of Science Software Management (Limkokwing University)
-            - Bachelor of ICT (Limkokwing University)
-
-            Work Experience:
-            1. Project Manager at Culluc.Group PTY LTD [2020 - Present]
-               - Direct and manage full-lifecycle IT and technical projects.
-               - Coordinate cross-functional teams for system deployments.
-               - Oversee project timelines and resource allocation.
-            2. IT Manager at PM Empire Group SDN. BHD. (Bookingee.com) [2016 - 2020]
-            2. Information Security Manager at Dr. Jahangir Pharmaceutical & Hygienic Co. [2007 - 2011]
-               - Monitored server/client security policies using Avira.
-               - Managed LAN traffic using MS Forefront TMG.
-               - Preventative measures against security risks.
-            3. Maintenance Manager at Canon Co. [2003 - 2007]
-               - Hardware maintenance, system maintenance.
-        `;
-
-        // API Fetch Logic with Exponential Backoff
-        async function fetchWithRetry(url, options, retries = 5) {
-            const delays = [1000, 2000, 4000, 8000, 16000];
-            for (let i = 0; i < retries; i++) {
-                try {
-                    const response = await fetch(url, options);
-                    if (!response.ok) {
-                        const errText = await response.text();
-                        throw new Error(`HTTP error! status: ${response.status}, message: ${errText}`);
-                    }
-                    return await response.json();
-                } catch (error) {
-                    if (i === retries - 1) throw error;
-                    await new Promise(res => setTimeout(res, delays[i]));
-                }
-            }
-        }
-
-        async function callGemini(prompt, systemInstruction) {
-            const url = `${modelEndpoint}?key=${apiKey}`;
-
-            // We combine the system instruction directly into the user prompt payload
-            // This prevents ANY strict-schema errors (like the INVALID_ARGUMENT error you saw)
-            const combinedPrompt = `System Instructions:\n${systemInstruction}\n\nUser Request:\n${prompt}`;
-
-            const payload = {
-                contents: [{ parts: [{ text: combinedPrompt }] }]
-            };
-
-            const result = await fetchWithRetry(url, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(payload)
-            });
-            return result.candidates?.[0]?.content?.parts?.[0]?.text || "No response generated.";
-        }
-
-        // --- UI Element References ---
-        const fab = document.getElementById('fab');
-        const panel = document.getElementById('ai-panel');
-        const closeBtn = document.getElementById('close-panel-btn');
-
-        const tabChat = document.getElementById('tab-chat');
-        const tabTailor = document.getElementById('tab-tailor');
-        const tabInterview = document.getElementById('tab-interview');
-        const contentChat = document.getElementById('content-chat');
-        const contentTailor = document.getElementById('content-tailor');
-        const contentInterview = document.getElementById('content-interview');
-
-        // Toggle Widget
-        fab.addEventListener('click', () => {
-            panel.classList.remove('hidden');
-            fab.classList.add('hidden');
-        });
-        closeBtn.addEventListener('click', () => {
-            panel.classList.add('hidden');
-            fab.classList.remove('hidden');
+    // Generic function to talk to your server.py
+    async function askServer(endpoint, payload) {
+        const response = await fetch(`${SERVER_URL}${endpoint}`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
         });
 
-        // Tabs Logic
-        function switchTab(activeBtn, inactiveBtns, showContent, hideContents) {
-            activeBtn.classList.replace('text-slate-500', 'text-blue-600');
-            activeBtn.classList.replace('border-transparent', 'border-blue-600');
-            activeBtn.classList.replace('hover:bg-slate-50', 'bg-blue-50/50');
+        if (!response.ok) {
+            const err = await response.json();
+            throw new Error(err.error || "Server Error");
+        }
+        return await response.json();
+    }
 
-            inactiveBtns.forEach(btn => {
-                btn.classList.replace('text-blue-600', 'text-slate-500');
-                btn.classList.replace('border-blue-600', 'border-transparent');
-                btn.classList.replace('bg-blue-50/50', 'hover:bg-slate-50');
+    // --- Feature 1: Chatbot Logic ---
+    const chatForm = document.getElementById('chat-form');
+    const chatInput = document.getElementById('chat-input');
+    const chatMessages = document.getElementById('chat-messages');
+
+    chatForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const query = chatInput.value.trim();
+        if (!query) return;
+
+        appendMessage('user', query);
+        chatInput.value = '';
+        const typingId = showTypingIndicator();
+
+        try {
+            // We send the query to your server's /chat or /generate endpoint
+            const data = await askServer("/chat", {
+                message: query,
+                context: resumeContextData
             });
 
-            showContent.classList.remove('hidden');
-            hideContents.forEach(content => content.classList.add('hidden'));
+            document.getElementById(typingId).remove();
+            appendMessage('ai', data.reply);
+        } catch (error) {
+            document.getElementById(typingId).remove();
+            appendMessage('ai', "⚠️ Error: " + error.message);
         }
-        tabChat.addEventListener('click', () => switchTab(tabChat, [tabTailor, tabInterview], contentChat, [contentTailor, contentInterview]));
-        tabTailor.addEventListener('click', () => switchTab(tabTailor, [tabChat, tabInterview], contentTailor, [contentChat, contentInterview]));
-        tabInterview.addEventListener('click', () => switchTab(tabInterview, [tabChat, tabTailor], contentInterview, [contentChat, contentTailor]));
+    });
 
-        // --- Feature 1: Chatbot Logic ---
-        const chatForm = document.getElementById('chat-form');
-        const chatInput = document.getElementById('chat-input');
-        const chatMessages = document.getElementById('chat-messages');
+    // --- Feature 2: Tailor Resume Logic ---
+    const btnTailor = document.getElementById('btn-tailor');
+    const jdInput = document.getElementById('jd-input');
+    const summaryTextEl = document.getElementById('professional-summary-text');
 
-        function appendMessage(role, text) {
-            const msgDiv = document.createElement('div');
-            msgDiv.className = "flex gap-2 animate-fade-in";
+    btnTailor.addEventListener('click', async () => {
+        const jd = jdInput.value.trim();
+        if (!jd) return;
 
-            // basic bold formatting for AI
-            const formattedText = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+        btnTailor.disabled = true;
+        const originalText = btnTailor.innerHTML;
+        btnTailor.innerHTML = "Optimizing...";
 
-            if (role === 'user') {
-                msgDiv.classList.add("flex-row-reverse");
-                msgDiv.innerHTML = `
-                    <div class="bg-blue-600 text-white p-3 rounded-2xl rounded-tr-none text-sm shadow-sm max-w-[85%] break-words">
-                        ${formattedText}
-                    </div>
-                `;
-            } else {
-                msgDiv.innerHTML = `
-                    <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center shrink-0 border border-blue-200 text-lg">✨</div>
-                    <div class="bg-white p-3 rounded-2xl rounded-tl-none border border-slate-200 text-sm text-slate-700 shadow-sm max-w-[85%] break-words">
-                        ${formattedText}
-                    </div>
-                `;
-            }
-            chatMessages.appendChild(msgDiv);
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-        }
+        try {
+            const data = await askServer("/tailor", {
+                job_description: jd,
+                context: resumeContextData
+            });
 
-        function showTypingIndicator() {
-            const id = 'typing-' + Date.now();
-            const msgDiv = document.createElement('div');
-            msgDiv.id = id;
-            msgDiv.className = "flex gap-2 animate-fade-in";
-            msgDiv.innerHTML = `
-                <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center shrink-0 border border-blue-200 text-lg">✨</div>
-                <div class="bg-white p-3 rounded-2xl rounded-tl-none border border-slate-200 flex items-center gap-1 shadow-sm">
-                    <svg class="w-1.5 h-1.5 typing-dot text-slate-400" viewBox="0 0 10 10"><circle cx="5" cy="5" r="5"/></svg>
-                    <svg class="w-1.5 h-1.5 typing-dot text-slate-400" viewBox="0 0 10 10"><circle cx="5" cy="5" r="5"/></svg>
-                    <svg class="w-1.5 h-1.5 typing-dot text-slate-400" viewBox="0 0 10 10"><circle cx="5" cy="5" r="5"/></svg>
-                </div>
-            `;
-            chatMessages.appendChild(msgDiv);
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-            return id;
-        }
-
-        chatForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const query = chatInput.value.trim();
-            if (!query) return;
-
-            // UI updates
-            appendMessage('user', query);
-            chatInput.value = '';
-            const submitBtn = chatForm.querySelector('button');
-            submitBtn.disabled = true;
-            const typingId = showTypingIndicator();
-
-            const systemInstruction = `
-                You are an AI assistant representing Soheil Karami.
-                You are helpful, professional, and confident.
-                Use ONLY the following resume data to answer questions.
-                Keep answers concise (max 2-3 sentences) and highly relevant.
-                If asked something outside the resume, politely decline and say you only have access to Soheil's professional background.
-
-                Resume Data:
-                ${resumeContextData}
-            `;
-
-            try {
-                const responseText = await callGemini(query, systemInstruction);
-                document.getElementById(typingId).remove();
-                appendMessage('ai', responseText);
-            } catch (error) {
-                document.getElementById(typingId).remove();
-                appendMessage('ai', "⚠️ " + error.message);
-                console.error(error);
-            } finally {
-                submitBtn.disabled = false;
-            }
-        });
-
-        // --- Feature 2: Tailor Resume Logic ---
-        const btnTailor = document.getElementById('btn-tailor');
-        const jdInput = document.getElementById('jd-input');
-        const summaryTextEl = document.getElementById('professional-summary-text');
-        const tailorError = document.getElementById('tailor-error');
-
-        btnTailor.addEventListener('click', async () => {
-            const jd = jdInput.value.trim();
-            tailorError.classList.add('hidden');
-
-            if (!jd) {
-                tailorError.textContent = "Please paste a job description first.";
-                tailorError.classList.remove('hidden');
-                return;
-            }
-
-            // Loading state
-            const originalBtnText = btnTailor.innerHTML;
-            btnTailor.disabled = true;
-            btnTailor.innerHTML = `
-                <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
-                Generating...
-            `;
-
-            const prompt = `Here is the job description:\n\n${jd}`;
-            const systemInstruction = `
-                You are an expert career coach and resume writer.
-                Your task is to rewrite Soheil Karami's "Professional Profile" summary so it perfectly aligns with the provided job description.
-
-                Rules:
-                1. Write ONLY the paragraph. No intros, no outtros, no markdown formatting.
-                2. Maximum length is 4-5 sentences.
-                3. Highlight the specific skills from Soheil's resume that match the job description.
-                4. DO NOT invent new experience. Only reframe existing experience.
-                5. Maintain a professional, executive tone.
-
-                Here is Soheil's complete resume context:
-                ${resumeContextData}
-            `;
-
-            try {
-                const newSummary = await callGemini(prompt, systemInstruction);
-
-                // Update DOM directly
-                summaryTextEl.textContent = newSummary;
-
-                // Add highlight animation to draw attention
-                summaryTextEl.classList.remove('highlight-update');
-                void summaryTextEl.offsetWidth; // trigger reflow
-                summaryTextEl.classList.add('highlight-update');
-
-                // Reset UI
-                jdInput.value = '';
-
-                // Optional: show a success message inside the button briefly
-                btnTailor.innerHTML = `<span>✅ Summary Updated!</span>`;
-                setTimeout(() => {
-                    btnTailor.innerHTML = originalBtnText;
-                    btnTailor.disabled = false;
-                }, 2000);
-
-            } catch (error) {
-                tailorError.textContent = "⚠️ " + error.message;
-                tailorError.classList.remove('hidden');
-                btnTailor.innerHTML = originalBtnText;
+            summaryTextEl.textContent = data.new_summary;
+            summaryTextEl.classList.add('highlight-update');
+            btnTailor.innerHTML = "✅ Done!";
+        } catch (error) {
+            alert("Tailoring failed: " + error.message);
+        } finally {
+            setTimeout(() => {
                 btnTailor.disabled = false;
-                console.error(error);
-            }
-        });
-
-        // --- Feature 3: Interview Questions Logic ---
-        const btnGenerateQs = document.getElementById('btn-generate-qs');
-        const interviewResults = document.getElementById('interview-results');
-
-        btnGenerateQs.addEventListener('click', async () => {
-            const originalBtnText = btnGenerateQs.innerHTML;
-            btnGenerateQs.disabled = true;
-            btnGenerateQs.innerHTML = `
-                <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
-                Generating...
-            `;
-
-            const prompt = "Generate 3 tailored interview questions for this candidate.";
-            const systemInstruction = `
-                You are an expert technical recruiter. Based on Soheil Karami's resume, generate exactly 3 insightful technical or behavioral interview questions to ask him.
-                Format your response entirely in raw HTML using an unordered list (<ul class="list-disc pl-4 space-y-2">). Use <li> for each question.
-                Wrap the main question in <strong> tags. Follow each question with a brief <em> "What to listen for: ..." </em> explanation.
-                Output ONLY raw HTML. Do not use markdown backticks.
-
-                Resume Context:
-                ${resumeContextData}
-            `;
-
-            try {
-                const questionsHtml = await callGemini(prompt, systemInstruction);
-                interviewResults.innerHTML = questionsHtml;
-                interviewResults.classList.remove('hidden');
-                btnGenerateQs.innerHTML = `<span>✨ Generate New Questions</span>`;
-            } catch (error) {
-                interviewResults.innerHTML = '<span class="text-red-600 text-xs font-mono break-words">⚠️ ' + error.message + '</span>';
-                interviewResults.classList.remove('hidden');
-                btnGenerateQs.innerHTML = originalBtnText;
-            } finally {
-                btnGenerateQs.disabled = false;
-            }
-        });
-
-        // --- Feature 4: Audio Elevator Pitch (TTS) ---
-        const btnTts = document.getElementById('btn-tts');
-        let currentAudio = null;
-
-        function pcmToWav(pcmData, sampleRate) {
-            const numChannels = 1;
-            const byteRate = sampleRate * numChannels * 2;
-            const blockAlign = numChannels * 2;
-            const buffer = new ArrayBuffer(44 + pcmData.length);
-            const view = new DataView(buffer);
-
-            function writeString(view, offset, string) {
-                for (let i = 0; i < string.length; i++) {
-                    view.setUint8(offset + i, string.charCodeAt(i));
-                }
-            }
-
-            writeString(view, 0, 'RIFF');
-            view.setUint32(4, 36 + pcmData.length, true);
-            writeString(view, 8, 'WAVE');
-            writeString(view, 12, 'fmt ');
-            view.setUint32(16, 16, true);
-            view.setUint16(20, 1, true);
-            view.setUint16(22, numChannels, true);
-            view.setUint32(24, sampleRate, true);
-            view.setUint32(28, byteRate, true);
-            view.setUint16(32, blockAlign, true);
-            view.setUint16(34, 16, true);
-            writeString(view, 36, 'data');
-            view.setUint32(40, pcmData.length, true);
-
-            const pcmArray = new Uint8Array(pcmData);
-            for (let i = 0; i < pcmArray.length; i++) {
-                view.setUint8(44 + i, pcmArray[i]);
-            }
-            return buffer;
+                btnTailor.innerHTML = originalText;
+            }, 2000);
         }
+    });
 
-        btnTts.addEventListener('click', async () => {
-            if (currentAudio) {
-                currentAudio.pause();
-                currentAudio = null;
-                btnTts.innerHTML = '<span class="text-sm">✨</span> Listen to Pitch';
-                return;
-            }
+    // --- Feature 3: Interview Questions ---
+    const btnGenerateQs = document.getElementById('btn-generate-qs');
+    const interviewResults = document.getElementById('interview-results');
 
-            const originalText = btnTts.innerHTML;
-            btnTts.disabled = true;
-            btnTts.innerHTML = `<svg class="animate-spin h-4 w-4 text-blue-600" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Loading...`;
+    btnGenerateQs.addEventListener('click', async () => {
+        btnGenerateQs.disabled = true;
+        try {
+            const data = await askServer("/interview-questions", { context: resumeContextData });
+            interviewResults.innerHTML = data.questions_html;
+            interviewResults.classList.remove('hidden');
+        } catch (error) {
+            console.error(error);
+        } finally {
+            btnGenerateQs.disabled = false;
+        }
+    });
 
-            // Note: If the TTS model fails on your public API key, it will gracefully show an error
-            // as this specific audio model is currently in preview for some regions.
-            const ttsUrl = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-tts:generateContent?key=' + apiKey;
-            const payload = {
-                contents: [{ parts: [{ text: "Say cheerfully and professionally: Hi, I'm Soheil Karami! I am a DevSecOps Engineer and IT Project Manager based in Kuala Lumpur. I bridge the gap between development and operations with a specialized focus on cloud infrastructure and web security. I'd love to bring my expertise in Azure and cybersecurity to your team!" }] }],
-                generationConfig: {
-                    responseModalities: ["AUDIO"],
-                    speechConfig: { voiceConfig: { prebuiltVoiceConfig: { voiceName: "Puck" } } }
-                }
-            };
+    // --- Feature 4: Audio Pitch (Using Browser TTS for reliability) ---
+    const btnTts = document.getElementById('btn-tts');
+    btnTts.addEventListener('click', () => {
+        const text = "Hi, I'm Soheil Karami! I am a DevSecOps Engineer and IT Project Manager based in Kuala Lumpur. I specialize in Azure cloud infrastructure and cybersecurity.";
 
-            try {
-                const response = await fetchWithRetry(ttsUrl, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(payload)
-                });
+        if (window.speechSynthesis.speaking) {
+            window.speechSynthesis.cancel();
+            btnTts.innerHTML = '<span class="text-sm">✨</span> Listen to Pitch';
+        } else {
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.onend = () => btnTts.innerHTML = '<span class="text-sm">✨</span> Listen to Pitch';
+            window.speechSynthesis.speak(utterance);
+            btnTts.innerHTML = '⏹ Stop Playing';
+        }
+    });
 
-                const audioData = response.candidates?.[0]?.content?.parts?.[0]?.inlineData;
-                if (!audioData) throw new Error("No audio returned");
+    // UI Helpers (Keep your existing appendMessage, showTypingIndicator, and Tab logic functions here)
+    function appendMessage(role, text) { /* ... same as your current code ... */ }
+    function showTypingIndicator() { /* ... same as your current code ... */ }
+    function switchTab(...) { /* ... same as your current code ... */ }
+</script>
 
-                const binaryString = atob(audioData.data);
-                const pcmData = new Uint8Array(binaryString.length);
-                for (let i = 0; i < binaryString.length; i++) {
-                    pcmData[i] = binaryString.charCodeAt(i);
-                }
-
-                // Extract sample rate from mimeType, default 24000
-                const rateMatch = audioData.mimeType.match(/rate=(\d+)/);
-                const sampleRate = rateMatch ? parseInt(rateMatch[1]) : 24000;
-
-                const wavBuffer = pcmToWav(pcmData.buffer, sampleRate);
-                const blob = new Blob([wavBuffer], { type: 'audio/wav' });
-                const audioUrl = URL.createObjectURL(blob);
-
-                currentAudio = new Audio(audioUrl);
-                currentAudio.onended = () => {
-                    btnTts.innerHTML = '<span class="text-sm">✨</span> Listen to Pitch';
-                    currentAudio = null;
-                };
-
-                currentAudio.play();
-                btnTts.innerHTML = '⏹ Stop Playing';
-                btnTts.disabled = false;
-
-            } catch (error) {
-                console.error("TTS Error:", error);
-                btnTts.innerHTML = '<span class="text-sm">⚠️</span> TTS Unavailable';
-                setTimeout(() => {
-                    btnTts.innerHTML = originalText;
-                    btnTts.disabled = false;
-                }, 3000);
-            }
-        });
-
-    </script>
 </body>
 </html>
