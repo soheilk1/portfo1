@@ -8,9 +8,6 @@ app = Flask(__name__)
 # Replace with your real key if this one ever changes
 genai.configure(api_key="AIzaSyB0V0lro7mpdEv6v3DK_TvxZOMsCw92SoU")
 
-# FIX: Switched to 'gemini-pro' which is universally supported across all Python SDK versions!
-model = genai.GenerativeModel('gemini-pro')
-
 @app.route("/")
 @app.route("/index.html")
 def home():
@@ -24,9 +21,31 @@ def ask_gemini():
         user_data = request.json
         user_prompt = user_data.get('prompt')
 
-        # Call Gemini via Python SDK (more reliable than URL)
-        response = model.generate_content(user_prompt)
+        # Auto-fallback list to handle Google's changing model names
+        models_to_try = [
+            'gemini-1.5-flash',
+            'gemini-1.5-flash-latest',
+            'gemini-1.5-pro',
+            'gemini-pro'
+        ]
         
+        response = None
+        last_error = ""
+
+        for model_name in models_to_try:
+            try:
+                model = genai.GenerativeModel(model_name)
+                response = model.generate_content(user_prompt)
+                break  # Success! Exit the fallback loop
+            except Exception as e:
+                last_error = str(e)
+                # If it's a 404 (Not Found), the loop continues to try the next model
+                if "404" not in last_error:
+                    raise e  # Throw real errors (like 403 API Key Invalid) immediately
+        
+        if response is None:
+            raise Exception(f"All models failed. Last error: {last_error}")
+
         return jsonify({"reply": response.text})
     except Exception as e:
         print(f"Error: {e}")
