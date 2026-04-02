@@ -357,10 +357,9 @@
         /*
            --- BACKEND CONFIGURATION ---
            We now point to your local PythonAnywhere server instead of Google directly.
-           This fixes the 404 errors and keeps your API Key completely safe from the public!
         */
 
-        // IMPORTANT: Change this to match your live PythonAnywhere server URL
+        // IMPORTANT: Change this to match your live PythonAnywhere server URL if not hosted on the exact same root
         const SERVER_URL = "https://soheilk.pythonanywhere.com";
 
         // Context data describing the resume
@@ -404,21 +403,17 @@
                     body: JSON.stringify(payload)
                 });
             } catch (networkError) {
-                // Catches if the server is offline or CORS blocks the request
                 throw new Error("Cannot connect to server. Ensure your Python backend is running.");
             }
 
-            // Read the raw text FIRST so we can safely check it before trying to parse JSON
             const textData = await response.text();
 
             if (!response.ok) {
                 let errorMsg = `Server Error (${response.status})`;
                 try {
-                    // Try to parse the error message if the server successfully sent a JSON error
                     const errObj = JSON.parse(textData);
                     errorMsg = errObj.error || errorMsg;
                 } catch (e) {
-                    // If it is NOT JSON, PythonAnywhere crashed and returned an HTML error page.
                     console.error("The server returned a non-JSON error page:", textData);
                     errorMsg += " - Please check your PythonAnywhere Error Logs.";
                 }
@@ -426,7 +421,6 @@
             }
 
             try {
-                // If response is OK, parse the JSON
                 return JSON.parse(textData);
             } catch (e) {
                 console.error("The server returned invalid JSON data:", textData);
@@ -538,14 +532,16 @@
             const typingId = showTypingIndicator();
 
             try {
-                // We send the query to your server's /chat endpoint
-                const data = await askServer("/chat", {
-                    message: query,
-                    context: resumeContextData
+                // Build the prompt specifically for the backend format
+                const systemInstruction = `You are an AI assistant representing Soheil Karami. You are helpful, professional, and confident. Use ONLY the following resume data to answer questions. Keep answers concise (max 2-3 sentences) and highly relevant. If asked something outside the resume, politely decline and say you only have access to Soheil's professional background.\n\nResume Data:\n${resumeContextData}\n\nUser Question: ${query}`;
+
+                // We send the query to your server's single /ask_gemini endpoint
+                const data = await askServer("/ask_gemini", {
+                    prompt: systemInstruction
                 });
 
                 document.getElementById(typingId).remove();
-                appendMessage('ai', data.reply || data.response); // Supports depending on how your Python script maps it
+                appendMessage('ai', data.reply);
             } catch (error) {
                 document.getElementById(typingId).remove();
                 appendMessage('ai', "⚠️ " + error.message);
@@ -572,12 +568,14 @@
                 Optimizing...`;
 
             try {
-                const data = await askServer("/tailor", {
-                    job_description: jd,
-                    context: resumeContextData
+                // Build the prompt specifically for the backend format
+                const systemInstruction = `You are an expert career coach and resume writer. Your task is to rewrite Soheil Karami's "Professional Profile" summary so it perfectly aligns with the provided job description.\nRules:\n1. Write ONLY the paragraph. No intros, no outtros, no markdown formatting.\n2. Maximum length is 4-5 sentences.\n3. Highlight the specific skills from Soheil's resume that match the job description.\n4. DO NOT invent new experience. Only reframe existing experience.\n5. Maintain a professional, executive tone.\n\nHere is Soheil's complete resume context:\n${resumeContextData}\n\nJob Description:\n${jd}`;
+
+                const data = await askServer("/ask_gemini", {
+                    prompt: systemInstruction
                 });
 
-                summaryTextEl.textContent = data.new_summary || data.response;
+                summaryTextEl.textContent = data.reply;
                 summaryTextEl.classList.remove('highlight-update');
                 void summaryTextEl.offsetWidth; // trigger reflow
                 summaryTextEl.classList.add('highlight-update');
@@ -608,8 +606,14 @@
                 Generating...`;
 
             try {
-                const data = await askServer("/interview-questions", { context: resumeContextData });
-                interviewResults.innerHTML = data.questions_html || data.response;
+                // Build the prompt specifically for the backend format
+                const systemInstruction = `You are an expert technical recruiter. Based on Soheil Karami's resume, generate exactly 3 insightful technical or behavioral interview questions to ask him. Format your response entirely in raw HTML using an unordered list (<ul class="list-disc pl-4 space-y-2">). Use <li> for each question. Wrap the main question in <strong> tags. Follow each question with a brief <em> "What to listen for: ..." </em> explanation. Output ONLY raw HTML. Do not use markdown backticks.\n\nResume Context:\n${resumeContextData}\n\nTask: Generate 3 tailored interview questions for this candidate.`;
+
+                const data = await askServer("/ask_gemini", {
+                    prompt: systemInstruction
+                });
+
+                interviewResults.innerHTML = data.reply;
                 interviewResults.classList.remove('hidden');
                 btnGenerateQs.innerHTML = `<span>✨ Generate New Questions</span>`;
             } catch (error) {
@@ -652,6 +656,7 @@
         window.speechSynthesis.onvoiceschanged = () => {
             window.speechSynthesis.getVoices();
         };
+
     </script>
 </body>
 </html>
