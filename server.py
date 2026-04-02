@@ -8,14 +8,10 @@ app = Flask(__name__)
 # This checks if the library is actually installed on your server environment
 try:
     import google.generativeai as genai
-<<<<<<< HEAD
+
     # ⚠️ Replace 'YOUR_NEW_API_KEY_HERE' with a brand new key.
     # Do NOT paste your new key in this chat!
     genai.configure(api_key="AIzaSyDbkDpxROAlUXqwv7jFQ-IQpv2h-7mdjcg")
-=======
-    # Replace with your real key if this one ever changes
-    genai.configure(api_key="AIzaSyB0V0lro7mpdEv6v3DK_TvxZOMsCw92SoU")
->>>>>>> 6131178254ab1a0ad3b69a8b41b3a6b98eea1af6
     GEMINI_READY = True
 except ImportError as e:
     GEMINI_READY = False
@@ -34,33 +30,25 @@ def ask_gemini():
     # 1. Handle CORS Preflight requests (prevents browser security blocks)
     if request.method == 'OPTIONS':
         return jsonify({}), 200, {
-<<<<<<< HEAD
             'Access-Control-Allow-Origin': '*',
-=======
-            'Access-Control-Allow-Origin': '*', 
->>>>>>> 6131178254ab1a0ad3b69a8b41b3a6b98eea1af6
             'Access-Control-Allow-Headers': 'Content-Type'
         }
 
     try:
         # 2. Check if the library successfully imported
         if not GEMINI_READY:
-            raise Exception(f"Missing Library! Please run 'pip install google-generativeai' in your PythonAnywhere console. Details: {GEMINI_ERROR}")
+            raise Exception(
+                f"Missing Library! Please run 'pip install google-generativeai' in your PythonAnywhere console. Details: {GEMINI_ERROR}")
 
         # 3. Safely parse JSON data
         user_data = request.get_json(silent=True)
         if not user_data:
             raise Exception("Invalid or missing JSON data received from the browser.")
-<<<<<<< HEAD
 
-=======
-            
->>>>>>> 6131178254ab1a0ad3b69a8b41b3a6b98eea1af6
         user_prompt = user_data.get('prompt')
         if not user_prompt:
             raise Exception("No 'prompt' found in the received data.")
 
-<<<<<<< HEAD
         # 4. AUTO-DISCOVERY: Find exactly which models your API key is allowed to use
         valid_models = []
         try:
@@ -90,7 +78,8 @@ def ask_gemini():
             response = model.generate_content(user_prompt)
         except Exception as e:
             # If it fails here, print the exact list of available models to the screen so we can see what's allowed!
-            raise Exception(f"Failed using model '{clean_model_name}'. Error: {str(e)} | Models available to your key: {valid_models}")
+            raise Exception(
+                f"Failed using model '{clean_model_name}'. Error: {str(e)} | Models available to your key: {valid_models}")
 
         if not response or not response.text:
             raise Exception("The AI model returned an empty response.")
@@ -98,45 +87,11 @@ def ask_gemini():
         # Return success with CORS headers
         return jsonify({"reply": response.text}), 200, {'Access-Control-Allow-Origin': '*'}
 
-=======
-        # 4. Auto-fallback list for Google's changing model names
-        models_to_try = [
-            'gemini-1.5-flash',
-            'gemini-1.5-flash-latest',
-            'gemini-1.5-pro',
-            'gemini-pro'
-        ]
-        
-        response = None
-        last_error = ""
-
-        for model_name in models_to_try:
-            try:
-                model = genai.GenerativeModel(model_name)
-                response = model.generate_content(user_prompt)
-                break  # Success! Exit the loop
-            except Exception as e:
-                last_error = str(e)
-                # If it's a 404 (Not Found), try the next model
-                if "404" not in last_error:
-                    raise e  # Throw real errors (like invalid API keys) immediately
-        
-        if response is None:
-            raise Exception(f"All AI models failed. Last error: {last_error}")
-
-        # Return success with CORS headers
-        return jsonify({"reply": response.text}), 200, {'Access-Control-Allow-Origin': '*'}
-        
->>>>>>> 6131178254ab1a0ad3b69a8b41b3a6b98eea1af6
     except Exception as e:
         # Get the exact line of code that crashed
         error_trace = traceback.format_exc()
-        print(error_trace) # Prints to PythonAnywhere Error Log
-<<<<<<< HEAD
+        print(error_trace)  # Prints to PythonAnywhere Error Log
 
-=======
-        
->>>>>>> 6131178254ab1a0ad3b69a8b41b3a6b98eea1af6
         # Send the exact crash reason back to the HTML page so you can see it!
         return jsonify({
             "error": f"Python Crash: {str(e)}"
@@ -156,6 +111,7 @@ def write_to_csv(data):
         message = data["message"]
         csv_writer = csv.writer(database, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
         csv_writer.writerow([email, subject, message])
+
 
 @app.route('/submit_form', methods=['POST', 'GET'])
 def submit_form():
