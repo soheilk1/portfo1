@@ -1,27 +1,52 @@
-from flask import Flask, render_template, url_for, request, redirect, jsonify
+from flask import Flask, render_template, request, redirect, jsonify
 import csv
-import google.generativeai as genai  # Import the Gemini library
+import traceback
 
 app = Flask(__name__)
 
-# --- CONFIGURE GEMINI ---
-# Replace with your real key if this one ever changes
-genai.configure(api_key="AIzaSyB0V0lro7mpdEv6v3DK_TvxZOMsCw92SoU")
+# --- SAFE IMPORT FOR PYTHONANYWHERE ---
+# This checks if the library is actually installed on your server environment
+try:
+    import google.generativeai as genai
+    # Replace with your real key if this one ever changes
+    genai.configure(api_key="AIzaSyB0V0lro7mpdEv6v3DK_TvxZOMsCw92SoU")
+    GEMINI_READY = True
+except ImportError as e:
+    GEMINI_READY = False
+    GEMINI_ERROR = str(e)
+
 
 @app.route("/")
 @app.route("/index.html")
 def home():
     return render_template('index.html')
 
-# New Route to handle AI requests from your resume page
-@app.route('/ask_gemini', methods=['POST'])
-def ask_gemini():
-    try:
-        # Get the prompt from the frontend JavaScript
-        user_data = request.json
-        user_prompt = user_data.get('prompt')
 
-        # Auto-fallback list to handle Google's changing model names
+# Route to handle AI requests from your resume page
+@app.route('/ask_gemini', methods=['POST', 'OPTIONS'])
+def ask_gemini():
+    # 1. Handle CORS Preflight requests (prevents browser security blocks)
+    if request.method == 'OPTIONS':
+        return jsonify({}), 200, {
+            'Access-Control-Allow-Origin': '*', 
+            'Access-Control-Allow-Headers': 'Content-Type'
+        }
+
+    try:
+        # 2. Check if the library successfully imported
+        if not GEMINI_READY:
+            raise Exception(f"Missing Library! Please run 'pip install google-generativeai' in your PythonAnywhere console. Details: {GEMINI_ERROR}")
+
+        # 3. Safely parse JSON data
+        user_data = request.get_json(silent=True)
+        if not user_data:
+            raise Exception("Invalid or missing JSON data received from the browser.")
+            
+        user_prompt = user_data.get('prompt')
+        if not user_prompt:
+            raise Exception("No 'prompt' found in the received data.")
+
+        # 4. Auto-fallback list for Google's changing model names
         models_to_try = [
             'gemini-1.5-flash',
             'gemini-1.5-flash-latest',
@@ -36,24 +61,34 @@ def ask_gemini():
             try:
                 model = genai.GenerativeModel(model_name)
                 response = model.generate_content(user_prompt)
-                break  # Success! Exit the fallback loop
+                break  # Success! Exit the loop
             except Exception as e:
                 last_error = str(e)
-                # If it's a 404 (Not Found), the loop continues to try the next model
+                # If it's a 404 (Not Found), try the next model
                 if "404" not in last_error:
-                    raise e  # Throw real errors (like 403 API Key Invalid) immediately
+                    raise e  # Throw real errors (like invalid API keys) immediately
         
         if response is None:
-            raise Exception(f"All models failed. Last error: {last_error}")
+            raise Exception(f"All AI models failed. Last error: {last_error}")
 
-        return jsonify({"reply": response.text})
+        # Return success with CORS headers
+        return jsonify({"reply": response.text}), 200, {'Access-Control-Allow-Origin': '*'}
+        
     except Exception as e:
-        print(f"Error: {e}")
-        return jsonify({"error": str(e)}), 500
+        # Get the exact line of code that crashed
+        error_trace = traceback.format_exc()
+        print(error_trace) # Prints to PythonAnywhere Error Log
+        
+        # Send the exact crash reason back to the HTML page so you can see it!
+        return jsonify({
+            "error": f"Python Crash: {str(e)}"
+        }), 500, {'Access-Control-Allow-Origin': '*'}
+
 
 @app.route('/<string:page_name>')
 def html_page(page_name):
     return render_template(page_name)
+
 
 # --- YOUR EXISTING DATABASE LOGIC ---
 def write_to_csv(data):
