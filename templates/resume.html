@@ -82,6 +82,14 @@
             <!-- Contact Info -->
             <div class="text-sm space-y-3 text-slate-300">
                 <div class="flex items-start gap-3">
+                    <svg class="w-5 h-5 text-blue-400 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                    <span class="break-all">Soheil3005@hotmail.com</span>
+                </div>
+                <div class="flex items-start gap-3">
+                    <svg class="w-5 h-5 text-blue-400 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
+                    <span>01127838984</span>
+                </div>
+                <div class="flex items-start gap-3">
                     <svg class="w-5 h-5 text-blue-400 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
                     <span>Kuala Lumpur, Malaysia</span>
                 </div>
@@ -338,22 +346,24 @@
         </div>
 
         <!-- Floating Action Button -->
-        <button id="fab" class="bg-blue-600 hover:bg-blue-700 text-white rounded-full h-14 px-6 flex items-center justify-center shadow-lg hover:shadow-xl transition-all gap-2 font-semibold">
-            <span class="text-xl">✨</span>
-            <span>Explore AI Features</span>
-        </button>
-    </div>
+    <button id="fab" class="bg-blue-600 hover:bg-blue-700 text-white rounded-full h-14 px-6 flex items-center justify-center shadow-lg hover:shadow-xl transition-all gap-2 font-semibold">
+        <span class="text-xl">✨</span>
+        <span>Explore AI Features</span>
+    </button>
+</div>
 
-    <!-- Application Logic -->
-    <script>
+<!-- Application Logic -->
+<script>
+    // --- Gemini API Configuration ---
+    // Using your exact API key
+    const apiKey = "AIzaSyB0V0lro7mpdEv6v3DK_TvxZOMsCw92SoU";
 
-        // --- Gemini API Configuration ---
-        const apiKey = "AIzaSyDfMmzWuLCkxOGKwrScqJNjaWarkBdQJvw"; // Provided by execution environment
-        const modelEndpoint = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent";
+    // We are using the highly stable 'gemini-1.5-flash' model on the universal v1beta endpoint.
+    const modelEndpoint = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent";
 
-        // Context data describing the resume so the LLM understands who Soheil is
-        const resumeContextData = `
-            Name: Soheil Karami
+    // Context data describing the resume so the LLM understands who Soheil is
+    const resumeContextData = `
+        Name: Soheil Karami
             Role: Cloud & DevSecOps Engineer, IT Operations Manager
             Location: Kuala Lumpur, Malaysia
             Contact: Soheil3005@hotmail.com, 01127838984, https://soheilk.pythonanywhere.com/resume.html
@@ -408,10 +418,15 @@
 
         async function callGemini(prompt, systemInstruction) {
             const url = `${modelEndpoint}?key=${apiKey}`;
+
+            // We combine the system instruction directly into the user prompt payload
+            // This prevents ANY strict-schema errors (like the INVALID_ARGUMENT error you saw)
+            const combinedPrompt = `System Instructions:\n${systemInstruction}\n\nUser Request:\n${prompt}`;
+
             const payload = {
-                contents: [{ parts: [{ text: prompt }] }],
-                systemInstruction: { parts: [{ text: systemInstruction }] }
+                contents: [{ parts: [{ text: combinedPrompt }] }]
             };
+
             const result = await fetchWithRetry(url, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -539,7 +554,7 @@
                 appendMessage('ai', responseText);
             } catch (error) {
                 document.getElementById(typingId).remove();
-                appendMessage('ai', "Sorry, I'm having trouble connecting right now. Please try again later.");
+                appendMessage('ai', "⚠️ " + error.message);
                 console.error(error);
             } finally {
                 submitBtn.disabled = false;
@@ -608,7 +623,7 @@
                 }, 2000);
 
             } catch (error) {
-                tailorError.textContent = "Failed to connect to AI. Please try again.";
+                tailorError.textContent = "⚠️ " + error.message;
                 tailorError.classList.remove('hidden');
                 btnTailor.innerHTML = originalBtnText;
                 btnTailor.disabled = false;
@@ -645,7 +660,7 @@
                 interviewResults.classList.remove('hidden');
                 btnGenerateQs.innerHTML = `<span>✨ Generate New Questions</span>`;
             } catch (error) {
-                interviewResults.innerHTML = '<span class="text-red-600">Failed to load questions. Try again.</span>';
+                interviewResults.innerHTML = '<span class="text-red-600 text-xs font-mono break-words">⚠️ ' + error.message + '</span>';
                 interviewResults.classList.remove('hidden');
                 btnGenerateQs.innerHTML = originalBtnText;
             } finally {
@@ -703,6 +718,8 @@
             btnTts.disabled = true;
             btnTts.innerHTML = `<svg class="animate-spin h-4 w-4 text-blue-600" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Loading...`;
 
+            // Note: If the TTS model fails on your public API key, it will gracefully show an error
+            // as this specific audio model is currently in preview for some regions.
             const ttsUrl = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-tts:generateContent?key=' + apiKey;
             const payload = {
                 contents: [{ parts: [{ text: "Say cheerfully and professionally: Hi, I'm Soheil Karami! I am a DevSecOps Engineer and IT Project Manager based in Kuala Lumpur. I bridge the gap between development and operations with a specialized focus on cloud infrastructure and web security. I'd love to bring my expertise in Azure and cybersecurity to your team!" }] }],
@@ -748,11 +765,11 @@
 
             } catch (error) {
                 console.error("TTS Error:", error);
-                btnTts.innerHTML = '<span class="text-sm">⚠️</span> Error';
+                btnTts.innerHTML = '<span class="text-sm">⚠️</span> TTS Unavailable';
                 setTimeout(() => {
                     btnTts.innerHTML = originalText;
                     btnTts.disabled = false;
-                }, 2000);
+                }, 3000);
             }
         });
 
