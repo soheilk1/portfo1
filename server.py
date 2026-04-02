@@ -5,9 +5,11 @@ import google.generativeai as genai  # Import the Gemini library
 app = Flask(__name__)
 
 # --- CONFIGURE GEMINI ---
-# Replace 'YOUR_ACTUAL_API_KEY' with your real key
+# Replace with your real key if this one ever changes
 genai.configure(api_key="AIzaSyB0V0lro7mpdEv6v3DK_TvxZOMsCw92SoU")
-model = genai.GenerativeModel('gemini-1.5-flash')
+
+# FIX: Switched to 'gemini-pro' which is universally supported across all Python SDK versions!
+model = genai.GenerativeModel('gemini-pro')
 
 @app.route("/")
 @app.route("/index.html")
@@ -40,7 +42,7 @@ def write_to_csv(data):
         email = data["email"]
         subject = data["subject"]
         message = data["message"]
-        csv_writer = csv.writer(database, delimiter=',', quotechar='&', quoting=csv.QUOTE_MINIMAL)
+        csv_writer = csv.writer(database, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
         csv_writer.writerow([email, subject, message])
 
 @app.route('/submit_form', methods=['POST', 'GET'])
