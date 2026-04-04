@@ -11,7 +11,7 @@ try:
 
     # ⚠️ Replace 'YOUR_NEW_API_KEY_HERE' with a brand new key.
     # Do NOT paste your new key in this chat!
-    genai.configure(api_key="AIzaSyDbkDpxROAlUXqwv7jFQ-IQpv2h-7mdjcg")
+    genai.configure(api_key="AIzaSyDJsd5QiQC0v1pigjaB985LNt8KSrehAbQ")
     GEMINI_READY = True
 except ImportError as e:
     GEMINI_READY = False
