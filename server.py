@@ -1,21 +1,32 @@
 from flask import Flask, render_template, request, redirect, jsonify
 import csv
 import traceback
+import os
 
 app = Flask(__name__)
 
-# --- SAFE IMPORT FOR PYTHONANYWHERE ---
-# This checks if the library is actually installed on your server environment
+# --- SECURE API KEY LOADING ---
+# Instead of hardcoding the key, we read it securely from a file called "api_key.txt"
 try:
+    # Look for the file in the same directory as server.py
+    key_path = os.path.join(os.path.dirname(__file__), 'api_key.txt')
+    with open(key_path, 'r') as key_file:
+        my_secret_key = key_file.read().strip()
+
     import google.generativeai as genai
 
-    # ⚠️ Replace 'YOUR_NEW_API_KEY_HERE' with a brand new key.
-    # Do NOT paste your new key in this chat!
-    genai.configure(api_key="AIzaSyDJsd5QiQC0v1pigjaB985LNt8KSrehAbQ")
+    genai.configure(api_key=my_secret_key)
     GEMINI_READY = True
+
 except ImportError as e:
     GEMINI_READY = False
-    GEMINI_ERROR = str(e)
+    GEMINI_ERROR = f"Library missing: {str(e)}"
+except FileNotFoundError:
+    GEMINI_READY = False
+    GEMINI_ERROR = "Could not find 'api_key.txt'. Please create this file and paste your API key inside it."
+except Exception as e:
+    GEMINI_READY = False
+    GEMINI_ERROR = f"Failed to load API key: {str(e)}"
 
 
 @app.route("/")
@@ -35,10 +46,9 @@ def ask_gemini():
         }
 
     try:
-        # 2. Check if the library successfully imported
+        # 2. Check if the library/key successfully loaded
         if not GEMINI_READY:
-            raise Exception(
-                f"Missing Library! Please run 'pip install google-generativeai' in your PythonAnywhere console. Details: {GEMINI_ERROR}")
+            raise Exception(f"Setup Error: {GEMINI_ERROR}")
 
         # 3. Safely parse JSON data
         user_data = request.get_json(silent=True)
@@ -61,14 +71,13 @@ def ask_gemini():
         if not valid_models:
             raise Exception("Your API key is valid, but it does not have permission to use ANY text generation models.")
 
-        # 5. Pick the best available model (Prefer 1.5-flash, fallback to whatever is first on the list)
+        # 5. Pick the best available model (Prefer 1.5-flash)
         selected_model = valid_models[0]
         for m in valid_models:
             if '1.5-flash' in m:
                 selected_model = m
                 break
 
-        # Clean the prefix for the GenerativeModel class
         clean_model_name = selected_model.replace('models/', '')
 
         # 6. Generate the content
@@ -77,9 +86,8 @@ def ask_gemini():
             model = genai.GenerativeModel(clean_model_name)
             response = model.generate_content(user_prompt)
         except Exception as e:
-            # If it fails here, print the exact list of available models to the screen so we can see what's allowed!
             raise Exception(
-                f"Failed using model '{clean_model_name}'. Error: {str(e)} | Models available to your key: {valid_models}")
+                f"Failed using model '{clean_model_name}'. Error: {str(e)} | Models available: {valid_models}")
 
         if not response or not response.text:
             raise Exception("The AI model returned an empty response.")
@@ -88,14 +96,9 @@ def ask_gemini():
         return jsonify({"reply": response.text}), 200, {'Access-Control-Allow-Origin': '*'}
 
     except Exception as e:
-        # Get the exact line of code that crashed
         error_trace = traceback.format_exc()
-        print(error_trace)  # Prints to PythonAnywhere Error Log
-
-        # Send the exact crash reason back to the HTML page so you can see it!
-        return jsonify({
-            "error": f"Python Crash: {str(e)}"
-        }), 500, {'Access-Control-Allow-Origin': '*'}
+        print(error_trace)
+        return jsonify({"error": f"Python Crash: {str(e)}"}), 500, {'Access-Control-Allow-Origin': '*'}
 
 
 @app.route('/<string:page_name>')
@@ -103,7 +106,7 @@ def html_page(page_name):
     return render_template(page_name)
 
 
-# --- YOUR EXISTING DATABASE LOGIC ---
+# --- EXISTING DATABASE LOGIC ---
 def write_to_csv(data):
     with open('database.csv', mode='a', newline='') as database:
         email = data["email"]
