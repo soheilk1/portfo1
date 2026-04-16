@@ -26,7 +26,7 @@
         </div>
     </div>
 
-    <!-- DASHBOARD SCREEN (Hidden until logged in) -->
+    <!-- DASHBOARD SCREEN -->
     <div id="dashboard-screen" class="hidden bg-slate-800 p-8 rounded-2xl shadow-2xl border border-slate-700 max-w-sm w-full text-center flex-col max-h-[95vh]">
 
         <!-- Header with Logout -->
@@ -57,17 +57,42 @@
             </div>
         </div>
 
-        <!-- Refresh Button -->
-        <button id="refresh-btn" onclick="refreshStats()" class="w-full bg-blue-600 hover:bg-blue-500 disabled:opacity-70 disabled:cursor-not-allowed text-white py-3 px-4 rounded-lg shadow-lg hover:shadow-xl transition-all font-semibold flex items-center justify-center gap-2">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
-            <span>Refresh Stats</span>
-        </button>
+        <!-- Buttons Section -->
+        <div class="space-y-3">
+            <button id="refresh-btn" onclick="refreshStats()" class="w-full bg-blue-600 hover:bg-blue-500 disabled:opacity-70 disabled:cursor-not-allowed text-white py-3 px-4 rounded-lg shadow-lg hover:shadow-xl transition-all font-semibold flex items-center justify-center gap-2">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+                <span>Refresh Stats</span>
+            </button>
 
-        <!-- Clear Data Button -->
-        <button id="clear-btn" onclick="clearStats()" class="w-full mt-3 bg-red-900/40 hover:bg-red-600 border border-red-800 text-red-200 hover:text-white disabled:opacity-70 disabled:cursor-not-allowed py-2 px-4 rounded-lg transition-all text-sm font-semibold flex items-center justify-center gap-2">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
-            <span>Clear Data</span>
-        </button>
+            <!-- Change Password Button -->
+            <button onclick="openPasswordModal()" class="w-full bg-slate-700 hover:bg-slate-600 text-slate-200 hover:text-white py-2 px-4 rounded-lg transition-all text-sm font-semibold flex items-center justify-center gap-2">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"></path></svg>
+                <span>Change Password</span>
+            </button>
+
+            <!-- Clear Data Button -->
+            <button id="clear-btn" onclick="clearStats()" class="w-full bg-red-900/40 hover:bg-red-600 border border-red-800 text-red-200 hover:text-white disabled:opacity-70 disabled:cursor-not-allowed py-2 px-4 rounded-lg transition-all text-sm font-semibold flex items-center justify-center gap-2">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                <span>Clear Data</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- CHANGE PASSWORD MODAL -->
+    <div id="password-modal" class="hidden fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div class="bg-slate-800 p-6 rounded-2xl border border-slate-700 max-w-xs w-full shadow-2xl text-center">
+            <h3 class="text-xl font-bold text-white mb-4">Change Password</h3>
+
+            <input type="password" id="new-pass-input" class="w-full bg-slate-900 border border-slate-600 rounded-lg px-4 py-2.5 text-white mb-2 focus:outline-none focus:border-blue-500 transition text-sm" placeholder="Enter new password">
+
+            <p id="pwd-error" class="text-red-400 text-xs mb-4 hidden font-medium"></p>
+            <p id="pwd-success" class="text-green-400 text-xs mb-4 hidden font-medium">Password updated successfully!</p>
+
+            <div class="flex gap-2 mt-4">
+                <button onclick="closePasswordModal()" class="flex-1 bg-slate-700 hover:bg-slate-600 text-white py-2 rounded-lg font-semibold transition-all text-sm">Cancel</button>
+                <button id="save-pwd-btn" onclick="saveNewPassword()" class="flex-1 bg-blue-600 hover:bg-blue-500 text-white py-2 rounded-lg font-semibold transition-all text-sm">Save</button>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -178,7 +203,7 @@
                 });
 
                 if (response.ok) {
-                    await refreshStats(); // Refresh table immediately to show 0
+                    await refreshStats();
                 } else {
                     alert("Unauthorized. Please log in again.");
                     logout();
@@ -187,6 +212,62 @@
                 alert("Failed to clear data: " + error.message);
             } finally {
                 btn.innerHTML = originalHTML;
+                btn.disabled = false;
+            }
+        }
+
+        // --- PASSWORD MODAL LOGIC ---
+        function openPasswordModal() {
+            document.getElementById('password-modal').classList.remove('hidden');
+            document.getElementById('pwd-error').classList.add('hidden');
+            document.getElementById('pwd-success').classList.add('hidden');
+            document.getElementById('new-pass-input').value = '';
+        }
+
+        function closePasswordModal() {
+            document.getElementById('password-modal').classList.add('hidden');
+        }
+
+        async function saveNewPassword() {
+            const newPassword = document.getElementById('new-pass-input').value;
+            const errorText = document.getElementById('pwd-error');
+            const successText = document.getElementById('pwd-success');
+            const btn = document.getElementById('save-pwd-btn');
+
+            if (!newPassword) {
+                errorText.innerText = "Password cannot be empty.";
+                errorText.classList.remove('hidden');
+                return;
+            }
+
+            btn.innerText = "Saving...";
+            btn.disabled = true;
+            errorText.classList.add('hidden');
+            successText.classList.add('hidden');
+
+            try {
+                const response = await fetch("/api/change_password", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ password: sessionPassword, new_password: newPassword })
+                });
+
+                if (response.ok) {
+                    successText.classList.remove('hidden');
+                    sessionPassword = newPassword; // Automatically updates the current session password
+                    setTimeout(closePasswordModal, 1500);
+                } else if (response.status === 401) {
+                    errorText.innerText = "Session expired. Please log out and try again.";
+                    errorText.classList.remove('hidden');
+                } else {
+                    errorText.innerText = "Failed to update password.";
+                    errorText.classList.remove('hidden');
+                }
+            } catch (e) {
+                errorText.innerText = "Network error.";
+                errorText.classList.remove('hidden');
+            } finally {
+                btn.innerText = "Save";
                 btn.disabled = false;
             }
         }

@@ -42,8 +42,13 @@ def html_page(page_name):
 
 
 # --- PORTAL SECURITY ---
-# Change this to whatever password you want to use!
-PORTAL_PASSWORD = "admin"
+def get_portal_password():
+    # Reads password from a file. Defaults to "admin" if the file doesn't exist yet.
+    pwd_file = os.path.join(os.path.dirname(__file__), 'password.txt')
+    if os.path.exists(pwd_file):
+        with open(pwd_file, 'r') as f:
+            return f.read().strip()
+    return "admin"
 
 
 # --- VIEWS TRACKER LOGIC ---
@@ -87,7 +92,7 @@ def get_views():
     try:
         # 1. Check Password securely
         data = request.get_json(silent=True) or {}
-        if data.get('password') != PORTAL_PASSWORD:
+        if data.get('password') != get_portal_password():
             return jsonify({"error": "Unauthorized"}), 401, {'Access-Control-Allow-Origin': '*'}
 
         count = 0
@@ -123,7 +128,7 @@ def clear_views():
     try:
         # 1. Check Password securely before allowing a wipe
         data = request.get_json(silent=True) or {}
-        if data.get('password') != PORTAL_PASSWORD:
+        if data.get('password') != get_portal_password():
             return jsonify({"error": "Unauthorized"}), 401, {'Access-Control-Allow-Origin': '*'}
 
         # 2. Reset views count to 0
@@ -135,6 +140,31 @@ def clear_views():
         log_file = os.path.join(os.path.dirname(__file__), 'visitor_ips.csv')
         with open(log_file, 'w') as f:
             pass
+
+        return jsonify({"success": True}), 200, {'Access-Control-Allow-Origin': '*'}
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500, {'Access-Control-Allow-Origin': '*'}
+
+
+# --- CHANGE PASSWORD LOGIC ---
+@app.route("/api/change_password", methods=['POST', 'OPTIONS'])
+def change_password():
+    if request.method == 'OPTIONS':
+        return jsonify({}), 200, {'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Headers': '*'}
+    try:
+        # 1. Verify current password
+        data = request.get_json(silent=True) or {}
+        if data.get('password') != get_portal_password():
+            return jsonify({"error": "Unauthorized"}), 401, {'Access-Control-Allow-Origin': '*'}
+
+        # 2. Get and save new password
+        new_pwd = data.get('new_password')
+        if not new_pwd:
+            return jsonify({"error": "Invalid password"}), 400, {'Access-Control-Allow-Origin': '*'}
+
+        pwd_file = os.path.join(os.path.dirname(__file__), 'password.txt')
+        with open(pwd_file, 'w') as f:
+            f.write(new_pwd.strip())
 
         return jsonify({"success": True}), 200, {'Access-Control-Allow-Origin': '*'}
     except Exception as e:
