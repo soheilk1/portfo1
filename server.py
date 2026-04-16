@@ -3,6 +3,7 @@ import csv
 import traceback
 import os
 from datetime import datetime
+import json
 
 app = Flask(__name__)
 
@@ -41,7 +42,14 @@ def html_page(page_name):
     return render_template(page_name)
 
 
-# --- PORTAL SECURITY ---
+# --- PORTAL SECURITY & ANTI-BRUTE FORCE ---
+def get_client_ip():
+    ip = request.headers.get('X-Forwarded-For', request.remote_addr)
+    if ip:
+        return ip.split(',')[0].strip()
+    return "Unknown IP"
+
+
 def get_portal_password():
     # Reads password from a file. Defaults to "admin" if the file doesn't exist yet.
     pwd_file = os.path.join(os.path.dirname(__file__), 'password.txt')
@@ -51,6 +59,51 @@ def get_portal_password():
     return "admin"
 
 
+def is_ip_banned(ip):
+    banned_file = os.path.join(os.path.dirname(__file__), 'banned_ips.txt')
+    if os.path.exists(banned_file):
+        with open(banned_file, 'r') as f:
+            if ip in f.read().splitlines():
+                return True
+    return False
+
+
+def record_failed_attempt(ip):
+    attempts_file = os.path.join(os.path.dirname(__file__), 'failed_attempts.json')
+    attempts = {}
+    if os.path.exists(attempts_file):
+        try:
+            with open(attempts_file, 'r') as f:
+                attempts = json.load(f)
+        except:
+            pass
+
+    attempts[ip] = attempts.get(ip, 0) + 1
+
+    # Block the IP after 5 failed login attempts
+    if attempts[ip] >= 3:
+        banned_file = os.path.join(os.path.dirname(__file__), 'banned_ips.txt')
+        with open(banned_file, 'a') as f:
+            f.write(ip + '\n')
+
+    with open(attempts_file, 'w') as f:
+        json.dump(attempts, f)
+
+
+def reset_failed_attempt(ip):
+    attempts_file = os.path.join(os.path.dirname(__file__), 'failed_attempts.json')
+    if os.path.exists(attempts_file):
+        try:
+            with open(attempts_file, 'r') as f:
+                attempts = json.load(f)
+            if ip in attempts:
+                del attempts[ip]
+                with open(attempts_file, 'w') as f:
+                    json.dump(attempts, f)
+        except:
+            pass
+
+
 # --- VIEWS TRACKER LOGIC ---
 # This endpoint silently adds 1 to the count
 @app.route("/api/track_view", methods=['POST', 'OPTIONS'])
@@ -58,11 +111,7 @@ def track_view():
     if request.method == 'OPTIONS':
         return jsonify({}), 200, {'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Headers': '*'}
     try:
-        ip = request.headers.get('X-Forwarded-For', request.remote_addr)
-        if ip:
-            ip = ip.split(',')[0].strip()
-        else:
-            ip = "Unknown IP"
+        ip = get_client_ip()
 
         log_file = os.path.join(os.path.dirname(__file__), 'visitor_ips.csv')
         with open(log_file, 'a', newline='') as f:
@@ -90,10 +139,19 @@ def get_views():
     if request.method == 'OPTIONS':
         return jsonify({}), 200, {'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Headers': '*'}
     try:
+        ip = get_client_ip()
+
+        # 0. Check if hacker is banned
+        if is_ip_banned(ip):
+            return jsonify({"error": "IP Banned"}), 403, {'Access-Control-Allow-Origin': '*'}
+
         # 1. Check Password securely
         data = request.get_json(silent=True) or {}
         if data.get('password') != get_portal_password():
+            record_failed_attempt(ip)
             return jsonify({"error": "Unauthorized"}), 401, {'Access-Control-Allow-Origin': '*'}
+
+        reset_failed_attempt(ip)  # Successful login resets the strike counter
 
         count = 0
         count_file = os.path.join(os.path.dirname(__file__), 'views.txt')
@@ -126,10 +184,17 @@ def clear_views():
     if request.method == 'OPTIONS':
         return jsonify({}), 200, {'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Headers': '*'}
     try:
+        ip = get_client_ip()
+        if is_ip_banned(ip):
+            return jsonify({"error": "IP Banned"}), 403, {'Access-Control-Allow-Origin': '*'}
+
         # 1. Check Password securely before allowing a wipe
         data = request.get_json(silent=True) or {}
         if data.get('password') != get_portal_password():
+            record_failed_attempt(ip)
             return jsonify({"error": "Unauthorized"}), 401, {'Access-Control-Allow-Origin': '*'}
+
+        reset_failed_attempt(ip)
 
         # 2. Reset views count to 0
         count_file = os.path.join(os.path.dirname(__file__), 'views.txt')
@@ -152,10 +217,17 @@ def change_password():
     if request.method == 'OPTIONS':
         return jsonify({}), 200, {'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Headers': '*'}
     try:
+        ip = get_client_ip()
+        if is_ip_banned(ip):
+            return jsonify({"error": "IP Banned"}), 403, {'Access-Control-Allow-Origin': '*'}
+
         # 1. Verify current password
         data = request.get_json(silent=True) or {}
         if data.get('password') != get_portal_password():
+            record_failed_attempt(ip)
             return jsonify({"error": "Unauthorized"}), 401, {'Access-Control-Allow-Origin': '*'}
+
+        reset_failed_attempt(ip)
 
         # 2. Get and save new password
         new_pwd = data.get('new_password')
