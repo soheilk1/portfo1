@@ -175,9 +175,6 @@
                 </div>
             </div>
 
-            <!-- Hidden Visitor Tracker (Counts visits in background without showing on screen) -->
-
-            <img src="https://komarev.com/ghpvc/?username=soheilk-resume-site&label=VISITORS&color=0ea5e9&style=flat-square" alt="Tracker" style="position: absolute; opacity: 0; pointer-events: none; width: 1px; height: 1px;" aria-hidden="true">
 
 
         </aside>
@@ -660,6 +657,16 @@
                 navbarMenu.classList.toggle('flex');
             });
         }
+
+
+// --- Invisible Visitor Tracker (Cache-Busting) ---
+        // This runs silently in the background when the page loads
+        setTimeout(() => {
+            const tracker = new Image();
+            // Math.random() forces the browser to treat every visit as brand new!
+            tracker.src = "https://komarev.com/ghpvc/?username=soheilk-resume-site&style=flat-square&nocache=" + Math.random();
+        }, 1000); // Delays by 1 second so it doesn't slow down your page load
+
 
     </script>
 </body>
