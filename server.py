@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect, jsonify
 import csv
 import traceback
 import os
+from datetime import datetime
 
 app = Flask(__name__)
 
@@ -47,6 +48,19 @@ def track_view():
     if request.method == 'OPTIONS':
         return jsonify({}), 200, {'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Headers': '*'}
     try:
+        # Get visitor IP (Checking X-Forwarded-For because PythonAnywhere uses proxies)
+        ip = request.headers.get('X-Forwarded-For', request.remote_addr)
+        if ip:
+            ip = ip.split(',')[0].strip()
+        else:
+            ip = "Unknown IP"
+
+        # Log the IP and timestamp
+        log_file = os.path.join(os.path.dirname(__file__), 'visitor_ips.csv')
+        with open(log_file, 'a', newline='') as f:
+            writer = csv.writer(f)
+            writer.writerow([ip, datetime.now().strftime("%Y-%m-%d %H:%M:%S")])
+
         count = 0
         count_file = os.path.join(os.path.dirname(__file__), 'views.txt')
         if os.path.exists(count_file):
@@ -75,7 +89,22 @@ def get_views():
                 content = f.read().strip()
                 if content.isdigit():
                     count = int(content)
-        return jsonify({"views": count}), 200, {'Access-Control-Allow-Origin': '*'}
+
+        # Read the recent visitor IPs
+        visitors = []
+        log_file = os.path.join(os.path.dirname(__file__), 'visitor_ips.csv')
+        if os.path.exists(log_file):
+            with open(log_file, 'r') as f:
+                reader = csv.reader(f)
+                for row in reader:
+                    if len(row) >= 2:
+                        visitors.append({"ip": row[0], "time": row[1]})
+
+        # Reverse list to show the newest visits at the top (limit to last 100)
+        visitors.reverse()
+        recent_visitors = visitors[:100]
+
+        return jsonify({"views": count, "visitors": recent_visitors}), 200, {'Access-Control-Allow-Origin': '*'}
     except Exception as e:
         return jsonify({"error": str(e)}), 500, {'Access-Control-Allow-Origin': '*'}
 

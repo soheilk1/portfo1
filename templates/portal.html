@@ -16,9 +16,25 @@
         <p class="text-slate-400 text-sm mb-8">Live resume page views</p>
 
         <!-- Stats Box -->
-        <div class="bg-slate-900 p-8 rounded-xl flex flex-col justify-center border border-slate-700 shadow-inner mb-8 min-h-[100px] items-center">
+        <div class="bg-slate-900 p-8 rounded-xl flex flex-col justify-center border border-slate-700 shadow-inner mb-6 min-h-[100px] items-center">
             <span class="text-slate-500 text-xs font-bold tracking-widest uppercase mb-2">Total Views</span>
             <h2 id="view-count" class="text-5xl font-black text-blue-400">...</h2>
+        </div>
+
+        <!-- Visitor Logs Table -->
+        <div class="bg-slate-900 rounded-xl border border-slate-700 shadow-inner mb-8 overflow-hidden flex flex-col text-left">
+            <div class="px-4 py-3 border-b border-slate-700 bg-slate-800/50">
+                <span class="text-slate-400 text-xs font-bold tracking-widest uppercase">Recent Visitors (IPs)</span>
+            </div>
+            <div class="h-48 overflow-y-auto p-0 scrollbar-thin scrollbar-thumb-slate-700">
+                <table class="w-full text-xs text-left text-slate-400">
+                    <tbody id="visitor-list" class="divide-y divide-slate-700/50">
+                        <tr>
+                            <td class="px-4 py-3 text-center text-slate-500">Loading visitors...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
 
         <!-- Refresh Button -->
@@ -55,6 +71,20 @@
                 } else {
                     countEl.innerText = "Error";
                 }
+
+                // Render the visitor IPs into the table
+                const listEl = document.getElementById('visitor-list');
+                if (data.visitors && data.visitors.length > 0) {
+                    listEl.innerHTML = data.visitors.map(v => `
+                        <tr class="hover:bg-slate-800/30 transition">
+                            <td class="px-4 py-3 font-mono text-blue-400">${v.ip}</td>
+                            <td class="px-4 py-3 text-right text-slate-500">${v.time}</td>
+                        </tr>
+                    `).join('');
+                } else {
+                    listEl.innerHTML = `<tr><td colspan="2" class="px-4 py-4 text-center text-slate-500">No visitors logged yet</td></tr>`;
+                }
+
             } catch (error) {
                 countEl.innerText = "Offline";
             } finally {
