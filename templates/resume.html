@@ -658,14 +658,13 @@
             });
         }
 
-
 // --- Invisible Visitor Tracker (Cache-Busting) ---
         // This runs silently in the background when the page loads
         setTimeout(() => {
             const tracker = new Image();
-            // Math.random() forces the browser to treat every visit as brand new!
-            tracker.src = "https://komarev.com/ghpvc/?username=soheilk-resume-site&style=flat-square&nocache=" + Math.random();
-        }, 1000); // Delays by 1 second so it doesn't slow down your page load
+            tracker.src = "https://hits.sh/soheilk.pythonanywhere.com/resume.html.svg?nocache=" + Math.random();
+        }, 1000);
+
 
 
     </script>
