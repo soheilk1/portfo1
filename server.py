@@ -41,6 +41,11 @@ def html_page(page_name):
     return render_template(page_name)
 
 
+# --- PORTAL SECURITY ---
+# Change this to whatever password you want to use!
+PORTAL_PASSWORD = "admin"
+
+
 # --- VIEWS TRACKER LOGIC ---
 # This endpoint silently adds 1 to the count
 @app.route("/api/track_view", methods=['POST', 'OPTIONS'])
@@ -48,14 +53,12 @@ def track_view():
     if request.method == 'OPTIONS':
         return jsonify({}), 200, {'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Headers': '*'}
     try:
-        # Get visitor IP (Checking X-Forwarded-For because PythonAnywhere uses proxies)
         ip = request.headers.get('X-Forwarded-For', request.remote_addr)
         if ip:
             ip = ip.split(',')[0].strip()
         else:
             ip = "Unknown IP"
 
-        # Log the IP and timestamp
         log_file = os.path.join(os.path.dirname(__file__), 'visitor_ips.csv')
         with open(log_file, 'a', newline='') as f:
             writer = csv.writer(f)
@@ -76,12 +79,17 @@ def track_view():
         return jsonify({"error": str(e)}), 500, {'Access-Control-Allow-Origin': '*'}
 
 
-# This endpoint just reads the count for your portal (without adding 1)
-@app.route("/api/get_views", methods=['GET', 'OPTIONS'])
+# This endpoint reads the count for your portal (Now requires POST and a password)
+@app.route("/api/get_views", methods=['POST', 'OPTIONS'])
 def get_views():
     if request.method == 'OPTIONS':
         return jsonify({}), 200, {'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Headers': '*'}
     try:
+        # 1. Check Password securely
+        data = request.get_json(silent=True) or {}
+        if data.get('password') != PORTAL_PASSWORD:
+            return jsonify({"error": "Unauthorized"}), 401, {'Access-Control-Allow-Origin': '*'}
+
         count = 0
         count_file = os.path.join(os.path.dirname(__file__), 'views.txt')
         if os.path.exists(count_file):
@@ -90,7 +98,6 @@ def get_views():
                 if content.isdigit():
                     count = int(content)
 
-        # Read the recent visitor IPs
         visitors = []
         log_file = os.path.join(os.path.dirname(__file__), 'visitor_ips.csv')
         if os.path.exists(log_file):
@@ -100,11 +107,36 @@ def get_views():
                     if len(row) >= 2:
                         visitors.append({"ip": row[0], "time": row[1]})
 
-        # Reverse list to show the newest visits at the top (limit to last 100)
         visitors.reverse()
         recent_visitors = visitors[:100]
 
         return jsonify({"views": count, "visitors": recent_visitors}), 200, {'Access-Control-Allow-Origin': '*'}
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500, {'Access-Control-Allow-Origin': '*'}
+
+
+# --- CLEAR VIEWS & IPS LOGIC ---
+@app.route("/api/clear_views", methods=['POST', 'OPTIONS'])
+def clear_views():
+    if request.method == 'OPTIONS':
+        return jsonify({}), 200, {'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Headers': '*'}
+    try:
+        # 1. Check Password securely before allowing a wipe
+        data = request.get_json(silent=True) or {}
+        if data.get('password') != PORTAL_PASSWORD:
+            return jsonify({"error": "Unauthorized"}), 401, {'Access-Control-Allow-Origin': '*'}
+
+        # 2. Reset views count to 0
+        count_file = os.path.join(os.path.dirname(__file__), 'views.txt')
+        with open(count_file, 'w') as f:
+            f.write("0")
+
+        # 3. Clear IP logs completely
+        log_file = os.path.join(os.path.dirname(__file__), 'visitor_ips.csv')
+        with open(log_file, 'w') as f:
+            pass
+
+        return jsonify({"success": True}), 200, {'Access-Control-Allow-Origin': '*'}
     except Exception as e:
         return jsonify({"error": str(e)}), 500, {'Access-Control-Allow-Origin': '*'}
 
