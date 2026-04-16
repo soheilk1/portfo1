@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Traffic Portal | Soheil</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>body { font-family: 'Inter', sans-serif; }</style>
+</head>
+<body class="bg-slate-900 text-white h-screen flex items-center justify-center">
+
+    <div class="bg-slate-800 p-8 rounded-2xl shadow-2xl border border-slate-700 max-w-sm w-full text-center">
+        <!-- Header -->
+        <h1 class="text-2xl font-bold text-blue-400 mb-1">Traffic Portal</h1>
+        <p class="text-slate-400 text-sm mb-8">Live resume page views</p>
+
+        <!-- Stats Box -->
+        <div class="bg-slate-900 p-8 rounded-xl flex justify-center border border-slate-700 shadow-inner mb-8">
+            <!-- The nocache parameter ensures you always see the latest number when you refresh -->
+            <img id="counter-img" src="https://komarev.com/ghpvc/?username=soheilk-resume-site&label=TOTAL+VIEWS&color=0ea5e9&style=for-the-badge" alt="Visitor Count" class="scale-110 transform transition">
+        </div>
+
+        <!-- Refresh Button -->
+        <button onclick="refreshStats()" class="w-full bg-blue-600 hover:bg-blue-500 text-white py-3 px-4 rounded-lg shadow-lg hover:shadow-xl transition-all font-semibold flex items-center justify-center gap-2">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+            Refresh Stats
+        </button>
+
+        <div class="mt-6">
+            <a href="./resume.html" class="text-xs font-medium text-slate-500 hover:text-slate-300 transition">← Back to public resume</a>
+        </div>
+    </div>
+
+    <script>
+        // Force the browser to fetch the newest image rather than a cached version
+        function refreshStats() {
+            const img = document.getElementById('counter-img');
+            const baseUrl = "https://komarev.com/ghpvc/?username=soheilk-resume-site&label=TOTAL+VIEWS&color=0ea5e9&style=for-the-badge";
+            img.src = baseUrl + "&nocache=" + new Date().getTime();
+        }
+    </script>
+</body>
+</html>
