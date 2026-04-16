@@ -175,7 +175,8 @@
                 </div>
             </div>
 
-
+            <!-- Hidden Visitor Tracker (Counts visits in background without showing on screen) -->
+            <img src="https://komarev.com/ghpvc/?username=soheilk-resume-site&label=VISITORS&color=0ea5e9&style=flat-square" alt="Tracker" style="display: none;" aria-hidden="true">
 
         </aside>
 
@@ -647,6 +648,18 @@
             window.speechSynthesis.getVoices();
         };
 
+        // --- Invisible Visitor Tracker ---
+        // This silently tells your Python server to add 1 view
+        setTimeout(() => {
+            // Using a relative path prevents "NetworkError" and CORS blocks!
+            fetch("/api/track_view", {
+                method: "POST"
+            }).catch(() => {
+                // Silently fail if blocked by ad-blockers or network issues
+                console.log("View tracking blocked or offline.");
+            });
+        }, 1000);
+
         // --- Mobile Navbar Toggle Logic ---
         const mobileMenuBtn = document.getElementById('mobile-menu-btn');
         const navbarMenu = document.getElementById('navbar-menu');
@@ -657,15 +670,6 @@
                 navbarMenu.classList.toggle('flex');
             });
         }
-
-// --- Invisible Visitor Tracker (Cache-Busting) ---
-        // This runs silently in the background when the page loads
-        setTimeout(() => {
-            const tracker = new Image();
-            tracker.src = "https://hits.sh/soheilk.pythonanywhere.com/resume.html.svg?nocache=" + Math.random();
-        }, 1000);
-
-
 
     </script>
 </body>

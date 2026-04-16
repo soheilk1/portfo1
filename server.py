@@ -35,10 +35,55 @@ def home():
     return render_template('index.html')
 
 
-# Route to handle AI requests from your resume page
+@app.route('/<string:page_name>')
+def html_page(page_name):
+    return render_template(page_name)
+
+
+# --- VIEWS TRACKER LOGIC ---
+# This endpoint silently adds 1 to the count
+@app.route("/api/track_view", methods=['POST', 'OPTIONS'])
+def track_view():
+    if request.method == 'OPTIONS':
+        return jsonify({}), 200, {'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Headers': '*'}
+    try:
+        count = 0
+        count_file = os.path.join(os.path.dirname(__file__), 'views.txt')
+        if os.path.exists(count_file):
+            with open(count_file, 'r') as f:
+                content = f.read().strip()
+                if content.isdigit():
+                    count = int(content)
+        count += 1
+        with open(count_file, 'w') as f:
+            f.write(str(count))
+        return jsonify({"views": count}), 200, {'Access-Control-Allow-Origin': '*'}
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500, {'Access-Control-Allow-Origin': '*'}
+
+
+# This endpoint just reads the count for your portal (without adding 1)
+@app.route("/api/get_views", methods=['GET', 'OPTIONS'])
+def get_views():
+    if request.method == 'OPTIONS':
+        return jsonify({}), 200, {'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Headers': '*'}
+    try:
+        count = 0
+        count_file = os.path.join(os.path.dirname(__file__), 'views.txt')
+        if os.path.exists(count_file):
+            with open(count_file, 'r') as f:
+                content = f.read().strip()
+                if content.isdigit():
+                    count = int(content)
+        return jsonify({"views": count}), 200, {'Access-Control-Allow-Origin': '*'}
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500, {'Access-Control-Allow-Origin': '*'}
+
+
+# --- AI RESUME LOGIC ---
 @app.route('/ask_gemini', methods=['POST', 'OPTIONS'])
 def ask_gemini():
-    # 1. Handle CORS Preflight requests (prevents browser security blocks)
+    # 1. Handle CORS Preflight requests
     if request.method == 'OPTIONS':
         return jsonify({}), 200, {
             'Access-Control-Allow-Origin': '*',
@@ -59,7 +104,7 @@ def ask_gemini():
         if not user_prompt:
             raise Exception("No 'prompt' found in the received data.")
 
-        # 4. AUTO-DISCOVERY: Find exactly which models your API key is allowed to use
+        # 4. AUTO-DISCOVERY: Find models
         valid_models = []
         try:
             for m in genai.list_models():
@@ -71,7 +116,7 @@ def ask_gemini():
         if not valid_models:
             raise Exception("Your API key is valid, but it does not have permission to use ANY text generation models.")
 
-        # 5. Pick the best available model (Prefer 1.5-flash)
+        # 5. Pick the best available model
         selected_model = valid_models[0]
         for m in valid_models:
             if '1.5-flash' in m:
@@ -99,11 +144,6 @@ def ask_gemini():
         error_trace = traceback.format_exc()
         print(error_trace)
         return jsonify({"error": f"Python Crash: {str(e)}"}), 500, {'Access-Control-Allow-Origin': '*'}
-
-
-@app.route('/<string:page_name>')
-def html_page(page_name):
-    return render_template(page_name)
 
 
 # --- EXISTING DATABASE LOGIC ---
