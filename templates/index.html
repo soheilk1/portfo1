@@ -5,104 +5,228 @@
   <meta charset="UTF-8">
   <meta content="IE=edge" http-equiv="X-UA-Compatible">
   <meta content="width=device-width,initial-scale=1" name="viewport">
-  <meta content="description" name="description">
-  <meta name="google" content="notranslate" />
-  <meta content="Mashup templates have been developped by Orson.io team" name="author">
+  <meta content="description" name="DevSecOps & Cloud Engineer Portfolio">
 
+  <!-- Disable tap highlight on IE -->
   <meta name="msapplication-tap-highlight" content="no">
 
   <link rel="apple-touch-icon" sizes="180x180" href="./static/assets/apple-icon-180x180.png">
   <link href="./static/assets/favicon.ico" rel="icon">
 
-  <title>Soheil-K</title>
+  <title>Soheil Karami | DevSecOps Engineer</title>
 
   <link href="./static/main.3f6952e4.css" rel="stylesheet">
+
+  <!-- Custom Modern CSS for the Home Page -->
+  <style>
+    body, html {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        background-color: #0f172a; /* Deep Slate 900 */
+        font-family: 'Inter', Roboto, sans-serif;
+        color: #f8fafc;
+        overflow: hidden;
+    }
+
+    /* Subtle glowing background orb effect */
+    .glow-bg {
+        position: absolute;
+        width: 600px;
+        height: 600px;
+        background: radial-gradient(circle, rgba(56,189,248,0.15) 0%, rgba(15,23,42,0) 70%);
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: -1;
+        pointer-events: none;
+    }
+
+    .hero-container {
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        padding: 0 20px;
+        position: relative;
+        z-index: 1;
+    }
+
+    .hero-title {
+        font-size: 3.5rem;
+        font-weight: 800;
+        letter-spacing: -1px;
+        margin-bottom: 10px;
+        background: linear-gradient(to right, #ffffff, #94a3b8);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .hero-subtitle {
+        font-size: 1.5rem;
+        font-weight: 300;
+        color: #94a3b8;
+        margin-bottom: 40px;
+        height: 40px; /* Keeps layout stable while typing */
+    }
+
+    /* Modern Buttons */
+    .btn-container {
+        display: flex;
+        gap: 20px;
+        margin-bottom: 60px;
+    }
+
+    .btn-primary-custom {
+        background-color: #2563eb;
+        color: white;
+        padding: 14px 32px;
+        border-radius: 8px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        border: 1px solid #2563eb;
+        box-shadow: 0 4px 14px 0 rgba(37, 99, 235, 0.39);
+    }
+
+    .btn-primary-custom:hover {
+        background-color: #1d4ed8;
+        transform: translateY(-2px);
+        color: white;
+        text-decoration: none;
+    }
+
+    .btn-secondary-custom {
+        background-color: transparent;
+        color: #f8fafc;
+        padding: 14px 32px;
+        border-radius: 8px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        border: 1px solid #475569;
+    }
+
+    .btn-secondary-custom:hover {
+        background-color: #1e293b;
+        border-color: #94a3b8;
+        transform: translateY(-2px);
+        color: white;
+        text-decoration: none;
+    }
+
+    /* Trust Bar */
+    .trust-bar {
+        position: absolute;
+        bottom: 40px;
+        width: 100%;
+        text-align: center;
+        color: #475569;
+        font-size: 0.9rem;
+        font-weight: 600;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        animation: fadeIn 2s ease-in 1s forwards;
+        opacity: 0;
+    }
+
+    .trust-bar span {
+        margin: 0 15px;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 768px) {
+        .hero-title { font-size: 2.5rem; }
+        .hero-subtitle { font-size: 1.2rem; }
+        .btn-container { flex-direction: column; gap: 15px; width: 100%; max-width: 300px; }
+        .btn-primary-custom, .btn-secondary-custom { width: 100%; text-align: center; }
+        .trust-bar span { display: block; margin: 10px 0; }
+    }
+  </style>
 </head>
 
-<body class="minimal">
+<body>
+<!-- Border Frame -->
 <div id="site-border-left"></div>
 <div id="site-border-right"></div>
 <div id="site-border-top"></div>
 <div id="site-border-bottom"></div>
 
+<!-- Navbar -->
 <header>
-  <nav class="navbar navbar-fixed-top navbar-inverse">
+  <nav class="navbar navbar-fixed-top navbar-inverse" style="background: transparent; border: none; padding-top: 15px;">
     <div class="container">
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false" style="border-color: #475569;">
           <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
+          <span class="icon-bar" style="background-color: white;"></span>
+          <span class="icon-bar" style="background-color: white;"></span>
+          <span class="icon-bar" style="background-color: white;"></span>
         </button>
 
       <div class="collapse navbar-collapse" id="navbar-collapse">
         <ul class="nav navbar-nav ">
-          <li><a href="./index.html" title="" style="color: #00d2ff; font-weight: bold;">01 : Home</a></li>
-          <li><a href="./works.html" title="" style="color: #00d2ff; font-weight: bold;">02 : Works</a></li>
-          <li><a href="./about.html" title="" style="color: #00d2ff; font-weight: bold;">03 : About me</a></li>
-          <li><a href="./contact.html" title="" style="color: #00d2ff; font-weight: bold;">04 : Contact</a></li>
-          <li><a href="./resume.html" title="" style="color: #00d2ff; font-weight: bold;">05 : Resume</a></li>
+          <li><a href="./index.html" title="" style="color: #38bdf8; font-weight: bold; border-bottom: 2px solid #38bdf8;">01 : Home</a></li>
+          <li><a href="./works.html" title="" style="color: #94a3b8; font-weight: 600; transition: color 0.3s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">02 : Works</a></li>
+          <li><a href="./about.html" title="" style="color: #94a3b8; font-weight: 600; transition: color 0.3s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">03 : About me</a></li>
+          <li><a href="./contact.html" title="" style="color: #94a3b8; font-weight: 600; transition: color 0.3s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">04 : Contact</a></li>
+          <li><a href="./resume.html" title="" style="color: #94a3b8; font-weight: 600; transition: color 0.3s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">05 : Resume</a></li>
         </ul>
       </div>
     </div>
   </nav>
 </header>
 
-<div class="hero-full-container white-text-container" style="position: relative; overflow: hidden;">
+<!-- Main Hero Section -->
+<div class="glow-bg"></div>
+<div class="hero-container">
 
-    <div id="homeCarousel" class="carousel slide" data-ride="carousel" data-interval="4000" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;">
-      <div class="carousel-inner" style="height: 100%;">
+    <h1 class="hero-title">Soheil Karami</h1>
 
-        <div class="item active background-image-container" style="background-image: url('./static/assets/images/space.jpg'); height: 100%;"></div>
-
-        <div class="item background-image-container" style="background-image: url('https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=1920&auto=format&fit=crop'); height: 100%;"></div>
-
-        <div class="item background-image-container" style="background-image: url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=1920&auto=format&fit=crop'); height: 100%;"></div>
-
-      </div>
+    <!-- Typing Animation Container -->
+    <div class="hero-subtitle">
+        <span id="typed-strings" style="display: none;">
+            <span>Cloud Infrastructure Engineer</span>
+            <span>DevSecOps Specialist</span>
+            <span>Python Backend Developer</span>
+            <span>IT Operations Manager</span>
+        </span>
+        <span id="typed"></span>
     </div>
-    <div class="container" style="height: 100%;">
-      <div class="row" style="height: 100%;">
-        <div class="col-xs-12" style="height: 100%;">
-          <div class="hero-full-wrapper">
-            <div class="text-content">
-              <h1>Hello,<br>
-                <span id="typed-strings">
-                  <span>I'm Soheil-K</span>
-                  <span>Python Expert</span>
-                  <span>Working as a Freelance</span>
-                </span>
-                <span id="typed"></span>
-              </h1>
-            </div>
-          </div>
-        </div>
-      </div>
+
+    <!-- Call to Action Buttons -->
+    <div class="btn-container">
+        <a href="./resume.html" class="btn-primary-custom">Interact with AI Resume ✨</a>
+        <a href="./works.html" class="btn-secondary-custom">View Engineering Projects</a>
     </div>
-    </div>
+
+</div>
+
+<!-- Tech Stack Trust Bar -->
+<div class="trust-bar">
+    <span>AWS & Azure</span> •
+    <span>Python Automation</span> •
+    <span>Cybersecurity</span> •
+    <span>DevSecOps</span>
+</div>
 
 <script>
+  // Initialize the typing animation
   document.addEventListener("DOMContentLoaded", function (event) {
      if (typeof type === 'function') {
          type();
-     }
-     if (typeof movingBackgroundImage === 'function') {
-         movingBackgroundImage();
      }
   });
 </script>
 
 <script type="text/javascript" src="./static/main.70a66962.js"></script>
-
-<footer class="footer-container text-center">
-  <div class="container">
-    <div class="row">
-      <div class="col-xs-12">
-        <p>© Soheil Karami | DevSecOps & IT Professional</p>
-      </div>
-    </div>
-  </div>
-</footer>
 
 </body>
 </html>
