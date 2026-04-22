@@ -15,18 +15,19 @@
 
   <title>Soheil Karami | DevSecOps Engineer</title>
 
+  <!-- Old Template CSS -->
   <link href="./static/main.3f6952e4.css" rel="stylesheet">
 
-  <!-- Custom Modern CSS for the Home Page -->
+  <!-- Custom Modern CSS (Overriding the old template) -->
   <style>
     body, html {
-        margin: 0;
-        padding: 0;
-        height: 100%;
-        background-color: #0f172a; /* Deep Slate 900 */
-        font-family: 'Inter', Roboto, sans-serif;
-        color: #f8fafc;
-        overflow: hidden;
+        margin: 0 !important;
+        padding: 0 !important;
+        height: 100% !important;
+        background-color: #0f172a !important; /* Deep Slate 900 */
+        font-family: 'Inter', Roboto, sans-serif !important;
+        color: #f8fafc !important;
+        overflow: hidden !important;
     }
 
     /* Subtle glowing background orb effect */
@@ -55,21 +56,41 @@
     }
 
     .hero-title {
-        font-size: 3.5rem;
-        font-weight: 800;
-        letter-spacing: -1px;
-        margin-bottom: 10px;
-        background: linear-gradient(to right, #ffffff, #94a3b8);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
+        font-size: 4rem !important;
+        font-weight: 900 !important;
+        letter-spacing: -1px !important;
+        margin-bottom: 10px !important;
+        margin-top: 0 !important;
+        color: #ffffff !important;
+        background: linear-gradient(to right, #ffffff, #94a3b8) !important;
+        -webkit-background-clip: text !important;
+        -webkit-text-fill-color: transparent !important;
     }
 
     .hero-subtitle {
-        font-size: 1.5rem;
-        font-weight: 300;
-        color: #94a3b8;
-        margin-bottom: 40px;
-        height: 40px; /* Keeps layout stable while typing */
+        font-size: 1.5rem !important;
+        font-weight: 400 !important;
+        color: #38bdf8 !important; /* Neon Blue */
+        margin-bottom: 40px !important;
+        height: 40px !important;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* Custom Blinking Cursor */
+    .typing-cursor {
+        display: inline-block;
+        width: 3px;
+        height: 1.5rem;
+        background-color: #38bdf8;
+        margin-left: 4px;
+        animation: blink 1s step-end infinite;
+    }
+
+    @keyframes blink {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0; }
     }
 
     /* Modern Buttons */
@@ -80,43 +101,39 @@
     }
 
     .btn-primary-custom {
-        background-color: #2563eb;
-        color: white;
-        padding: 14px 32px;
-        border-radius: 8px;
-        font-size: 1.1rem;
-        font-weight: 600;
-        text-decoration: none;
-        transition: all 0.3s ease;
-        border: 1px solid #2563eb;
-        box-shadow: 0 4px 14px 0 rgba(37, 99, 235, 0.39);
+        background-color: #2563eb !important;
+        color: white !important;
+        padding: 14px 32px !important;
+        border-radius: 8px !important;
+        font-size: 1.1rem !important;
+        font-weight: 600 !important;
+        text-decoration: none !important;
+        transition: all 0.3s ease !important;
+        border: 1px solid #2563eb !important;
+        box-shadow: 0 4px 14px 0 rgba(37, 99, 235, 0.39) !important;
     }
 
     .btn-primary-custom:hover {
-        background-color: #1d4ed8;
+        background-color: #1d4ed8 !important;
         transform: translateY(-2px);
-        color: white;
-        text-decoration: none;
     }
 
     .btn-secondary-custom {
-        background-color: transparent;
-        color: #f8fafc;
-        padding: 14px 32px;
-        border-radius: 8px;
-        font-size: 1.1rem;
-        font-weight: 600;
-        text-decoration: none;
-        transition: all 0.3s ease;
-        border: 1px solid #475569;
+        background-color: transparent !important;
+        color: #f8fafc !important;
+        padding: 14px 32px !important;
+        border-radius: 8px !important;
+        font-size: 1.1rem !important;
+        font-weight: 600 !important;
+        text-decoration: none !important;
+        transition: all 0.3s ease !important;
+        border: 1px solid #475569 !important;
     }
 
     .btn-secondary-custom:hover {
-        background-color: #1e293b;
-        border-color: #94a3b8;
+        background-color: #1e293b !important;
+        border-color: #94a3b8 !important;
         transform: translateY(-2px);
-        color: white;
-        text-decoration: none;
     }
 
     /* Trust Bar */
@@ -144,8 +161,8 @@
     }
 
     @media (max-width: 768px) {
-        .hero-title { font-size: 2.5rem; }
-        .hero-subtitle { font-size: 1.2rem; }
+        .hero-title { font-size: 2.5rem !important; }
+        .hero-subtitle { font-size: 1.2rem !important; height: 60px !important; }
         .btn-container { flex-direction: column; gap: 15px; width: 100%; max-width: 300px; }
         .btn-primary-custom, .btn-secondary-custom { width: 100%; text-align: center; }
         .trust-bar span { display: block; margin: 10px 0; }
@@ -162,7 +179,7 @@
 
 <!-- Navbar -->
 <header>
-  <nav class="navbar navbar-fixed-top navbar-inverse" style="background: transparent; border: none; padding-top: 15px;">
+  <nav class="navbar navbar-fixed-top navbar-inverse" style="background: transparent !important; border: none !important; padding-top: 15px;">
     <div class="container">
         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false" style="border-color: #475569;">
           <span class="sr-only">Toggle navigation</span>
@@ -173,11 +190,11 @@
 
       <div class="collapse navbar-collapse" id="navbar-collapse">
         <ul class="nav navbar-nav ">
-          <li><a href="./index.html" title="" style="color: #38bdf8; font-weight: bold; border-bottom: 2px solid #38bdf8;">01 : Home</a></li>
-          <li><a href="./works.html" title="" style="color: #94a3b8; font-weight: 600; transition: color 0.3s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">02 : Works</a></li>
-          <li><a href="./about.html" title="" style="color: #94a3b8; font-weight: 600; transition: color 0.3s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">03 : About me</a></li>
-          <li><a href="./contact.html" title="" style="color: #94a3b8; font-weight: 600; transition: color 0.3s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">04 : Contact</a></li>
-          <li><a href="./resume.html" title="" style="color: #94a3b8; font-weight: 600; transition: color 0.3s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">05 : Resume</a></li>
+          <li><a href="./index.html" title="" style="color: #38bdf8 !important; font-weight: bold; border-bottom: 2px solid #38bdf8;">01 : Home</a></li>
+          <li><a href="./works.html" title="" style="color: #94a3b8 !important; font-weight: 600; transition: color 0.3s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">02 : Works</a></li>
+          <li><a href="./about.html" title="" style="color: #94a3b8 !important; font-weight: 600; transition: color 0.3s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">03 : About me</a></li>
+          <li><a href="./contact.html" title="" style="color: #94a3b8 !important; font-weight: 600; transition: color 0.3s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">04 : Contact</a></li>
+          <li><a href="./resume.html" title="" style="color: #94a3b8 !important; font-weight: 600; transition: color 0.3s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">05 : Resume</a></li>
         </ul>
       </div>
     </div>
@@ -190,15 +207,9 @@
 
     <h1 class="hero-title">Soheil Karami</h1>
 
-    <!-- Typing Animation Container -->
+    <!-- Custom Bulletproof Typing Animation Container -->
     <div class="hero-subtitle">
-        <span id="typed-strings" style="display: none;">
-            <span>Cloud Infrastructure Engineer</span>
-            <span>DevSecOps Specialist</span>
-            <span>Python Backend Developer</span>
-            <span>IT Operations Manager</span>
-        </span>
-        <span id="typed"></span>
+        <span id="custom-typewriter"></span><span class="typing-cursor"></span>
     </div>
 
     <!-- Call to Action Buttons -->
@@ -217,12 +228,48 @@
     <span>DevSecOps</span>
 </div>
 
+<!-- Custom Vanilla JS Typing Effect (Will not conflict with old template) -->
 <script>
-  // Initialize the typing animation
-  document.addEventListener("DOMContentLoaded", function (event) {
-     if (typeof type === 'function') {
-         type();
-     }
+  document.addEventListener("DOMContentLoaded", function () {
+      const titles = [
+          "Cloud Infrastructure Engineer",
+          "DevSecOps Specialist",
+          "Python Backend Developer",
+          "IT Operations Manager"
+      ];
+
+      let titleIndex = 0;
+      let charIndex = 0;
+      let isDeleting = false;
+      const typewriterElement = document.getElementById("custom-typewriter");
+
+      function type() {
+          const currentTitle = titles[titleIndex];
+
+          if (isDeleting) {
+              typewriterElement.textContent = currentTitle.substring(0, charIndex - 1);
+              charIndex--;
+          } else {
+              typewriterElement.textContent = currentTitle.substring(0, charIndex + 1);
+              charIndex++;
+          }
+
+          let typingSpeed = isDeleting ? 40 : 80;
+
+          if (!isDeleting && charIndex === currentTitle.length) {
+              typingSpeed = 2000; // Pause at the end of the word
+              isDeleting = true;
+          } else if (isDeleting && charIndex === 0) {
+              isDeleting = false;
+              titleIndex = (titleIndex + 1) % titles.length; // Move to next word
+              typingSpeed = 500; // Pause before typing next word
+          }
+
+          setTimeout(type, typingSpeed);
+      }
+
+      // Start the typing effect
+      setTimeout(type, 1000);
   });
 </script>
 
