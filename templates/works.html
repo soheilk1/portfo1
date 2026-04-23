@@ -5,129 +5,212 @@
   <meta charset="UTF-8">
   <meta content="IE=edge" http-equiv="X-UA-Compatible">
   <meta content="width=device-width,initial-scale=1" name="viewport">
-  <meta content="description" name="description">
-  <meta name="google" content="notranslate" />
+  <meta content="description" name="DevSecOps Projects">
 
+  <meta name="msapplication-tap-highlight" content="no">
   <link rel="apple-touch-icon" sizes="180x180" href="./static/assets/apple-icon-180x180.png">
   <link href="./static/assets/favicon.ico" rel="icon">
 
   <title>Works | Soheil-K</title>
   <link href="./static/main.3f6952e4.css" rel="stylesheet">
+
+  <style>
+    body, html {
+        margin: 0 !important;
+        padding: 0 !important;
+        min-height: 100% !important;
+        background-color: #0f172a !important; /* Deep Slate 900 */
+        font-family: 'Inter', Roboto, sans-serif !important;
+        color: #f8fafc !important;
+    }
+
+    .glow-bg {
+        position: fixed;
+        width: 80vw;
+        height: 80vw;
+        max-width: 800px;
+        max-height: 800px;
+        background: radial-gradient(circle, rgba(56,189,248,0.1) 0%, rgba(15,23,42,0) 70%);
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: -1;
+        pointer-events: none;
+    }
+
+    .page-title {
+        font-size: 3.5rem !important;
+        font-weight: 800 !important;
+        letter-spacing: -1px !important;
+        color: #ffffff !important;
+        margin-top: 80px !important;
+        margin-bottom: 15px !important;
+    }
+
+    .page-subtitle {
+        color: #94a3b8 !important;
+        font-size: 1.2rem !important;
+        margin-bottom: 60px !important;
+        line-height: 1.6;
+    }
+
+    .card-container {
+        background-color: #1e293b !important;
+        border: 1px solid #334155 !important;
+        border-radius: 8px !important;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.5) !important;
+        padding: 30px !important;
+        margin-top: -40px !important;
+        position: relative;
+        z-index: 2;
+    }
+
+    .card-container h4 {
+        color: #38bdf8 !important;
+        font-family: 'Roboto Mono', monospace;
+        font-size: 1rem !important;
+        margin-bottom: 10px !important;
+    }
+
+    .card-container h3 {
+        color: #f8fafc !important;
+        font-size: 1.5rem !important;
+        font-weight: 700 !important;
+        margin-bottom: 15px !important;
+        line-height: 1.3;
+    }
+
+    .card-container p {
+        color: #cbd5e1 !important;
+        font-size: 1.05rem !important;
+        line-height: 1.6 !important;
+        margin-bottom: 25px !important;
+    }
+
+    .btn-custom {
+        background-color: transparent !important;
+        color: #38bdf8 !important;
+        border: 1px solid #38bdf8 !important;
+        padding: 12px 24px !important;
+        border-radius: 6px !important;
+        font-size: 1.1rem !important;
+        font-weight: 600 !important;
+        text-decoration: none !important;
+        transition: all 0.3s ease !important;
+        display: inline-block;
+    }
+
+    .btn-custom:hover {
+        background-color: #38bdf8 !important;
+        color: #0f172a !important;
+        transform: translateY(-2px);
+    }
+
+    .img-responsive {
+        border-radius: 8px;
+        border: 1px solid #334155;
+        transition: transform 0.3s ease;
+        position: relative;
+        z-index: 1;
+    }
+
+    .img-responsive:hover {
+        transform: scale(1.02);
+        box-shadow: 0 0 20px rgba(56, 189, 248, 0.2);
+    }
+  </style>
 </head>
 
-<body class="">
+<body>
 <div id="site-border-left"></div>
 <div id="site-border-right"></div>
 <div id="site-border-top"></div>
 <div id="site-border-bottom"></div>
 
 <header>
-  <nav class="navbar  navbar-fixed-top navbar-default">
+  <nav class="navbar navbar-fixed-top navbar-inverse" style="background: transparent !important; border: none !important; padding-top: 15px;">
     <div class="container">
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false" style="border-color: #475569;">
           <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
+          <span class="icon-bar" style="background-color: white;"></span>
+          <span class="icon-bar" style="background-color: white;"></span>
+          <span class="icon-bar" style="background-color: white;"></span>
         </button>
 
       <div class="collapse navbar-collapse" id="navbar-collapse">
         <ul class="nav navbar-nav ">
-          <li><a href="./index.html" title="">01 : Home</a></li>
-          <li><a href="./works.html" title="" class="active">02 : Works</a></li>
-          <li><a href="./about.html" title="">03 : About me</a></li>
-          <li><a href="./contact.html" title="">04 : Contact</a></li>
-          <li><a href="./resume.html" title="">05 : Resume</a></li>
+          <li><a href="./index.html" title="" style="color: #94a3b8 !important; font-weight: 600; transition: color 0.3s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">01 : Home</a></li>
+          <li><a href="./works.html" title="" class="active" style="color: #38bdf8 !important; font-weight: bold; border-bottom: 2px solid #38bdf8;">02 : Works</a></li>
+          <li><a href="./about.html" title="" style="color: #94a3b8 !important; font-weight: 600; transition: color 0.3s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">03 : About me</a></li>
+          <li><a href="./contact.html" title="" style="color: #94a3b8 !important; font-weight: 600; transition: color 0.3s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">04 : Contact</a></li>
+          <li><a href="./resume.html" title="" style="color: #94a3b8 !important; font-weight: 600; transition: color 0.3s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">05 : Resume</a></li>
         </ul>
       </div>
     </div>
   </nav>
 </header>
 
-<div class="section-container">
+<div class="glow-bg"></div>
+
+<div class="section-container" style="position: relative; z-index: 10;">
   <div class="container">
     <div class="row">
-
-      <div class="col-sm-8 col-sm-offset-2 section-container-spacer">
-        <div class="text-center">
-          <h1 class="h2">02 : Works & Projects</h1>
-          <p>A collection of my recent technical projects, focusing on DevSecOps, Python Backend Development, Cybersecurity, and Cloud Automation.</p>
-        </div>
+      <div class="col-sm-8 col-sm-offset-2 text-center">
+        <h1 class="page-title">02 : Works & Projects</h1>
+        <p class="page-subtitle">A collection of my recent technical projects, focusing on DevSecOps, Python Backend Development, Cybersecurity, and Cloud Automation.</p>
       </div>
 
       <div class="col-md-12">
-        <div id="myCarousel" class="carousel slide projects-carousel">
-          <div class="carousel-inner">
-            <div class="item active">
-                <div class="row">
-                    <!-- Project 1: AI Server -->
-                    <div class="col-sm-4">
-                      <a href="./resume.html" title="" class="black-image-project-hover">
-                        <!-- Updated to use the custom generated dark blue graphic -->
-                        <img src="https://placehold.co/600x400/0f172a/38bdf8?text=AI+Resume+Server" alt="" class="img-responsive">
-                      </a>
-                      <div class="card-container card-container-lg">
-                        <h4>001/003</h4>
-                        <h3>AI-Powered Flask Server & Secure Traffic Portal</h3>
-                        <p>A custom Python backend utilizing the Flask framework. Integrates Google's Gemini LLM API to provide an interactive resume experience. Features a secure, hidden admin dashboard that tracks real-time visitor IP analytics, protected by anti-brute-force login security algorithms.</p>
-                        <a href="./resume.html" class="btn btn-default">View Live Demo</a>
-                      </div>
-                    </div>
+        <div class="row">
 
-                    <!-- Project 2: Threat Detector -->
-                    <div class="col-sm-4">
-                      <a href="https://github.com/soheilk1/Server-Threat-Detector.git" target="_blank" title="" class="black-image-project-hover">
-                        <!-- Updated to use the custom generated red graphic -->
-                        <img src="https://placehold.co/600x400/0f172a/ef4444?text=Threat+Detector" alt="" class="img-responsive">
-                      </a>
-                      <div class="card-container card-container-lg">
-                        <h4>002/003</h4>
-                        <h3>Automated Server Threat Detector</h3>
-                        <p>A DevSecOps Python automation tool designed to continuously parse Linux server logs (auth.log/syslog). Uses pattern recognition to detect unauthorized access attempts and SSH brute-force attacks, instantly dispatching security alerts to administrative teams.</p>
-                        <a href="https://github.com/soheilk1/Server-Threat-Detector.git" target="_blank" class="btn btn-default">View on GitHub</a>
-                      </div>
-                    </div>
-
-                    <!-- Project 3: Cloud Automation -->
-                    <div class="col-sm-4">
-                      <a href="https://github.com/soheilk1/WS-Cloud-Automation.git" target="_blank" title="" class="black-image-project-hover">
-                        <!-- Updated to use the custom generated yellow graphic -->
-                        <img src="https://placehold.co/600x400/0f172a/eab308?text=Cloud+Automation" alt="" class="img-responsive">
-                      </a>
-                      <div class="card-container card-container-lg">
-                        <h4>003/003</h4>
-                        <h3>Azure/AWS Infrastructure Automation</h3>
-                        <p>An "Infrastructure as Code" (IaC) Python script utilizing the Boto3 and Azure SDKs. Designed to automatically provision secure virtual machines, configure strict firewall security groups, and deploy required software stacks with a single execution command.</p>
-                        <a href="https://github.com/soheilk1/WS-Cloud-Automation.git" target="_blank" class="btn btn-default">View on GitHub</a>
-                      </div>
-                    </div>
-
-                </div>
+            <div class="col-sm-4" style="margin-bottom: 30px;">
+              <a href="./resume.html">
+                <img src="https://placehold.co/600x400/0f172a/38bdf8?text=AI+Resume+Server" alt="AI Resume Server" class="img-responsive">
+              </a>
+              <div class="card-container">
+                <h4>001/003</h4>
+                <h3>AI-Powered Flask Server & Secure Portal</h3>
+                <p>A custom Python backend utilizing the Flask framework. Integrates Google's Gemini LLM API to provide an interactive resume experience. Protected by anti-brute-force login security algorithms.</p>
+                <a href="./resume.html" class="btn-custom">View Live Demo</a>
+              </div>
             </div>
-          </div>
+
+            <div class="col-sm-4" style="margin-bottom: 30px;">
+              <a href="https://github.com/soheilk1/Server-Threat-Detector.git" target="_blank">
+                <img src="https://placehold.co/600x400/0f172a/ef4444?text=Threat+Detector" alt="Threat Detector" class="img-responsive">
+              </a>
+              <div class="card-container">
+                <h4>002/003</h4>
+                <h3>Automated Server Threat Detector</h3>
+                <p>A DevSecOps Python automation tool designed to continuously parse Linux server logs. Uses pattern recognition to detect unauthorized access attempts and instantly dispatch security alerts.</p>
+                <a href="https://github.com/soheilk1/Server-Threat-Detector.git" target="_blank" class="btn-custom">View on GitHub</a>
+              </div>
+            </div>
+
+            <div class="col-sm-4" style="margin-bottom: 30px;">
+              <a href="https://github.com/soheilk1/WS-Cloud-Automation.git" target="_blank">
+                <img src="https://placehold.co/600x400/0f172a/eab308?text=Cloud+Automation" alt="Cloud Automation" class="img-responsive">
+              </a>
+              <div class="card-container">
+                <h4>003/003</h4>
+                <h3>Azure/AWS Cloud IaC Automation</h3>
+                <p>An "Infrastructure as Code" script utilizing Boto3 and Azure SDKs. Automatically provisions secure virtual machines, configures firewalls, and deploys software stacks with a single execution.</p>
+                <a href="https://github.com/soheilk1/WS-Cloud-Automation.git" target="_blank" class="btn-custom">View on GitHub</a>
+              </div>
+            </div>
+
         </div>
       </div>
     </div>
   </div>
 </div>
 
-<footer class="footer-container text-center">
-  <div class="container">
-    <div class="row">
-      <div class="col-xs-12">
+<footer class="text-center" style="padding: 20px 0; color: #64748b; font-size: 1rem; margin-top: 40px;">
+    <div class="container">
         <p>© Soheil Karami | DevSecOps & IT Professional</p>
-      </div>
     </div>
-  </div>
 </footer>
 
-<script>
-  document.addEventListener("DOMContentLoaded", function (event) {
-     if(typeof navActivePage === 'function') {
-        navActivePage();
-     }
-  });
-</script>
 <script type="text/javascript" src="./static/main.70a66962.js"></script>
 </body>
 </html>

@@ -5,167 +5,245 @@
   <meta charset="UTF-8">
   <meta content="IE=edge" http-equiv="X-UA-Compatible">
   <meta content="width=device-width,initial-scale=1" name="viewport">
-  <meta content="description" name="description">
-  <meta name="google" content="notranslate" />
+  <meta content="description" name="About Soheil Karami">
 
-  <!-- Disable tap highlight on IE -->
   <meta name="msapplication-tap-highlight" content="no">
-
   <link rel="apple-touch-icon" sizes="180x180" href="./static/assets/apple-icon-180x180.png">
   <link href="./static/assets/favicon.ico" rel="icon">
 
   <title>About Me | Soheil-K</title>
-
   <link href="./static/main.3f6952e4.css" rel="stylesheet">
+
+  <style>
+    body, html {
+        margin: 0 !important;
+        padding: 0 !important;
+        min-height: 100% !important;
+        background-color: #0f172a !important;
+        font-family: 'Inter', Roboto, sans-serif !important;
+        color: #f8fafc !important;
+    }
+
+    .glow-bg {
+        position: fixed;
+        width: 80vw;
+        height: 80vw;
+        max-width: 800px;
+        max-height: 800px;
+        background: radial-gradient(circle, rgba(56,189,248,0.1) 0%, rgba(15,23,42,0) 70%);
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: -1;
+        pointer-events: none;
+    }
+
+    .page-title {
+        font-size: 3.5rem !important;
+        font-weight: 800 !important;
+        letter-spacing: -1px !important;
+        color: #ffffff !important;
+        margin-top: 80px !important;
+        margin-bottom: 40px !important;
+    }
+
+    .about-h3 {
+        font-size: 2rem !important;
+        font-weight: 700 !important;
+        color: #f8fafc !important;
+        margin-bottom: 20px !important;
+        margin-top: 0 !important;
+    }
+
+    .about-text {
+        font-size: 1.15rem !important;
+        line-height: 1.8 !important;
+        color: #cbd5e1 !important;
+        margin-bottom: 20px !important;
+    }
+
+    hr {
+        border-top: 1px solid #334155 !important;
+        margin: 40px 0 !important;
+    }
+
+    /* Tech Terminal Boxes */
+    .tech-box {
+        background-color: #1e293b;
+        border: 1px solid #334155;
+        border-top: 3px solid #38bdf8;
+        border-radius: 8px;
+        padding: 25px 20px;
+        height: 100%;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        margin-bottom: 20px;
+    }
+
+    .tech-box h4 {
+        color: #f8fafc !important;
+        font-family: 'Roboto Mono', monospace;
+        font-size: 1.15rem !important;
+        margin-bottom: 20px !important;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .tech-box ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .tech-box ul li {
+        color: #94a3b8;
+        font-size: 1.05rem;
+        margin-bottom: 12px;
+        padding-left: 20px;
+        position: relative;
+    }
+
+    .tech-box ul li::before {
+        content: '>';
+        position: absolute;
+        left: 0;
+        color: #38bdf8;
+        font-family: 'Roboto Mono', monospace;
+        font-weight: bold;
+    }
+  </style>
 </head>
 
-<body class="">
+<body>
 <div id="site-border-left"></div>
 <div id="site-border-right"></div>
 <div id="site-border-top"></div>
 <div id="site-border-bottom"></div>
 
-<!-- Header / Navbar -->
 <header>
-  <nav class="navbar navbar-fixed-top navbar-default">
+  <nav class="navbar navbar-fixed-top navbar-inverse" style="background: transparent !important; border: none !important; padding-top: 15px;">
     <div class="container">
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false" style="border-color: #475569;">
           <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
+          <span class="icon-bar" style="background-color: white;"></span>
+          <span class="icon-bar" style="background-color: white;"></span>
+          <span class="icon-bar" style="background-color: white;"></span>
         </button>
 
       <div class="collapse navbar-collapse" id="navbar-collapse">
         <ul class="nav navbar-nav ">
-          <li><a href="./index.html" title="">01 : Home</a></li>
-          <li><a href="./works.html" title="">02 : Works</a></li>
-          <li><a href="./about.html" title="" class="active">03 : About me</a></li>
-          <li><a href="./contact.html" title="">04 : Contact</a></li>
-          <li><a href="./resume.html" title="">05 : Resume</a></li>
+          <li><a href="./index.html" title="" style="color: #94a3b8 !important; font-weight: 600; transition: color 0.3s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">01 : Home</a></li>
+          <li><a href="./works.html" title="" style="color: #94a3b8 !important; font-weight: 600; transition: color 0.3s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">02 : Works</a></li>
+          <li><a href="./about.html" title="" class="active" style="color: #38bdf8 !important; font-weight: bold; border-bottom: 2px solid #38bdf8;">03 : About me</a></li>
+          <li><a href="./contact.html" title="" style="color: #94a3b8 !important; font-weight: 600; transition: color 0.3s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">04 : Contact</a></li>
+          <li><a href="./resume.html" title="" style="color: #94a3b8 !important; font-weight: 600; transition: color 0.3s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">05 : Resume</a></li>
         </ul>
       </div>
     </div>
   </nav>
 </header>
 
-<div class="section-container">
+<div class="glow-bg"></div>
+
+<div class="section-container" style="position: relative; z-index: 10;">
     <div class="container">
       <div class="row">
-        <div class="col-xs-12">
-          <div class="section-container-spacer text-center">
-            <h1 class="h2">03 : About me</h1>
-          </div>
+        <div class="col-xs-12 text-center">
+            <h1 class="page-title">03 : About Me</h1>
+        </div>
 
-          <div class="row">
-            <div class="col-md-10 col-md-offset-1">
-              <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+            <h3 class="about-h3">Cloud Infrastructure & DevSecOps Engineer</h3>
+            <p class="about-text">Forward-thinking IT professional and DevSecOps Engineer with extensive experience in infrastructure management, cloud solutions, and enterprise systems administration. I specialize in bridging the gap between development and operations with a strong focus on web and application security.</p>
+            <p class="about-text">My track record includes designing Microsoft Azure cloud solutions, managing complex VMware environments, and implementing robust cybersecurity policies to protect sensitive business data. As a strong Python programmer, I bring a security-first approach to backend development, continuous improvement, and scalable network design.</p>
 
-                <!-- Full Width Column: Text & Details -->
-                <div class="col-xs-12">
-                  <h3>Cloud Infrastructure & DevSecOps Engineer</h3>
-                  <p>
-                    Forward-thinking IT professional and DevSecOps Engineer with extensive experience in infrastructure management, cloud solutions, and enterprise systems administration. I specialize in bridging the gap between development and operations with a strong focus on web and application security.
-                  </p>
-                  <p>
-                    My track record includes designing Microsoft Azure cloud solutions, managing complex VMware environments, and implementing robust cybersecurity policies to protect sensitive business data. As a strong Python programmer, I bring a security-first approach to backend development, continuous improvement, and scalable network design.
-                  </p>
+            <hr>
 
-                  <hr style="margin: 30px 0; border-top: 1px solid #eee;">
+            <h3 class="about-h3" style="text-align: center; margin-bottom: 30px !important;">Technical Expertise</h3>
 
-                  <h3>Technical Expertise</h3>
-
-                  <div class="row" style="margin-bottom: 20px;">
-                    <div class="col-sm-6 col-md-3">
-                      <h4 style="margin-bottom: 5px; color: #001aff;">Cloud & Infra</h4>
-                      <ul style="padding-left: 15px; font-size: 13px; margin-bottom: 15px;">
-                        <li>Microsoft Azure & AWS</li>
-                        <li>VMware & Virtualization</li>
-                        <li>Linux OS & Windows Server</li>
-                        <li>Active Directory & O365</li>
-                      </ul>
+            <div class="row" style="display: flex; flex-wrap: wrap;">
+                <div class="col-sm-6 col-md-3">
+                    <div class="tech-box">
+                        <h4>Cloud & Infra</h4>
+                        <ul>
+                            <li>Microsoft Azure</li>
+                            <li>AWS Hosting</li>
+                            <li>VMware</li>
+                            <li>Windows Server</li>
+                        </ul>
                     </div>
-                    <div class="col-sm-6 col-md-3">
-                      <h4 style="margin-bottom: 5px; color: #001aff;">Net & Security</h4>
-                      <ul style="padding-left: 15px; font-size: 13px; margin-bottom: 15px;">
-                        <li>Cisco Network Design</li>
-                        <li>Firewalls & LAN/WAN</li>
-                        <li>Vulnerability Assessments</li>
-                        <li>MS Forefront TMG</li>
-                      </ul>
-                    </div>
-                    <div class="col-sm-6 col-md-3">
-                      <h4 style="margin-bottom: 5px; color: #001aff;">Programming</h4>
-                      <ul style="padding-left: 15px; font-size: 13px; margin-bottom: 15px;">
-                        <li>Python (Backend)</li>
-                        <li>Flutter Mobile Dev</li>
-                        <li>Java, JSP, PHP</li>
-                        <li>HTML5 & Web Design</li>
-                      </ul>
-                    </div>
-                    <div class="col-sm-6 col-md-3">
-                      <h4 style="margin-bottom: 5px; color: #001aff;">Databases & Ops</h4>
-                      <ul style="padding-left: 15px; font-size: 13px; margin-bottom: 15px;">
-                        <li>MySQL & SQL Server</li>
-                        <li>Disaster Recovery</li>
-                        <li>IT Project Mgmt</li>
-                        <li>Hardware Diagnostics</li>
-                      </ul>
-                    </div>
-                  </div>
-
-                  <hr style="margin: 30px 0; border-top: 1px solid #eee;">
-
-                  <div class="row">
-                    <div class="col-sm-12 col-md-7">
-                      <h3>Education</h3>
-                      <p>
-                        <strong>Master of Science in Software Management</strong><br>
-                        <span style="font-size: 12px; color: #777;">Limkokwing University of Creative Technology, Kuala Lumpur</span>
-                      </p>
-                      <p>
-                        <strong>Bachelor of Information & Communication Technology</strong><br>
-                        <span style="font-size: 12px; color: #777;">Limkokwing University of Creative Technology, Kuala Lumpur</span>
-                      </p>
-                    </div>
-                    <div class="col-sm-12 col-md-5">
-                      <h3>Certifications</h3>
-                      <p style="margin-top: 10px; font-size: 13px; line-height: 1.8;">
-                        • Google AI Professional Certificate<br>
-                        • Certificate of Cyber Security<br>
-                        • Certificate of Python Zero to Mastery<br>
-                        • Info Systems Management Certificate
-                      </p>
-                    </div>
-                  </div>
                 </div>
-
-              </div>
+                <div class="col-sm-6 col-md-3">
+                    <div class="tech-box">
+                        <h4>Net & Security</h4>
+                        <ul>
+                            <li>Cisco Design</li>
+                            <li>Firewall & LAN</li>
+                            <li>Vuln. Assessments</li>
+                            <li>Forefront TMG</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-3">
+                    <div class="tech-box">
+                        <h4>Programming</h4>
+                        <ul>
+                            <li>Python (Backend)</li>
+                            <li>Flutter Mobile</li>
+                            <li>Java & PHP</li>
+                            <li>HTML5 Design</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-3">
+                    <div class="tech-box">
+                        <h4>Databases & Ops</h4>
+                        <ul>
+                            <li>MySQL & SQL</li>
+                            <li>Disaster Recovery</li>
+                            <li>Project Mgmt</li>
+                            <li>Active Directory</li>
+                        </ul>
+                    </div>
+                </div>
             </div>
-          </div>
 
-       </div>
+            <hr>
+
+            <div class="row">
+                <div class="col-sm-12 col-md-6">
+                    <h3 class="about-h3">Education</h3>
+                    <p class="about-text">
+                        <strong style="color: #38bdf8;">Master of Science in Software Management</strong><br>
+                        Limkokwing University of Creative Technology, Kuala Lumpur
+                    </p>
+                    <p class="about-text" style="margin-top: 15px;">
+                        <strong style="color: #38bdf8;">Bachelor of Info & Comm. Technology</strong><br>
+                        Limkokwing University of Creative Technology, Kuala Lumpur
+                    </p>
+                </div>
+                <div class="col-sm-12 col-md-6">
+                    <h3 class="about-h3">Certifications</h3>
+                    <div class="tech-box" style="padding: 15px 20px;">
+                        <ul>
+                            <li>Google AI Professional Certificate</li>
+                            <li>Certificate of Cyber Security</li>
+                            <li>Certificate of Python Zero to Mastery</li>
+                            <li>Info Systems Management Certificate</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </div>
       </div>
     </div>
-  </div>
+</div>
 
-<footer class="footer-container text-center">
-  <div class="container">
-    <div class="row">
-      <div class="col-xs-12">
+<footer class="text-center" style="padding: 20px 0; color: #64748b; font-size: 1rem; margin-top: 40px;">
+    <div class="container">
         <p>© Soheil Karami | DevSecOps & IT Professional</p>
-      </div>
     </div>
-  </div>
 </footer>
-
-<script>
-  document.addEventListener("DOMContentLoaded", function (event) {
-     if (typeof navActivePage === 'function') {
-         navActivePage();
-     }
-  });
-</script>
 
 <script type="text/javascript" src="./static/main.70a66962.js"></script>
 </body>
