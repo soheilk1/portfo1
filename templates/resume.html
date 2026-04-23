@@ -42,8 +42,8 @@
     }
 
     .page-title {
-        font-size: 3.5rem !important;
-        font-weight: 800 !important;
+        font-size: 4rem !important; /* Increased */
+        font-weight: 900 !important;
         letter-spacing: -1px !important;
         color: #ffffff !important;
         margin-top: 80px !important;
@@ -52,7 +52,7 @@
 
     .page-subtitle {
         color: #38bdf8 !important;
-        font-size: 1.4rem !important;
+        font-size: 1.6rem !important; /* Increased */
         margin-bottom: 40px !important;
         font-family: 'Roboto Mono', monospace !important;
     }
@@ -66,14 +66,14 @@
         box-shadow: 0 15px 35px rgba(0,0,0,0.6), 0 0 20px rgba(56, 189, 248, 0.1);
         display: flex;
         flex-direction: column;
-        height: 60vh;
-        min-height: 500px;
+        height: 65vh; /* Slightly taller for more reading space */
+        min-height: 600px;
         overflow: hidden;
     }
 
     .terminal-header {
         background-color: #1e293b;
-        padding: 15px 20px;
+        padding: 18px 25px;
         border-bottom: 1px solid #334155;
         display: flex;
         justify-content: space-between;
@@ -83,34 +83,34 @@
     .terminal-header-title {
         font-family: 'Roboto Mono', monospace;
         color: #f8fafc;
-        font-size: 1rem;
+        font-size: 1.2rem; /* Increased */
         font-weight: bold;
     }
 
     .status-dot {
-        height: 10px;
-        width: 10px;
+        height: 12px; /* Increased */
+        width: 12px; /* Increased */
         background-color: #4ade80;
         border-radius: 50%;
         display: inline-block;
-        margin-right: 8px;
+        margin-right: 10px;
         box-shadow: 0 0 8px #4ade80;
     }
 
     .chat-history {
         flex-grow: 1;
-        padding: 25px;
+        padding: 30px;
         overflow-y: auto;
         display: flex;
         flex-direction: column;
-        gap: 20px;
+        gap: 25px; /* More spacing between messages */
         scroll-behavior: smooth;
     }
 
     /* Scrollbar */
-    .chat-history::-webkit-scrollbar { width: 8px; }
+    .chat-history::-webkit-scrollbar { width: 10px; }
     .chat-history::-webkit-scrollbar-track { background: #0f172a; }
-    .chat-history::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+    .chat-history::-webkit-scrollbar-thumb { background: #334155; border-radius: 5px; }
     .chat-history::-webkit-scrollbar-thumb:hover { background: #475569; }
 
     /* Messages */
@@ -133,16 +133,16 @@
 
     .msg-label {
         font-family: 'Roboto Mono', monospace;
-        font-size: 0.8rem;
-        margin-bottom: 5px;
+        font-size: 1rem; /* Increased */
+        margin-bottom: 8px;
         color: #94a3b8;
     }
 
     .msg-bubble {
-        padding: 15px 20px;
+        padding: 18px 25px; /* More padding */
         border-radius: 8px;
-        font-size: 1.1rem;
-        line-height: 1.6;
+        font-size: 1.3rem; /* Massively Increased for readability */
+        line-height: 1.7;
         word-wrap: break-word;
     }
 
@@ -157,14 +157,14 @@
         color: #e2e8f0;
         border: 1px solid #334155;
         border-bottom-left-radius: 0;
-        box-shadow: inset 2px 0 0 #38bdf8;
+        box-shadow: inset 3px 0 0 #38bdf8;
     }
 
     .msg-system .msg-bubble {
         background-color: transparent;
         color: #fbbf24;
         font-family: 'Roboto Mono', monospace;
-        font-size: 0.95rem;
+        font-size: 1.1rem; /* Increased */
         border: 1px dashed #fbbf24;
     }
 
@@ -172,15 +172,16 @@
         background-color: rgba(239, 68, 68, 0.1);
         color: #ef4444;
         border: 1px dashed #ef4444;
+        font-size: 1.1rem;
     }
 
     /* Input Area */
     .terminal-input-area {
         background-color: #0f172a;
-        padding: 20px;
+        padding: 25px;
         border-top: 1px solid #334155;
         display: flex;
-        gap: 15px;
+        gap: 20px;
     }
 
     .ai-input {
@@ -188,25 +189,25 @@
         background-color: #1e293b !important;
         border: 1px solid #475569 !important;
         color: white !important;
-        border-radius: 6px;
-        padding: 15px 20px !important;
-        font-size: 1.1rem !important;
+        border-radius: 8px;
+        padding: 18px 25px !important;
+        font-size: 1.3rem !important; /* Increased */
         font-family: 'Inter', sans-serif;
     }
 
     .ai-input:focus {
         outline: none !important;
         border-color: #38bdf8 !important;
-        box-shadow: 0 0 10px rgba(56, 189, 248, 0.2);
+        box-shadow: 0 0 12px rgba(56, 189, 248, 0.2);
     }
 
     .btn-send {
         background-color: #2563eb !important;
         color: white !important;
         border: none;
-        padding: 0 30px;
-        border-radius: 6px;
-        font-size: 1.1rem;
+        padding: 0 40px;
+        border-radius: 8px;
+        font-size: 1.2rem; /* Increased */
         font-weight: bold;
         cursor: pointer;
         transition: all 0.2s;
@@ -227,12 +228,13 @@
     }
 
     @media (max-width: 768px) {
-        .page-title { font-size: 2.8rem !important; }
-        .page-subtitle { font-size: 1.2rem !important; }
-        .terminal-container { height: 70vh; }
-        .terminal-input-area { flex-direction: column; }
-        .btn-send { padding: 15px; width: 100%; }
+        .page-title { font-size: 3rem !important; }
+        .page-subtitle { font-size: 1.3rem !important; }
+        .terminal-container { height: 75vh; }
+        .terminal-input-area { flex-direction: column; padding: 15px; }
+        .btn-send { padding: 20px; width: 100%; }
         .msg-wrapper { max-width: 95%; }
+        .msg-bubble { font-size: 1.15rem; } /* Slightly smaller on mobile but still big */
     }
   </style>
 </head>
@@ -284,7 +286,7 @@
                     <div class="terminal-header-title">
                         <span class="status-dot"></span> GEMINI_API_NODE // SERVER: ONLINE
                     </div>
-                    <div style="color: #64748b; font-family: 'Roboto Mono', monospace; font-size: 0.9rem;">
+                    <div style="color: #64748b; font-family: 'Roboto Mono', monospace; font-size: 1.1rem;">
                         PORT: 443 | SECURE
                     </div>
                 </div>
@@ -404,17 +406,4 @@
     }
 </script>
 
-<footer class="text-center" style="padding: 20px 0; color: #64748b; font-size: 1rem;">
-    <div class="container">
-        <div class="row">
-            <div class="col-xs-12">
-                <p>© Soheil Karami | DevSecOps & IT Professional</p>
-            </div>
-        </div>
-    </div>
-</footer>
-
-<script type="text/javascript" src="./static/main.70a66962.js"></script>
-
-</body>
-</html>
+<footer class="text-center" style="padding: 20px 0; color: #6474
