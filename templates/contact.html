@@ -42,7 +42,7 @@
     }
 
     .page-title {
-        font-size: 3rem !important;
+        font-size: 3.5rem !important; /* Increased */
         font-weight: 800 !important;
         letter-spacing: -1px !important;
         color: #ffffff !important;
@@ -52,7 +52,7 @@
 
     .page-subtitle {
         color: #38bdf8 !important;
-        font-size: 1.2rem !important;
+        font-size: 1.4rem !important; /* Increased */
         margin-bottom: 50px !important;
         font-family: 'Roboto Mono', monospace !important;
     }
@@ -62,15 +62,15 @@
         background-color: #1e293b;
         border: 1px solid #334155;
         border-radius: 12px;
-        padding: 30px;
+        padding: 35px;
         box-shadow: 0 10px 25px rgba(0,0,0,0.5);
     }
 
     .custom-label {
         color: #94a3b8 !important;
         font-weight: 600 !important;
-        font-size: 0.9rem !important;
-        margin-bottom: 8px !important;
+        font-size: 1.1rem !important; /* Increased */
+        margin-bottom: 10px !important;
         text-transform: uppercase;
         letter-spacing: 1px;
     }
@@ -80,9 +80,9 @@
         border: 1px solid #475569 !important;
         color: #f8fafc !important;
         border-radius: 6px !important;
-        padding: 12px 15px !important;
+        padding: 14px 18px !important;
         height: auto !important;
-        font-size: 1rem !important;
+        font-size: 1.15rem !important; /* Increased */
         transition: all 0.3s ease !important;
     }
 
@@ -95,16 +95,16 @@
     .btn-submit {
         background-color: #2563eb !important;
         color: white !important;
-        padding: 14px 0 !important;
+        padding: 16px 0 !important;
         border-radius: 6px !important;
-        font-size: 1.1rem !important;
+        font-size: 1.25rem !important; /* Increased */
         font-weight: 600 !important;
         text-decoration: none !important;
         transition: all 0.3s ease !important;
         border: 1px solid #2563eb !important;
         width: 100%;
         display: block;
-        margin-top: 20px;
+        margin-top: 25px;
     }
 
     .btn-submit:hover {
@@ -118,15 +118,15 @@
         border: 1px solid #334155;
         border-left: 4px solid #38bdf8;
         border-radius: 8px;
-        padding: 25px;
+        padding: 30px;
         font-family: 'Roboto Mono', monospace;
         color: #a3bea3;
         margin-bottom: 30px;
     }
 
     .terminal-box p {
-        margin-bottom: 10px;
-        font-size: 0.95rem;
+        margin-bottom: 12px;
+        font-size: 1.15rem; /* Increased */
     }
 
     .terminal-box .highlight {
@@ -136,9 +136,9 @@
     .social-link {
         color: #f8fafc !important;
         text-decoration: none !important;
-        font-size: 1.1rem;
+        font-size: 1.25rem; /* Increased */
         display: block;
-        margin-bottom: 10px;
+        margin-bottom: 12px;
         transition: color 0.3s ease;
     }
 
@@ -146,6 +146,12 @@
         color: #38bdf8 !important;
     }
 
+    /* Mobile Tweaks */
+    @media (max-width: 768px) {
+        .page-title { font-size: 2.8rem !important; }
+        .page-subtitle { font-size: 1.2rem !important; }
+        .terminal-box p { font-size: 1rem; }
+    }
   </style>
 </head>
 
@@ -197,11 +203,11 @@
                 <br>
                 <p><span class="highlight">root@server:~#</span> cat /etc/contact_info</p>
                 <p style="color: #e2e8f0;">Location : Kuala Lumpur, Malaysia</p>
-                <p style="color: #e2e8f0;">Email : <a href="mailto:soheilk1@proton.me" style="color: #38bdf8;">your.email@example.com</a></p>
+                <p style="color: #e2e8f0;">Email : <a href="mailto:your.email@example.com" style="color: #38bdf8;">your.email@example.com</a></p>
             </div>
 
             <div style="padding-left: 10px; margin-bottom: 40px;">
-                <h4 style="color: #94a3b8; text-transform: uppercase; letter-spacing: 2px; font-size: 0.9rem; margin-bottom: 15px;">Encrypted Networks</h4>
+                <h4 style="color: #94a3b8; text-transform: uppercase; letter-spacing: 2px; font-size: 1.1rem; margin-bottom: 15px;">Encrypted Networks</h4>
                 <a href="https://www.linkedin.com/in/soheil-karami-00a28077/" target="_blank" class="social-link">► LinkedIn Profile</a>
                 <a href="https://github.com/soheilk1" target="_blank" class="social-link">► GitHub Repository</a>
             </div>
@@ -235,7 +241,7 @@
     </div>
 </div>
 
-<footer class="text-center" style="padding: 20px 0; color: #64748b; font-size: 0.9rem; margin-top: auto;">
+<footer class="text-center" style="padding: 20px 0; color: #64748b; font-size: 1rem; margin-top: auto;">
     <div class="container">
         <div class="row">
             <div class="col-xs-12">
