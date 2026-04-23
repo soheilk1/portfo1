@@ -7,7 +7,6 @@
   <meta content="width=device-width,initial-scale=1" name="viewport">
   <meta content="description" name="DevSecOps & Cloud Engineer Portfolio">
 
-  <!-- Disable tap highlight on IE -->
   <meta name="msapplication-tap-highlight" content="no">
 
   <link rel="apple-touch-icon" sizes="180x180" href="./static/assets/apple-icon-180x180.png">
@@ -15,26 +14,25 @@
 
   <title>Soheil Karami | DevSecOps Engineer</title>
 
-  <!-- Old Template CSS -->
   <link href="./static/main.3f6952e4.css" rel="stylesheet">
 
-  <!-- Custom Modern CSS (Overriding the old template) -->
   <style>
     body, html {
         margin: 0 !important;
         padding: 0 !important;
-        height: 100% !important;
+        min-height: 100% !important;
         background-color: #0f172a !important; /* Deep Slate 900 */
         font-family: 'Inter', Roboto, sans-serif !important;
         color: #f8fafc !important;
-        overflow: hidden !important;
     }
 
     /* Subtle glowing background orb effect */
     .glow-bg {
-        position: absolute;
-        width: 600px;
-        height: 600px;
+        position: fixed;
+        width: 80vw;
+        height: 80vw;
+        max-width: 800px;
+        max-height: 800px;
         background: radial-gradient(circle, rgba(56,189,248,0.15) 0%, rgba(15,23,42,0) 70%);
         top: 50%;
         left: 50%;
@@ -44,35 +42,37 @@
     }
 
     .hero-container {
-        height: 100vh;
+        min-height: 100vh;
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
         text-align: center;
-        padding: 0 20px;
+        padding: 80px 20px 40px 20px; /* Accounts for navbar */
         position: relative;
         z-index: 1;
+        box-sizing: border-box;
     }
 
     .hero-title {
-        font-size: 4rem !important;
+        font-size: 64px !important; /* Forced huge size for PC */
         font-weight: 900 !important;
         letter-spacing: -1px !important;
-        margin-bottom: 10px !important;
+        margin-bottom: 15px !important;
         margin-top: 0 !important;
         color: #ffffff !important;
         background: linear-gradient(to right, #ffffff, #94a3b8) !important;
         -webkit-background-clip: text !important;
         -webkit-text-fill-color: transparent !important;
+        line-height: 1.1 !important;
     }
 
     .hero-subtitle {
-        font-size: 1.5rem !important;
+        font-size: 26px !important; /* Larger readable size */
         font-weight: 400 !important;
         color: #38bdf8 !important; /* Neon Blue */
-        margin-bottom: 40px !important;
-        height: 40px !important;
+        margin-bottom: 50px !important;
+        min-height: 35px !important;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -82,9 +82,9 @@
     .typing-cursor {
         display: inline-block;
         width: 3px;
-        height: 1.5rem;
+        height: 28px !important;
         background-color: #38bdf8;
-        margin-left: 4px;
+        margin-left: 6px;
         animation: blink 1s step-end infinite;
     }
 
@@ -93,24 +93,26 @@
         50% { opacity: 0; }
     }
 
-    /* Modern Buttons */
+    /* Modern Buttons - Forced Pixel Sizes */
     .btn-container {
         display: flex;
-        gap: 20px;
+        gap: 24px;
         margin-bottom: 60px;
+        z-index: 10;
     }
 
     .btn-primary-custom {
         background-color: #2563eb !important;
         color: white !important;
-        padding: 14px 32px !important;
+        padding: 18px 40px !important; /* Much bigger buttons */
         border-radius: 8px !important;
-        font-size: 1.1rem !important;
+        font-size: 18px !important; /* Larger text */
         font-weight: 600 !important;
         text-decoration: none !important;
         transition: all 0.3s ease !important;
         border: 1px solid #2563eb !important;
         box-shadow: 0 4px 14px 0 rgba(37, 99, 235, 0.39) !important;
+        display: inline-block;
     }
 
     .btn-primary-custom:hover {
@@ -121,13 +123,14 @@
     .btn-secondary-custom {
         background-color: transparent !important;
         color: #f8fafc !important;
-        padding: 14px 32px !important;
+        padding: 18px 40px !important; /* Much bigger buttons */
         border-radius: 8px !important;
-        font-size: 1.1rem !important;
+        font-size: 18px !important; /* Larger text */
         font-weight: 600 !important;
         text-decoration: none !important;
         transition: all 0.3s ease !important;
         border: 1px solid #475569 !important;
+        display: inline-block;
     }
 
     .btn-secondary-custom:hover {
@@ -139,12 +142,12 @@
     /* Trust Bar */
     .trust-bar {
         position: absolute;
-        bottom: 40px;
+        bottom: 30px;
         width: 100%;
         text-align: center;
-        color: #475569;
-        font-size: 0.9rem;
-        font-weight: 600;
+        color: #64748b;
+        font-size: 15px !important;
+        font-weight: 600 !important;
         letter-spacing: 2px;
         text-transform: uppercase;
         animation: fadeIn 2s ease-in 1s forwards;
@@ -160,24 +163,55 @@
         to { opacity: 1; transform: translateY(0); }
     }
 
+    /* MOBILE PHONE OPTIMIZATION */
     @media (max-width: 768px) {
-        .hero-title { font-size: 2.5rem !important; }
-        .hero-subtitle { font-size: 1.2rem !important; height: 60px !important; }
-        .btn-container { flex-direction: column; gap: 15px; width: 100%; max-width: 300px; }
-        .btn-primary-custom, .btn-secondary-custom { width: 100%; text-align: center; }
-        .trust-bar span { display: block; margin: 10px 0; }
+        .hero-title {
+            font-size: 42px !important; /* Perfect fit for mobile */
+            padding: 0 10px;
+        }
+        .hero-subtitle {
+            font-size: 18px !important;
+            min-height: 50px !important; /* Gives room for text to wrap */
+            margin-bottom: 40px !important;
+            flex-direction: row;
+            flex-wrap: wrap;
+        }
+        .typing-cursor {
+            height: 20px !important;
+        }
+        .btn-container {
+            flex-direction: column; /* Stacks buttons on top of each other */
+            gap: 16px;
+            width: 100%;
+            max-width: 320px;
+        }
+        .btn-primary-custom, .btn-secondary-custom {
+            width: 100% !important;
+            text-align: center;
+            padding: 16px 20px !important;
+            font-size: 16px !important;
+        }
+        .trust-bar {
+            position: relative !important; /* Stops it from crashing into buttons */
+            bottom: 0 !important;
+            margin-top: 30px !important;
+            padding-bottom: 20px !important;
+            font-size: 13px !important;
+        }
+        .trust-bar span {
+            display: block; /* Stacks the tech skills on mobile */
+            margin: 12px 0;
+        }
     }
   </style>
 </head>
 
 <body>
-<!-- Border Frame -->
 <div id="site-border-left"></div>
 <div id="site-border-right"></div>
 <div id="site-border-top"></div>
 <div id="site-border-bottom"></div>
 
-<!-- Navbar -->
 <header>
   <nav class="navbar navbar-fixed-top navbar-inverse" style="background: transparent !important; border: none !important; padding-top: 15px;">
     <div class="container">
@@ -201,34 +235,28 @@
   </nav>
 </header>
 
-<!-- Main Hero Section -->
 <div class="glow-bg"></div>
 <div class="hero-container">
 
     <h1 class="hero-title">Soheil Karami</h1>
 
-    <!-- Custom Bulletproof Typing Animation Container -->
     <div class="hero-subtitle">
         <span id="custom-typewriter"></span><span class="typing-cursor"></span>
     </div>
 
-    <!-- Call to Action Buttons -->
     <div class="btn-container">
         <a href="./resume.html" class="btn-primary-custom">Interact with AI Resume ✨</a>
         <a href="./works.html" class="btn-secondary-custom">View Engineering Projects</a>
     </div>
 
+    <div class="trust-bar">
+        <span>AWS & Azure</span> •
+        <span>Python Automation</span> •
+        <span>Cybersecurity</span> •
+        <span>DevSecOps</span>
+    </div>
 </div>
 
-<!-- Tech Stack Trust Bar -->
-<div class="trust-bar">
-    <span>AWS & Azure</span> •
-    <span>Python Automation</span> •
-    <span>Cybersecurity</span> •
-    <span>DevSecOps</span>
-</div>
-
-<!-- Custom Vanilla JS Typing Effect (Will not conflict with old template) -->
 <script>
   document.addEventListener("DOMContentLoaded", function () {
       const titles = [
