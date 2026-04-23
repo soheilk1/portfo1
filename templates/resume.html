@@ -5,15 +5,13 @@
   <meta charset="UTF-8">
   <meta content="IE=edge" http-equiv="X-UA-Compatible">
   <meta content="width=device-width,initial-scale=1" name="viewport">
-  <meta content="description" name="AI Resume Dashboard">
+  <meta content="description" name="AI Resume & Admin Dashboard">
 
   <meta name="msapplication-tap-highlight" content="no">
-
   <link rel="apple-touch-icon" sizes="180x180" href="./static/assets/apple-icon-180x180.png">
   <link href="./static/assets/favicon.ico" rel="icon">
 
   <title>AI Resume | Soheil-K</title>
-
   <link href="./static/main.3f6952e4.css" rel="stylesheet">
 
   <style>
@@ -21,12 +19,11 @@
         margin: 0 !important;
         padding: 0 !important;
         min-height: 100% !important;
-        background-color: #0f172a !important; /* Deep Slate 900 */
+        background-color: #0f172a !important;
         font-family: 'Inter', Roboto, sans-serif !important;
         color: #f8fafc !important;
     }
 
-    /* Subtle glowing background orb effect */
     .glow-bg {
         position: fixed;
         width: 80vw;
@@ -42,7 +39,7 @@
     }
 
     .page-title {
-        font-size: 4rem !important; /* Increased */
+        font-size: 4rem !important;
         font-weight: 900 !important;
         letter-spacing: -1px !important;
         color: #ffffff !important;
@@ -52,7 +49,7 @@
 
     .page-subtitle {
         color: #38bdf8 !important;
-        font-size: 1.6rem !important; /* Increased */
+        font-size: 1.6rem !important;
         margin-bottom: 40px !important;
         font-family: 'Roboto Mono', monospace !important;
     }
@@ -63,12 +60,13 @@
         border: 1px solid #334155;
         border-top: 4px solid #38bdf8;
         border-radius: 8px;
-        box-shadow: 0 15px 35px rgba(0,0,0,0.6), 0 0 20px rgba(56, 189, 248, 0.1);
+        box-shadow: 0 15px 35px rgba(0,0,0,0.6);
         display: flex;
         flex-direction: column;
-        height: 65vh; /* Slightly taller for more reading space */
-        min-height: 600px;
+        height: 60vh;
+        min-height: 500px;
         overflow: hidden;
+        margin-bottom: 40px;
     }
 
     .terminal-header {
@@ -83,13 +81,12 @@
     .terminal-header-title {
         font-family: 'Roboto Mono', monospace;
         color: #f8fafc;
-        font-size: 1.2rem; /* Increased */
+        font-size: 1.2rem;
         font-weight: bold;
     }
 
     .status-dot {
-        height: 12px; /* Increased */
-        width: 12px; /* Increased */
+        height: 12px; width: 12px;
         background-color: #4ade80;
         border-radius: 50%;
         display: inline-block;
@@ -103,147 +100,110 @@
         overflow-y: auto;
         display: flex;
         flex-direction: column;
-        gap: 25px; /* More spacing between messages */
+        gap: 25px;
         scroll-behavior: smooth;
     }
 
-    /* Scrollbar */
     .chat-history::-webkit-scrollbar { width: 10px; }
     .chat-history::-webkit-scrollbar-track { background: #0f172a; }
     .chat-history::-webkit-scrollbar-thumb { background: #334155; border-radius: 5px; }
-    .chat-history::-webkit-scrollbar-thumb:hover { background: #475569; }
 
-    /* Messages */
-    .msg-wrapper {
-        display: flex;
-        flex-direction: column;
-        max-width: 85%;
-        animation: fadeIn 0.3s ease-in;
-    }
-
-    .msg-user {
-        align-self: flex-end;
-        align-items: flex-end;
-    }
-
-    .msg-ai {
-        align-self: flex-start;
-        align-items: flex-start;
-    }
-
-    .msg-label {
-        font-family: 'Roboto Mono', monospace;
-        font-size: 1rem; /* Increased */
-        margin-bottom: 8px;
-        color: #94a3b8;
-    }
+    .msg-wrapper { display: flex; flex-direction: column; max-width: 85%; }
+    .msg-user { align-self: flex-end; align-items: flex-end; }
+    .msg-ai { align-self: flex-start; align-items: flex-start; }
+    .msg-label { font-family: 'Roboto Mono', monospace; font-size: 1rem; margin-bottom: 8px; color: #94a3b8; }
 
     .msg-bubble {
-        padding: 18px 25px; /* More padding */
+        padding: 18px 25px;
         border-radius: 8px;
-        font-size: 1.3rem; /* Massively Increased for readability */
+        font-size: 1.3rem;
         line-height: 1.7;
         word-wrap: break-word;
     }
 
-    .msg-user .msg-bubble {
-        background-color: #1e40af;
-        color: white;
-        border-bottom-right-radius: 0;
-    }
+    .msg-user .msg-bubble { background-color: #1e40af; color: white; border-bottom-right-radius: 0; }
+    .msg-ai .msg-bubble { background-color: #1e293b; color: #e2e8f0; border: 1px solid #334155; border-bottom-left-radius: 0; border-left: 3px solid #38bdf8; }
+    .msg-system .msg-bubble { background-color: transparent; color: #fbbf24; font-family: 'Roboto Mono', monospace; font-size: 1.1rem; border: 1px dashed #fbbf24; }
+    .msg-error .msg-bubble { background-color: rgba(239, 68, 68, 0.1); color: #ef4444; border: 1px dashed #ef4444; font-size: 1.1rem; }
 
-    .msg-ai .msg-bubble {
-        background-color: #1e293b;
-        color: #e2e8f0;
+    .terminal-input-area { background-color: #0f172a; padding: 25px; border-top: 1px solid #334155; display: flex; gap: 20px; }
+    .ai-input { flex-grow: 1; background-color: #1e293b !important; border: 1px solid #475569 !important; color: white !important; border-radius: 8px; padding: 18px 25px !important; font-size: 1.3rem !important; }
+    .ai-input:focus { outline: none !important; border-color: #38bdf8 !important; box-shadow: 0 0 12px rgba(56, 189, 248, 0.2); }
+    .btn-send { background-color: #2563eb !important; color: white !important; border: none; padding: 0 40px; border-radius: 8px; font-size: 1.2rem; font-weight: bold; cursor: pointer; }
+    .btn-send:hover { background-color: #1d4ed8 !important; }
+
+    /* ADMIN DASHBOARD STYLING */
+    .admin-container {
+        background-color: #050505;
         border: 1px solid #334155;
-        border-bottom-left-radius: 0;
-        box-shadow: inset 3px 0 0 #38bdf8;
+        border-top: 4px solid #ef4444; /* Red for secure area */
+        border-radius: 8px;
+        padding: 30px;
+        margin-bottom: 60px;
     }
 
-    .msg-system .msg-bubble {
-        background-color: transparent;
-        color: #fbbf24;
-        font-family: 'Roboto Mono', monospace;
-        font-size: 1.1rem; /* Increased */
-        border: 1px dashed #fbbf24;
-    }
-
-    .msg-error .msg-bubble {
-        background-color: rgba(239, 68, 68, 0.1);
+    .admin-header {
         color: #ef4444;
-        border: 1px dashed #ef4444;
-        font-size: 1.1rem;
-    }
-
-    /* Input Area */
-    .terminal-input-area {
-        background-color: #0f172a;
-        padding: 25px;
-        border-top: 1px solid #334155;
+        font-family: 'Roboto Mono', monospace;
+        font-size: 1.4rem;
+        margin-bottom: 20px;
         display: flex;
-        gap: 20px;
+        justify-content: space-between;
     }
 
-    .ai-input {
-        flex-grow: 1;
-        background-color: #1e293b !important;
-        border: 1px solid #475569 !important;
-        color: white !important;
-        border-radius: 8px;
-        padding: 18px 25px !important;
-        font-size: 1.3rem !important; /* Increased */
-        font-family: 'Inter', sans-serif;
+    .admin-input {
+        background-color: #0f172a;
+        border: 1px solid #475569;
+        color: white;
+        padding: 12px 15px;
+        border-radius: 6px;
+        font-family: 'Roboto Mono', monospace;
+        font-size: 1.1rem;
+        margin-right: 10px;
     }
 
-    .ai-input:focus {
-        outline: none !important;
-        border-color: #38bdf8 !important;
-        box-shadow: 0 0 12px rgba(56, 189, 248, 0.2);
-    }
-
-    .btn-send {
-        background-color: #2563eb !important;
-        color: white !important;
+    .btn-admin {
+        background-color: #ef4444;
+        color: white;
         border: none;
-        padding: 0 40px;
-        border-radius: 8px;
-        font-size: 1.2rem; /* Increased */
+        padding: 12px 25px;
+        border-radius: 6px;
+        font-size: 1.1rem;
         font-weight: bold;
         cursor: pointer;
-        transition: all 0.2s;
+        font-family: 'Roboto Mono', monospace;
     }
 
-    .btn-send:hover {
-        background-color: #1d4ed8 !important;
+    .btn-admin:hover { background-color: #b91c1c; }
+
+    .admin-logs {
+        margin-top: 20px;
+        background-color: #0f172a;
+        border: 1px solid #334155;
+        padding: 15px;
+        border-radius: 6px;
+        max-height: 250px;
+        overflow-y: auto;
+        font-family: 'Roboto Mono', monospace;
+        color: #a3bea3;
+        font-size: 1rem;
     }
 
-    .btn-send:disabled {
-        background-color: #475569 !important;
-        cursor: not-allowed;
-    }
-
-    @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(10px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
+    .admin-logs p { margin: 5px 0; border-bottom: 1px dashed #1e293b; padding-bottom: 5px; }
+    .admin-error { color: #ef4444; margin-top: 10px; font-family: 'Roboto Mono', monospace; }
 
     @media (max-width: 768px) {
         .page-title { font-size: 3rem !important; }
-        .page-subtitle { font-size: 1.3rem !important; }
-        .terminal-container { height: 75vh; }
-        .terminal-input-area { flex-direction: column; padding: 15px; }
+        .terminal-input-area { flex-direction: column; }
         .btn-send { padding: 20px; width: 100%; }
-        .msg-wrapper { max-width: 95%; }
-        .msg-bubble { font-size: 1.15rem; } /* Slightly smaller on mobile but still big */
+        .admin-input { width: 100%; margin-bottom: 10px; }
+        .btn-admin { width: 100%; }
     }
   </style>
 </head>
 
 <body>
-<div id="site-border-left"></div>
-<div id="site-border-right"></div>
-<div id="site-border-top"></div>
-<div id="site-border-bottom"></div>
+<div id="site-border-left"></div><div id="site-border-right"></div><div id="site-border-top"></div><div id="site-border-bottom"></div>
 
 <header>
   <nav class="navbar navbar-fixed-top navbar-inverse" style="background: transparent !important; border: none !important; padding-top: 15px;">
@@ -257,10 +217,10 @@
 
       <div class="collapse navbar-collapse" id="navbar-collapse">
         <ul class="nav navbar-nav ">
-          <li><a href="./index.html" title="" style="color: #94a3b8 !important; font-weight: 600; transition: color 0.3s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">01 : Home</a></li>
-          <li><a href="./works.html" title="" style="color: #94a3b8 !important; font-weight: 600; transition: color 0.3s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">02 : Works</a></li>
-          <li><a href="./about.html" title="" style="color: #94a3b8 !important; font-weight: 600; transition: color 0.3s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">03 : About me</a></li>
-          <li><a href="./contact.html" title="" style="color: #94a3b8 !important; font-weight: 600; transition: color 0.3s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">04 : Contact</a></li>
+          <li><a href="./index.html" title="" style="color: #94a3b8 !important; font-weight: 600;">01 : Home</a></li>
+          <li><a href="./works.html" title="" style="color: #94a3b8 !important; font-weight: 600;">02 : Works</a></li>
+          <li><a href="./about.html" title="" style="color: #94a3b8 !important; font-weight: 600;">03 : About me</a></li>
+          <li><a href="./contact.html" title="" style="color: #94a3b8 !important; font-weight: 600;">04 : Contact</a></li>
           <li><a href="./resume.html" title="" class="active" style="color: #38bdf8 !important; font-weight: bold; border-bottom: 2px solid #38bdf8;">05 : Resume</a></li>
         </ul>
       </div>
@@ -270,7 +230,7 @@
 
 <div class="glow-bg"></div>
 
-<div class="container" style="padding-top: 60px; position: relative; z-index: 10; margin-bottom: 60px;">
+<div class="container" style="padding-top: 60px; position: relative; z-index: 10;">
     <div class="row">
         <div class="col-xs-12 text-center">
             <h1 class="page-title">05 : AI Resume</h1>
@@ -286,18 +246,16 @@
                     <div class="terminal-header-title">
                         <span class="status-dot"></span> GEMINI_API_NODE // SERVER: ONLINE
                     </div>
-                    <div style="color: #64748b; font-family: 'Roboto Mono', monospace; font-size: 1.1rem;">
-                        PORT: 443 | SECURE
-                    </div>
+                    <div style="color: #64748b; font-family: 'Roboto Mono', monospace; font-size: 1.1rem;">PORT: 443 | SECURE</div>
                 </div>
 
                 <div class="chat-history" id="chat-history">
                     <div class="msg-wrapper msg-ai">
                         <div class="msg-label">GEMINI AI [SYSTEM]</div>
                         <div class="msg-bubble">
-                            Connection established. Hello, I am the AI assistant trained on Soheil Karami's professional DevSecOps resume and project history.<br><br>
-                            You can ask me questions like: <br>
-                            <em>"What is his experience with AWS?"</em> or <em>"Tell me about his Python Threat Detector project."</em>
+                            Connection established. I am the AI assistant trained on Soheil Karami's professional DevSecOps resume.<br><br>
+                            Ask me questions like: <br>
+                            <em>"What is his experience with AWS?"</em> or <em>"Tell me about his Threat Detector project."</em>
                         </div>
                     </div>
                 </div>
@@ -308,102 +266,178 @@
                 </div>
             </div>
 
+            <div class="admin-container">
+                <div class="admin-header">
+                    <span>> ROOT_ACCESS_REQUIRED</span>
+                    <span style="color: #64748b; font-size: 1rem;">SECURE ANALYTICS PORTAL</span>
+                </div>
+
+                <div id="admin-login-screen">
+                    <input type="password" id="admin-pass" class="admin-input" placeholder="Enter Admin Password" onkeypress="handleAdminKeyPress(event)">
+                    <button class="btn-admin" onclick="fetchAnalytics()">AUTHENTICATE</button>
+                    <div id="admin-error" class="admin-error"></div>
+                </div>
+
+                <div id="admin-dashboard-screen" style="display: none;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 15px;">
+                        <h3 style="color: #f8fafc; margin: 0; font-family: 'Roboto Mono', monospace;">Total Traffic: <span id="view-count" style="color: #4ade80;">0</span></h3>
+                        <button class="btn-admin" style="padding: 8px 15px; font-size: 0.9rem;" onclick="clearLogs()">PURGE LOGS</button>
+                    </div>
+
+                    <div class="admin-logs" id="ip-logs">
+                        </div>
+                </div>
+            </div>
+
         </div>
     </div>
 </div>
 
+<footer class="text-center" style="padding: 20px 0; color: #64748b; font-size: 1rem;">
+    <div class="container"><p>© Soheil Karami | DevSecOps & IT Professional</p></div>
+</footer>
+
 <script>
-    // Get HTML elements
+    /* =======================================
+       1. TRACK PAGE VIEW ON LOAD
+    ======================================= */
+    document.addEventListener("DOMContentLoaded", function () {
+        // Ping the server to log the visitor's IP and count the view
+        fetch('/api/track_view', { method: 'POST' }).catch(e => console.error("Tracking failed", e));
+    });
+
+    /* =======================================
+       2. AI CHAT LOGIC
+    ======================================= */
     const chatHistory = document.getElementById('chat-history');
     const inputField = document.getElementById('ai-input');
     const sendBtn = document.getElementById('send-btn');
 
-    // Handle Enter Key
-    function handleKeyPress(e) {
-        if (e.key === 'Enter') {
-            sendToAI();
-        }
-    }
+    function handleKeyPress(e) { if (e.key === 'Enter') sendToAI(); }
 
-    // Helper: Add message to chat box
     function appendMessage(senderType, messageText, id = null) {
         const msgWrapper = document.createElement('div');
         msgWrapper.className = `msg-wrapper msg-${senderType}`;
         if (id) msgWrapper.id = id;
 
-        let label = '';
-        if (senderType === 'user') label = 'GUEST [USER]';
-        else if (senderType === 'ai') label = 'GEMINI AI [SYSTEM]';
-        else if (senderType === 'system') label = 'SERVER_PROCESS';
-        else if (senderType === 'error') label = 'CRITICAL_ERROR';
-
-        msgWrapper.innerHTML = `
-            <div class="msg-label">${label}</div>
-            <div class="msg-bubble">${messageText}</div>
-        `;
+        let label = senderType === 'user' ? 'GUEST [USER]' : senderType === 'ai' ? 'GEMINI AI [SYSTEM]' : senderType === 'system' ? 'SERVER_PROCESS' : 'CRITICAL_ERROR';
+        msgWrapper.innerHTML = `<div class="msg-label">${label}</div><div class="msg-bubble">${messageText}</div>`;
 
         chatHistory.appendChild(msgWrapper);
-        chatHistory.scrollTop = chatHistory.scrollHeight; // Auto-scroll to bottom
+        chatHistory.scrollTop = chatHistory.scrollHeight;
         return msgWrapper.id;
     }
 
-    // Core Logic to talk to server.py
     async function sendToAI() {
         const prompt = inputField.value.trim();
         if (!prompt) return;
 
-        // 1. Lock input and show user message
         inputField.value = '';
-        inputField.disabled = true;
-        sendBtn.disabled = true;
+        inputField.disabled = true; sendBtn.disabled = true;
         appendMessage('user', prompt);
 
-        // 2. Show Loading System Message
         const loadingId = 'loading-' + Date.now();
         appendMessage('system', 'Encrypting payload and querying Python Server...', loadingId);
 
         try {
-            // 3. Send POST request exactly how server.py expects it
             const response = await fetch('/ask_gemini', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ prompt: prompt })
             });
 
-            // 4. Remove loading message
             const loadingMsg = document.getElementById(loadingId);
             if(loadingMsg) loadingMsg.remove();
 
-            // 5. Read response
             const data = await response.json();
-
-            // 6. Display AI Reply or Server Error
-            if (data.error) {
-                appendMessage('error', data.error);
-            } else if (data.reply) {
-                // Convert line breaks to HTML breaks for better reading
-                const formattedReply = data.reply.replace(/\n/g, '<br>');
-                appendMessage('ai', formattedReply);
-            } else {
-                appendMessage('error', 'Unknown response from server.');
-            }
+            if (data.error) appendMessage('error', data.error);
+            else if (data.reply) appendMessage('ai', data.reply.replace(/\n/g, '<br>'));
+            else appendMessage('error', 'Unknown response from server.');
 
         } catch (error) {
-            // Server offline or crashed
             const loadingMsg = document.getElementById(loadingId);
             if(loadingMsg) loadingMsg.remove();
-
-            appendMessage('error', 'Connection failed. Ensure server.py is running on PythonAnywhere.');
-            console.error(error);
+            appendMessage('error', 'Connection failed. Server offline.');
         } finally {
-            // Unlock inputs
-            inputField.disabled = false;
-            sendBtn.disabled = false;
-            inputField.focus();
+            inputField.disabled = false; sendBtn.disabled = false; inputField.focus();
+        }
+    }
+
+    /* =======================================
+       3. ADMIN DASHBOARD LOGIC
+    ======================================= */
+    const adminPassInput = document.getElementById('admin-pass');
+    const errorBox = document.getElementById('admin-error');
+    const loginScreen = document.getElementById('admin-login-screen');
+    const dashboardScreen = document.getElementById('admin-dashboard-screen');
+    const viewCountSpan = document.getElementById('view-count');
+    const ipLogsDiv = document.getElementById('ip-logs');
+
+    function handleAdminKeyPress(e) { if (e.key === 'Enter') fetchAnalytics(); }
+
+    async function fetchAnalytics() {
+        const pwd = adminPassInput.value;
+        if (!pwd) return;
+        errorBox.innerText = "Authenticating...";
+
+        try {
+            const response = await fetch('/api/get_views', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ password: pwd })
+            });
+
+            const data = await response.json();
+
+            if (response.status === 200) {
+                // SUCCESS! Show dashboard.
+                loginScreen.style.display = 'none';
+                dashboardScreen.style.display = 'block';
+                viewCountSpan.innerText = data.views;
+
+                ipLogsDiv.innerHTML = '';
+                if (data.visitors && data.visitors.length > 0) {
+                    data.visitors.forEach(v => {
+                        ipLogsDiv.innerHTML += `<p>[${v.time}] CONNECTION FROM IP: <span style="color:#38bdf8;">${v.ip}</span></p>`;
+                    });
+                } else {
+                    ipLogsDiv.innerHTML = "<p>No logs found.</p>";
+                }
+            } else if (response.status === 401) {
+                errorBox.innerText = "ACCESS DENIED: Invalid Password. Attempts are logged.";
+            } else if (response.status === 403) {
+                errorBox.innerText = "SECURITY LOCKOUT: Your IP has been banned for brute-force attempts.";
+            } else {
+                errorBox.innerText = "Server Error: " + data.error;
+            }
+        } catch (e) {
+            errorBox.innerText = "Network Error. Cannot reach server.";
+        }
+    }
+
+    async function clearLogs() {
+        const pwd = adminPassInput.value; // Use the password they already typed
+        if (!confirm("WARNING: Are you sure you want to purge all traffic logs? This cannot be undone.")) return;
+
+        try {
+            const response = await fetch('/api/clear_views', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ password: pwd })
+            });
+
+            if (response.status === 200) {
+                alert("Logs successfully purged.");
+                fetchAnalytics(); // Refresh the dashboard
+            } else {
+                alert("Failed to clear logs. Unauthorized.");
+            }
+        } catch (e) {
+            alert("Network Error.");
         }
     }
 </script>
 
-<footer class="text-center" style="padding: 20px 0; color: #6474
+<script type="text/javascript" src="./static/main.70a66962.js"></script>
+</body>
+</html>
