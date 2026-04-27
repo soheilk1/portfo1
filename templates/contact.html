@@ -1,241 +1,252 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8">
-  <meta content="IE=edge" http-equiv="X-UA-Compatible">
-  <meta content="width=device-width,initial-scale=1" name="viewport">
-  <meta content="description" name="description">
-  <meta name="google" content="notranslate" />
-  <meta name="msapplication-tap-highlight" content="no">
-  
-  <link rel="apple-touch-icon" sizes="180x180" href="./static/assets/apple-icon-180x180.png">
-  <link href="./static/assets/favicon.ico" rel="icon">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Terminal | Soheil Karami</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #0f172a;
+            color: #f8fafc;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+        .mono { font-family: 'JetBrains Mono', monospace; }
 
-  <title>Contact | Soheil Karami</title>  
+        /* Navigation Bar - Shifted to Left */
+        .nav-container {
+            position: fixed;
+            top: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 1150px;
+            padding: 0 20px;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            justify-content: flex-start;
+        }
+        .nav-link {
+            color: #94a3b8;
+            font-size: 13px;
+            font-weight: 600;
+            transition: all 0.3s;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+        .nav-link:hover { color: #fff; }
+        .nav-link.active {
+            color: #38bdf8;
+            border-bottom: 2px solid #38bdf8;
+            padding-bottom: 2px;
+        }
+        .nav-divider { color: #1e293b; }
 
-  <link href="./static/main.3f6952e4.css" rel="stylesheet">
-  
-  <style>
-    /* Terminal Styling */
-    .terminal-box {
-        background-color: #020617;
-        border: 1px solid #1e293b;
-        border-left: 4px solid #38bdf8;
-        border-radius: 8px;
-        padding: 30px;
-        box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.5);
-        font-family: 'JetBrains Mono', monospace;
-    }
+        /* Terminal Window Styling */
+        .terminal-box {
+            background-color: #020617;
+            border: 1px solid #1e293b;
+            border-left: 4px solid #38bdf8;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.5);
+        }
 
-    /* Form Styling */
-    .payload-box {
-        background-color: #1e293b;
-        border: 1px solid #334155;
-        border-radius: 8px;
-        padding: 35px;
-        box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-    }
-    .payload-label {
-        font-family: 'JetBrains Mono', monospace;
-        font-size: 10px;
-        font-weight: bold;
-        color: #64748b;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        margin-bottom: 8px;
-        display: block;
-    }
-    .payload-input {
-        width: 100%;
-        background-color: #0f172a;
-        border: 1px solid #334155;
-        border-radius: 4px;
-        padding: 12px 15px;
-        color: #cbd5e1;
-        font-size: 13px;
-        margin-bottom: 20px;
-        outline: none;
-        transition: border-color 0.2s;
-    }
-    .payload-input:focus { border-color: #38bdf8; }
-    
-    .transmit-btn {
-        width: 100%;
-        background-color: #2563eb;
-        color: white;
-        font-weight: 700;
-        padding: 15px;
-        border-radius: 6px;
-        transition: all 0.3s;
-        text-transform: capitalize;
-        border: none;
-    }
-    .transmit-btn:hover { background-color: #1d4ed8; transform: translateY(-1px); }
+        /* Form Styling */
+        .payload-box {
+            background-color: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 8px;
+            padding: 35px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+        .payload-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            font-weight: bold;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+            display: block;
+        }
+        .payload-input {
+            width: 100%;
+            background-color: #0f172a;
+            border: 1px solid #334155;
+            border-radius: 4px;
+            padding: 14px 15px;
+            color: #cbd5e1;
+            font-size: 14px;
+            margin-bottom: 25px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        .payload-input:focus { border-color: #38bdf8; }
 
-    /* Social Links */
-    .social-link {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        color: #f8fafc;
-        font-weight: 700;
-        font-size: 14px;
-        text-decoration: none !important;
-        margin-bottom: 15px;
-        transition: color 0.2s;
-    }
-    .social-link:hover { color: #38bdf8; }
-    .social-link::before {
-        content: "▶";
-        font-size: 10px;
-        color: #fff;
-    }
-    .mono { font-family: 'JetBrains Mono', monospace; }
-  </style>
+        .transmit-btn {
+            width: 100%;
+            background-color: #2563eb;
+            color: white;
+            font-weight: 700;
+            padding: 16px;
+            border-radius: 6px;
+            transition: all 0.3s;
+            text-transform: capitalize;
+            font-size: 15px;
+        }
+        .transmit-btn:hover { background-color: #1d4ed8; transform: translateY(-1px); }
+
+        /* Social Links */
+        .social-link {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #f8fafc;
+            font-weight: 700;
+            font-size: 14px;
+            text-decoration: none !important;
+            margin-bottom: 18px;
+            transition: color 0.2s;
+        }
+        .social-link:hover { color: #38bdf8; }
+        .social-link::before {
+            content: "▶";
+            font-size: 10px;
+            color: #fff;
+        }
+    </style>
 </head>
+<body class="p-4 md:p-10">
 
-<body>
-<div id="site-border-left"></div>
-<div id="site-border-right"></div>
-<div id="site-border-top"></div>
-<div id="site-border-bottom"></div>
-
-<!-- Standard Header used in all other pages -->
-<header>
-  <nav class="navbar navbar-fixed-top navbar-default">
-    <div class="container">
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-
-      <div class="collapse navbar-collapse" id="navbar-collapse">
-        <ul class="nav navbar-nav ">
-          <li><a href="./index.html">01 : Home</a></li>
-          <li><a href="./works.html">02 : Works</a></li>
-          <li><a href="./about.html">03 : About me</a></li>
-          <li><a href="./contact.html" class="active">04 : Contact</a></li>
-          <li><a href="./resume.html">05 : Resume</a></li>
-        </ul>
-      </div> 
+    <!-- Navigation Container -->
+    <div class="nav-container">
+        <a href="./index.html" class="nav-link">01 : Home</a>
+        <span class="nav-divider">|</span>
+        <a href="./works.html" class="nav-link">02 : Works</a>
+        <span class="nav-divider">|</span>
+        <a href="./about.html" class="nav-link">03 : About me</a>
+        <span class="nav-divider">|</span>
+        <a href="./contact.html" class="nav-link active">04 : Contact</a>
+        <span class="nav-divider">|</span>
+        <a href="./resume.html" class="nav-link">05 : Resume</a>
     </div>
-  </nav>
-</header>
 
-<div class="section-container">
-    <div class="container">
-      <div class="row">
-        <div class="col-xs-12">
-          
-          <div class="section-container-spacer text-center">
-            <h1 class="h2">04 : Contact</h1>
-            <p class="text-sky-400 mono text-sm tracking-widest" style="color: #38bdf8;">> Establish a secure connection_</p>
-          </div>
-          
-          <div class="row">
-            <div class="col-md-10 col-md-offset-1">
-              <div class="row">
-                
-                <!-- Left: Terminal and Links -->
-                <div class="col-md-6">
-                    <div class="terminal-box mono text-sm leading-relaxed" style="margin-bottom: 30px;">
-                        <p class="mb-4">
-                            <span style="color: #38bdf8;">root@server:~#</span> systemctl status comms<br>
-                            <span style="color: #22c55e;">● active (listening) on port 443</span>
-                        </p>
-                        
-                        <p style="margin-top: 30px;">
-                            <span style="color: #38bdf8;">root@server:~#</span> cat /etc/contact_info<br>
-                            <span style="color: #94a3b8;">Location :</span> Kuala Lumpur, Malaysia<br>
-                            <span style="color: #94a3b8;">Email :</span> <span style="color: #38bdf8; font-weight: bold;">soheilk1@proton.me</span>
-                        </p>
-                    </div>
+    <!-- Main Section -->
+    <div class="max-w-6xl mx-auto pt-32">
+        <div class="text-center mb-16">
+            <h1 class="text-5xl font-black mb-3">04 : Contact</h1>
+            <p class="text-sky-400 mono text-sm tracking-widest">> Establish a secure connection_</p>
+        </div>
 
-                    <div style="margin-top: 40px;">
-                        <h3 class="mono text-[10px] uppercase tracking-widest font-bold" style="font-size: 10px; color: #64748b; margin-bottom: 20px;">Encrypted Networks</h3>
-                        <a href="https://linkedin.com/in/soheil-karami" target="_blank" class="social-link">LinkedIn Profile</a>
-                        <a href="https://github.com/soheilk1" target="_blank" class="social-link">GitHub Repository</a>
-                    </div>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
+
+            <!-- Left: Terminal and Links -->
+            <div class="space-y-12">
+                <div class="terminal-box mono text-sm leading-relaxed">
+                    <p class="mb-4">
+                        <span class="text-sky-400">root@server:~#</span> systemctl status comms<br>
+                        <span class="flex items-center gap-2">
+                            <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+                            <span class="text-green-500">active (listening) on port 443</span>
+                        </span>
+                    </p>
+
+                    <p class="mt-8">
+                        <span class="text-sky-400">root@server:~#</span> cat /etc/contact_info<br>
+                        <span class="text-slate-400">Location :</span> Kuala Lumpur, Malaysia<br>
+                        <span class="text-slate-400">Email :</span> <span class="text-sky-400 font-bold">soheilk1@proton.me</span>
+                    </p>
                 </div>
 
-                <!-- Right: Transmission Form -->
-                <div class="col-md-6">
-                    <div class="payload-box">
-                        <form id="contact-form" onsubmit="event.preventDefault(); handleTransmit();">
-                            <label class="payload-label">Target Address (Email)</label>
-                            <input type="email" id="sender-email" required placeholder="user@domain.com" class="payload-input">
-
-                            <label class="payload-label">Subject Protocol</label>
-                            <input type="text" id="sender-subject" required placeholder="Project Inquiry" class="payload-input">
-
-                            <label class="payload-label">Encrypted Payload (Message)</label>
-                            <textarea id="sender-message" required rows="6" placeholder="Enter your message here..." class="payload-input" style="resize: none;"></textarea>
-
-                            <button type="submit" class="transmit-btn">Transmit Data Securely</button>
-                        </form>
-                    </div>
+                <div>
+                    <h3 class="mono text-[10px] text-slate-500 uppercase tracking-widest mb-6 font-bold">Encrypted Networks</h3>
+                    <a href="https://linkedin.com/in/soheil-karami" target="_blank" class="social-link">LinkedIn Profile</a>
+                    <a href="https://github.com/soheilk1" target="_blank" class="social-link">GitHub Repository</a>
                 </div>
-
-              </div>
             </div>
-          </div>
-          
-       </div>
-      </div>
+
+            <!-- Right: Transmission Form -->
+            <div class="payload-box">
+                <form id="contact-form" onsubmit="event.preventDefault(); handleTransmit();">
+                    <label class="payload-label">Target Address (Email)</label>
+                    <input type="email" id="sender-email" required placeholder="user@domain.com" class="payload-input">
+
+                    <label class="payload-label">Subject Protocol</label>
+                    <input type="text" id="sender-subject" required placeholder="Project Inquiry" class="payload-input">
+
+                    <label class="payload-label">Encrypted Payload (Message)</label>
+                    <textarea id="sender-message" required rows="6" placeholder="Enter your message here..." class="payload-input resize-none"></textarea>
+
+                    <button type="submit" class="transmit-btn shadow-lg">Transmit Data Securely</button>
+                </form>
+            </div>
+        </div>
     </div>
-</div>
 
-<footer class="footer-container text-center">
-  <div class="container">
-    <div class="row">
-      <div class="col-xs-12">
-        <p>© Soheil Karami | DevSecOps & IT Professional</p>
-      </div>
-    </div>
-  </div>
-</footer>
+    <footer class="text-center mt-20 text-[10px] text-slate-600 uppercase tracking-widest pb-10">
+        © Soheil Karami | DevSecOps & IT Professional
+    </footer>
 
-<script>
-  // --- Visitor Tracker (Absolute URL for stability) ---
-  setTimeout(() => {
-      fetch("https://soheilk.online/api/track_view", { 
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ page: "contact" })
-      }).catch(e => console.error(e));
-  }, 1000);
+    <script>
+        // Helper to handle relative URLs safely in preview environments (like the Canvas/Blob)
+        const getSafeUrl = (endpoint) => {
+            if (window.location.protocol === 'blob:' || window.location.origin === 'null' || window.location.protocol === 'data:') {
+                return `https://soheilk.online${endpoint}`;
+            }
+            return endpoint;
+        };
 
-  // --- Form Handler ---
-  function handleTransmit() {
-      const btn = document.querySelector('.transmit-btn');
-      const originalText = btn.innerText;
-      btn.innerText = "Encrypting & Sending...";
-      btn.disabled = true;
-      
-      // Simulation of transmission
-      setTimeout(() => {
-          btn.innerText = "Transmission Complete";
-          btn.style.backgroundColor = "#22c55e";
-          document.getElementById('contact-form').reset();
-          
-          setTimeout(() => {
-              btn.innerText = originalText;
-              btn.style.backgroundColor = "#2563eb";
-              btn.disabled = false;
-          }, 3000);
-      }, 1500);
-  }
+        // --- Visitor Tracker ---
+        setTimeout(() => {
+            fetch(getSafeUrl("/api/track_view"), {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ page: "contact" })
+            }).catch(e => console.error(e));
+        }, 1000);
 
-  document.addEventListener("DOMContentLoaded", function (event) {
-     if (typeof navActivePage === 'function') {
-         navActivePage();
-     }
-  });
-</script>
+        // --- ACTUAL TRANSMISSION LOGIC ---
+        async function handleTransmit() {
+            const btn = document.querySelector('.transmit-btn');
+            const email = document.getElementById('sender-email').value;
+            const subject = document.getElementById('sender-subject').value;
+            const message = document.getElementById('sender-message').value;
 
-<script type="text/javascript" src="./static/main.70a66962.js"></script>
+            btn.innerText = "Encrypting & Transmitting...";
+            btn.disabled = true;
+
+            try {
+                const response = await fetch(getSafeUrl("/api/send_contact"), {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ email: email, subject: subject, message: message })
+                });
+
+                if (response.ok) {
+                    btn.innerText = "Transmission Complete";
+                    btn.style.backgroundColor = "#22c55e"; // Success Green
+                    document.getElementById('contact-form').reset();
+                } else {
+                    throw new Error("Server Error");
+                }
+            } catch (e) {
+                console.error("Transmission failed:", e);
+                btn.innerText = "Transmission Failed";
+                btn.style.backgroundColor = "#ef4444"; // Error Red
+            } finally {
+                // Reset button after 3 seconds
+                setTimeout(() => {
+                    btn.innerText = "Transmit Data Securely";
+                    btn.style.backgroundColor = "#2563eb"; // Normal Blue
+                    btn.disabled = false;
+                }, 3000);
+            }
+        }
+    </script>
 </body>
 </html>
