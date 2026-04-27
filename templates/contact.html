@@ -193,17 +193,12 @@
     </footer>
 
     <script>
-        // Helper to handle relative URLs safely in preview environments (like the Canvas/Blob)
-        const getSafeUrl = (endpoint) => {
-            if (window.location.protocol === 'blob:' || window.location.origin === 'null' || window.location.protocol === 'data:') {
-                return `https://soheilk.online${endpoint}`;
-            }
-            return endpoint;
-        };
+        // Use your live server domain for absolute paths
+        const BASE_URL = "https://soheilk.pythonanywhere.com";
 
         // --- Visitor Tracker ---
         setTimeout(() => {
-            fetch(getSafeUrl("/api/track_view"), {
+            fetch(`${BASE_URL}/api/track_view`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ page: "contact" })
@@ -221,7 +216,7 @@
             btn.disabled = true;
 
             try {
-                const response = await fetch(getSafeUrl("/api/send_contact"), {
+                const response = await fetch(`${BASE_URL}/api/send_contact`, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ email: email, subject: subject, message: message })
@@ -232,7 +227,7 @@
                     btn.style.backgroundColor = "#22c55e"; // Success Green
                     document.getElementById('contact-form').reset();
                 } else {
-                    throw new Error("Server Error");
+                    throw new Error(`Server returned status: ${response.status}`);
                 }
             } catch (e) {
                 console.error("Transmission failed:", e);
