@@ -5,153 +5,93 @@
   <meta charset="UTF-8">
   <meta content="IE=edge" http-equiv="X-UA-Compatible">
   <meta content="width=device-width,initial-scale=1" name="viewport">
-  <meta content="description" name="Contact Soheil Karami">
-
+  <meta content="description" name="description">
+  <meta name="google" content="notranslate" />
   <meta name="msapplication-tap-highlight" content="no">
-
+  
   <link rel="apple-touch-icon" sizes="180x180" href="./static/assets/apple-icon-180x180.png">
   <link href="./static/assets/favicon.ico" rel="icon">
 
-  <title>Contact | Soheil-K</title>
+  <title>Contact | Soheil Karami</title>  
 
   <link href="./static/main.3f6952e4.css" rel="stylesheet">
-
+  
   <style>
-    body, html {
-        margin: 0 !important;
-        padding: 0 !important;
-        min-height: 100% !important;
-        background-color: #0f172a !important; /* Deep Slate 900 */
-        font-family: 'Inter', Roboto, sans-serif !important;
-        color: #f8fafc !important;
-    }
-
-    /* Subtle glowing background orb effect */
-    .glow-bg {
-        position: fixed;
-        width: 80vw;
-        height: 80vw;
-        max-width: 800px;
-        max-height: 800px;
-        background: radial-gradient(circle, rgba(56,189,248,0.1) 0%, rgba(15,23,42,0) 70%);
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        z-index: -1;
-        pointer-events: none;
-    }
-
-    .page-title {
-        font-size: 3.5rem !important; /* Increased */
-        font-weight: 800 !important;
-        letter-spacing: -1px !important;
-        color: #ffffff !important;
-        margin-top: 80px !important;
-        margin-bottom: 10px !important;
-    }
-
-    .page-subtitle {
-        color: #38bdf8 !important;
-        font-size: 1.4rem !important; /* Increased */
-        margin-bottom: 50px !important;
-        font-family: 'Roboto Mono', monospace !important;
-    }
-
-    /* Secure Form Styling */
-    .secure-form-container {
-        background-color: #1e293b;
-        border: 1px solid #334155;
-        border-radius: 12px;
-        padding: 35px;
-        box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-    }
-
-    .custom-label {
-        color: #94a3b8 !important;
-        font-weight: 600 !important;
-        font-size: 1.1rem !important; /* Increased */
-        margin-bottom: 10px !important;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-    }
-
-    .custom-input {
-        background-color: #0f172a !important;
-        border: 1px solid #475569 !important;
-        color: #f8fafc !important;
-        border-radius: 6px !important;
-        padding: 14px 18px !important;
-        height: auto !important;
-        font-size: 1.15rem !important; /* Increased */
-        transition: all 0.3s ease !important;
-    }
-
-    .custom-input:focus {
-        border-color: #38bdf8 !important;
-        box-shadow: 0 0 10px rgba(56, 189, 248, 0.2) !important;
-        outline: none !important;
-    }
-
-    .btn-submit {
-        background-color: #2563eb !important;
-        color: white !important;
-        padding: 16px 0 !important;
-        border-radius: 6px !important;
-        font-size: 1.25rem !important; /* Increased */
-        font-weight: 600 !important;
-        text-decoration: none !important;
-        transition: all 0.3s ease !important;
-        border: 1px solid #2563eb !important;
-        width: 100%;
-        display: block;
-        margin-top: 25px;
-    }
-
-    .btn-submit:hover {
-        background-color: #1d4ed8 !important;
-        transform: translateY(-2px);
-    }
-
-    /* Terminal Info Box */
+    /* Terminal Styling */
     .terminal-box {
-        background-color: #050505;
-        border: 1px solid #334155;
+        background-color: #020617;
+        border: 1px solid #1e293b;
         border-left: 4px solid #38bdf8;
         border-radius: 8px;
         padding: 30px;
-        font-family: 'Roboto Mono', monospace;
-        color: #a3bea3;
-        margin-bottom: 30px;
+        box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.5);
+        font-family: 'JetBrains Mono', monospace;
     }
 
-    .terminal-box p {
-        margin-bottom: 12px;
-        font-size: 1.15rem; /* Increased */
+    /* Form Styling */
+    .payload-box {
+        background-color: #1e293b;
+        border: 1px solid #334155;
+        border-radius: 8px;
+        padding: 35px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.3);
     }
-
-    .terminal-box .highlight {
-        color: #38bdf8;
-    }
-
-    .social-link {
-        color: #f8fafc !important;
-        text-decoration: none !important;
-        font-size: 1.25rem; /* Increased */
+    .payload-label {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 10px;
+        font-weight: bold;
+        color: #64748b;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 8px;
         display: block;
-        margin-bottom: 12px;
-        transition: color 0.3s ease;
     }
+    .payload-input {
+        width: 100%;
+        background-color: #0f172a;
+        border: 1px solid #334155;
+        border-radius: 4px;
+        padding: 12px 15px;
+        color: #cbd5e1;
+        font-size: 13px;
+        margin-bottom: 20px;
+        outline: none;
+        transition: border-color 0.2s;
+    }
+    .payload-input:focus { border-color: #38bdf8; }
+    
+    .transmit-btn {
+        width: 100%;
+        background-color: #2563eb;
+        color: white;
+        font-weight: 700;
+        padding: 15px;
+        border-radius: 6px;
+        transition: all 0.3s;
+        text-transform: capitalize;
+        border: none;
+    }
+    .transmit-btn:hover { background-color: #1d4ed8; transform: translateY(-1px); }
 
-    .social-link:hover {
-        color: #38bdf8 !important;
+    /* Social Links */
+    .social-link {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: #f8fafc;
+        font-weight: 700;
+        font-size: 14px;
+        text-decoration: none !important;
+        margin-bottom: 15px;
+        transition: color 0.2s;
     }
-
-    /* Mobile Tweaks */
-    @media (max-width: 768px) {
-        .page-title { font-size: 2.8rem !important; }
-        .page-subtitle { font-size: 1.2rem !important; }
-        .terminal-box p { font-size: 1rem; }
+    .social-link:hover { color: #38bdf8; }
+    .social-link::before {
+        content: "▶";
+        font-size: 10px;
+        color: #fff;
     }
+    .mono { font-family: 'JetBrains Mono', monospace; }
   </style>
 </head>
 
@@ -161,97 +101,134 @@
 <div id="site-border-top"></div>
 <div id="site-border-bottom"></div>
 
+<!-- Standard Header used in all other pages -->
 <header>
-  <nav class="navbar navbar-fixed-top navbar-inverse" style="background: transparent !important; border: none !important; padding-top: 15px;">
+  <nav class="navbar navbar-fixed-top navbar-default">
     <div class="container">
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false" style="border-color: #475569;">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false">
           <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar" style="background-color: white;"></span>
-          <span class="icon-bar" style="background-color: white;"></span>
-          <span class="icon-bar" style="background-color: white;"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
         </button>
 
       <div class="collapse navbar-collapse" id="navbar-collapse">
         <ul class="nav navbar-nav ">
-          <li><a href="./index.html" title="" style="color: #94a3b8 !important; font-weight: 600; transition: color 0.3s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">01 : Home</a></li>
-          <li><a href="./works.html" title="" style="color: #94a3b8 !important; font-weight: 600; transition: color 0.3s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">02 : Works</a></li>
-          <li><a href="./about.html" title="" style="color: #94a3b8 !important; font-weight: 600; transition: color 0.3s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">03 : About me</a></li>
-          <li><a href="./contact.html" title="" class="active" style="color: #38bdf8 !important; font-weight: bold; border-bottom: 2px solid #38bdf8;">04 : Contact</a></li>
-          <li><a href="./resume.html" title="" style="color: #94a3b8 !important; font-weight: 600; transition: color 0.3s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">05 : Resume</a></li>
+          <li><a href="./index.html">01 : Home</a></li>
+          <li><a href="./works.html">02 : Works</a></li>
+          <li><a href="./about.html">03 : About me</a></li>
+          <li><a href="./contact.html" class="active">04 : Contact</a></li>
+          <li><a href="./resume.html">05 : Resume</a></li>
         </ul>
-      </div>
+      </div> 
     </div>
   </nav>
 </header>
 
-<div class="glow-bg"></div>
-
-<div class="container" style="padding-top: 60px; position: relative; z-index: 10; min-height: 85vh;">
-    <div class="row">
-        <div class="col-xs-12 text-center">
-            <h1 class="page-title">04 : Contact</h1>
-            <p class="page-subtitle">> Establish a secure connection_</p>
-        </div>
-    </div>
-
-    <div class="row" style="margin-top: 20px;">
-
-        <div class="col-md-5 col-md-offset-1">
-            <div class="terminal-box">
-                <p><span class="highlight">root@server:~#</span> systemctl status comms</p>
-                <p style="color: #4ade80;">● active (listening) on port 443</p>
-                <br>
-                <p><span class="highlight">root@server:~#</span> cat /etc/contact_info</p>
-                <p style="color: #e2e8f0;">Location : Kuala Lumpur, Malaysia</p>
-                <p style="color: #e2e8f0;">Email : <a href="mailto:soheilk1@proton.me" style="color: #38bdf8;">soheilk1@proton.me</a></p>
-            </div>
-
-            <div style="padding-left: 10px; margin-bottom: 40px;">
-                <h4 style="color: #94a3b8; text-transform: uppercase; letter-spacing: 2px; font-size: 1.1rem; margin-bottom: 15px;">Encrypted Networks</h4>
-                <a href="https://www.linkedin.com/in/soheil-karami-00a28077/" target="_blank" class="social-link">► LinkedIn Profile</a>
-                <a href="https://github.com/soheilk1" target="_blank" class="social-link">► GitHub Repository</a>
-            </div>
-        </div>
-
-        <div class="col-md-5">
-            <div class="secure-form-container">
-                <form action="/submit_form" method="POST">
-
-                    <div class="form-group" style="margin-bottom: 20px;">
-                        <label class="custom-label">Target Address (Email)</label>
-                        <input type="email" name="email" class="form-control custom-input" placeholder="user@domain.com" required>
+<div class="section-container">
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12">
+          
+          <div class="section-container-spacer text-center">
+            <h1 class="h2">04 : Contact</h1>
+            <p class="text-sky-400 mono text-sm tracking-widest" style="color: #38bdf8;">> Establish a secure connection_</p>
+          </div>
+          
+          <div class="row">
+            <div class="col-md-10 col-md-offset-1">
+              <div class="row">
+                
+                <!-- Left: Terminal and Links -->
+                <div class="col-md-6">
+                    <div class="terminal-box mono text-sm leading-relaxed" style="margin-bottom: 30px;">
+                        <p class="mb-4">
+                            <span style="color: #38bdf8;">root@server:~#</span> systemctl status comms<br>
+                            <span style="color: #22c55e;">● active (listening) on port 443</span>
+                        </p>
+                        
+                        <p style="margin-top: 30px;">
+                            <span style="color: #38bdf8;">root@server:~#</span> cat /etc/contact_info<br>
+                            <span style="color: #94a3b8;">Location :</span> Kuala Lumpur, Malaysia<br>
+                            <span style="color: #94a3b8;">Email :</span> <span style="color: #38bdf8; font-weight: bold;">soheilk1@proton.me</span>
+                        </p>
                     </div>
 
-                    <div class="form-group" style="margin-bottom: 20px;">
-                        <label class="custom-label">Subject Protocol</label>
-                        <input type="text" name="subject" class="form-control custom-input" placeholder="Project Inquiry" required>
+                    <div style="margin-top: 40px;">
+                        <h3 class="mono text-[10px] uppercase tracking-widest font-bold" style="font-size: 10px; color: #64748b; margin-bottom: 20px;">Encrypted Networks</h3>
+                        <a href="https://linkedin.com/in/soheil-karami" target="_blank" class="social-link">LinkedIn Profile</a>
+                        <a href="https://github.com/soheilk1" target="_blank" class="social-link">GitHub Repository</a>
                     </div>
+                </div>
 
-                    <div class="form-group" style="margin-bottom: 20px;">
-                        <label class="custom-label">Encrypted Payload (Message)</label>
-                        <textarea name="message" class="form-control custom-input" rows="6" placeholder="Enter your message here..." required></textarea>
+                <!-- Right: Transmission Form -->
+                <div class="col-md-6">
+                    <div class="payload-box">
+                        <form id="contact-form" onsubmit="event.preventDefault(); handleTransmit();">
+                            <label class="payload-label">Target Address (Email)</label>
+                            <input type="email" id="sender-email" required placeholder="user@domain.com" class="payload-input">
+
+                            <label class="payload-label">Subject Protocol</label>
+                            <input type="text" id="sender-subject" required placeholder="Project Inquiry" class="payload-input">
+
+                            <label class="payload-label">Encrypted Payload (Message)</label>
+                            <textarea id="sender-message" required rows="6" placeholder="Enter your message here..." class="payload-input" style="resize: none;"></textarea>
+
+                            <button type="submit" class="transmit-btn">Transmit Data Securely</button>
+                        </form>
                     </div>
+                </div>
 
-                    <button type="submit" class="btn-submit">Transmit Data Securely</button>
-
-                </form>
+              </div>
             </div>
-        </div>
-
+          </div>
+          
+       </div>
+      </div>
     </div>
 </div>
 
-<footer class="text-center" style="padding: 20px 0; color: #64748b; font-size: 1rem; margin-top: auto;">
-    <div class="container">
-        <div class="row">
-            <div class="col-xs-12">
-                <p>© Soheil Karami | DevSecOps & IT Professional</p>
-            </div>
-        </div>
+<footer class="footer-container text-center">
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12">
+        <p>© Soheil Karami | DevSecOps & IT Professional</p>
+      </div>
     </div>
+  </div>
 </footer>
 
 <script>
+  // --- Visitor Tracker (Absolute URL for stability) ---
+  setTimeout(() => {
+      fetch("https://soheilk.online/api/track_view", { 
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ page: "contact" })
+      }).catch(e => console.error(e));
+  }, 1000);
+
+  // --- Form Handler ---
+  function handleTransmit() {
+      const btn = document.querySelector('.transmit-btn');
+      const originalText = btn.innerText;
+      btn.innerText = "Encrypting & Sending...";
+      btn.disabled = true;
+      
+      // Simulation of transmission
+      setTimeout(() => {
+          btn.innerText = "Transmission Complete";
+          btn.style.backgroundColor = "#22c55e";
+          document.getElementById('contact-form').reset();
+          
+          setTimeout(() => {
+              btn.innerText = originalText;
+              btn.style.backgroundColor = "#2563eb";
+              btn.disabled = false;
+          }, 3000);
+      }, 1500);
+  }
+
   document.addEventListener("DOMContentLoaded", function (event) {
      if (typeof navActivePage === 'function') {
          navActivePage();
@@ -260,6 +237,5 @@
 </script>
 
 <script type="text/javascript" src="./static/main.70a66962.js"></script>
-
 </body>
 </html>
