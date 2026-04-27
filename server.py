@@ -1,36 +1,49 @@
-from flask import Flask, render_template, request, redirect, jsonify
 import csv
-import traceback
-import os
-from datetime import datetime
 import json
+import os
+import traceback
+import smtplib
+from datetime import datetime
+from email.message import EmailMessage
+import google.generativeai as genai
+from dotenv import load_dotenv
+from flask import Flask, render_template, request, redirect, jsonify
 
 app = Flask(__name__)
 
-# --- SECURE API KEY LOADING ---
-# Instead of hardcoding the key, we read it securely from a file called "api_key.txt"
+# ==========================================
+# 1. CONTACT FORM EMAIL CONFIGURATION
+# ==========================================
+SENDER_EMAIL = "soheil3005@gmail.com"
+SENDER_PASSWORD = "bqvatsfoisglxays"
+RECEIVER_EMAIL = "soheil3005@gmail.com"
+
+# ==========================================
+# 2. SECURE API KEY LOADING (UPDATED)
+# ==========================================
+
+# This tells Flask to look for the hidden .env file and load the keys inside it
+load_dotenv()
+my_api_key = os.getenv("MY_SECRET_API_KEY")
+
 try:
-    # Look for the file in the same directory as server.py
-    key_path = os.path.join(os.path.dirname(__file__), 'api_key.txt')
-    with open(key_path, 'r') as key_file:
-        my_secret_key = key_file.read().strip()
+    if not my_api_key:
+        raise ValueError("Could not find MY_SECRET_API_KEY in the .env file.")
 
-    import google.generativeai as genai
-
-    genai.configure(api_key=my_secret_key)
+    genai.configure(api_key=my_api_key)
     GEMINI_READY = True
 
 except ImportError as e:
     GEMINI_READY = False
     GEMINI_ERROR = f"Library missing: {str(e)}"
-except FileNotFoundError:
-    GEMINI_READY = False
-    GEMINI_ERROR = "Could not find 'api_key.txt'. Please create this file and paste your API key inside it."
 except Exception as e:
     GEMINI_READY = False
     GEMINI_ERROR = f"Failed to load API key: {str(e)}"
 
 
+# ==========================================
+# 3. BASIC PAGE ROUTING
+# ==========================================
 @app.route("/")
 @app.route("/index.html")
 def home():
@@ -42,7 +55,9 @@ def html_page(page_name):
     return render_template(page_name)
 
 
-# --- PORTAL SECURITY & ANTI-BRUTE FORCE ---
+# ==========================================
+# 4. PORTAL SECURITY & ANTI-BRUTE FORCE
+# ==========================================
 def get_client_ip():
     ip = request.headers.get('X-Forwarded-For', request.remote_addr)
     if ip:
@@ -51,7 +66,6 @@ def get_client_ip():
 
 
 def get_portal_password():
-    # Reads password from a file. Defaults to "admin" if the file doesn't exist yet.
     pwd_file = os.path.join(os.path.dirname(__file__), 'password.txt')
     if os.path.exists(pwd_file):
         with open(pwd_file, 'r') as f:
@@ -80,7 +94,6 @@ def record_failed_attempt(ip):
 
     attempts[ip] = attempts.get(ip, 0) + 1
 
-    # Block the IP after 5 failed login attempts
     if attempts[ip] >= 3:
         banned_file = os.path.join(os.path.dirname(__file__), 'banned_ips.txt')
         with open(banned_file, 'a') as f:
@@ -104,15 +117,15 @@ def reset_failed_attempt(ip):
             pass
 
 
-# --- VIEWS TRACKER LOGIC ---
-# This endpoint silently adds 1 to the count
+# ==========================================
+# 5. ADMIN DASHBOARD & ANALYTICS
+# ==========================================
 @app.route("/api/track_view", methods=['POST', 'OPTIONS'])
 def track_view():
     if request.method == 'OPTIONS':
         return jsonify({}), 200, {'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Headers': '*'}
     try:
         ip = get_client_ip()
-
         log_file = os.path.join(os.path.dirname(__file__), 'visitor_ips.csv')
         with open(log_file, 'a', newline='') as f:
             writer = csv.writer(f)
@@ -133,7 +146,6 @@ def track_view():
         return jsonify({"error": str(e)}), 500, {'Access-Control-Allow-Origin': '*'}
 
 
-# This endpoint reads the count for your portal (Now requires POST and a password)
 @app.route("/api/get_views", methods=['POST', 'OPTIONS'])
 def get_views():
     if request.method == 'OPTIONS':
@@ -141,17 +153,15 @@ def get_views():
     try:
         ip = get_client_ip()
 
-        # 0. Check if hacker is banned
         if is_ip_banned(ip):
             return jsonify({"error": "IP Banned"}), 403, {'Access-Control-Allow-Origin': '*'}
 
-        # 1. Check Password securely
         data = request.get_json(silent=True) or {}
         if data.get('password') != get_portal_password():
             record_failed_attempt(ip)
             return jsonify({"error": "Unauthorized"}), 401, {'Access-Control-Allow-Origin': '*'}
 
-        reset_failed_attempt(ip)  # Successful login resets the strike counter
+        reset_failed_attempt(ip)
 
         count = 0
         count_file = os.path.join(os.path.dirname(__file__), 'views.txt')
@@ -178,7 +188,6 @@ def get_views():
         return jsonify({"error": str(e)}), 500, {'Access-Control-Allow-Origin': '*'}
 
 
-# --- CLEAR VIEWS & IPS LOGIC ---
 @app.route("/api/clear_views", methods=['POST', 'OPTIONS'])
 def clear_views():
     if request.method == 'OPTIONS':
@@ -188,7 +197,6 @@ def clear_views():
         if is_ip_banned(ip):
             return jsonify({"error": "IP Banned"}), 403, {'Access-Control-Allow-Origin': '*'}
 
-        # 1. Check Password securely before allowing a wipe
         data = request.get_json(silent=True) or {}
         if data.get('password') != get_portal_password():
             record_failed_attempt(ip)
@@ -196,12 +204,10 @@ def clear_views():
 
         reset_failed_attempt(ip)
 
-        # 2. Reset views count to 0
         count_file = os.path.join(os.path.dirname(__file__), 'views.txt')
         with open(count_file, 'w') as f:
             f.write("0")
 
-        # 3. Clear IP logs completely
         log_file = os.path.join(os.path.dirname(__file__), 'visitor_ips.csv')
         with open(log_file, 'w') as f:
             pass
@@ -211,7 +217,6 @@ def clear_views():
         return jsonify({"error": str(e)}), 500, {'Access-Control-Allow-Origin': '*'}
 
 
-# --- CHANGE PASSWORD LOGIC ---
 @app.route("/api/change_password", methods=['POST', 'OPTIONS'])
 def change_password():
     if request.method == 'OPTIONS':
@@ -221,7 +226,6 @@ def change_password():
         if is_ip_banned(ip):
             return jsonify({"error": "IP Banned"}), 403, {'Access-Control-Allow-Origin': '*'}
 
-        # 1. Verify current password
         data = request.get_json(silent=True) or {}
         if data.get('password') != get_portal_password():
             record_failed_attempt(ip)
@@ -229,7 +233,6 @@ def change_password():
 
         reset_failed_attempt(ip)
 
-        # 2. Get and save new password
         new_pwd = data.get('new_password')
         if not new_pwd:
             return jsonify({"error": "Invalid password"}), 400, {'Access-Control-Allow-Origin': '*'}
@@ -243,22 +246,18 @@ def change_password():
         return jsonify({"error": str(e)}), 500, {'Access-Control-Allow-Origin': '*'}
 
 
-# --- AI RESUME LOGIC ---
+# ==========================================
+# 6. AI RESUME LOGIC (With Persona Jailbreak)
+# ==========================================
 @app.route('/ask_gemini', methods=['POST', 'OPTIONS'])
 def ask_gemini():
-    # 1. Handle CORS Preflight requests
     if request.method == 'OPTIONS':
-        return jsonify({}), 200, {
-            'Access-Control-Allow-Origin': '*',
-            'Access-Control-Allow-Headers': 'Content-Type'
-        }
+        return jsonify({}), 200, {'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Headers': 'Content-Type'}
 
     try:
-        # 2. Check if the library/key successfully loaded
         if not GEMINI_READY:
             raise Exception(f"Setup Error: {GEMINI_ERROR}")
 
-        # 3. Safely parse JSON data
         user_data = request.get_json(silent=True)
         if not user_data:
             raise Exception("Invalid or missing JSON data received from the browser.")
@@ -267,19 +266,36 @@ def ask_gemini():
         if not user_prompt:
             raise Exception("No 'prompt' found in the received data.")
 
-        # 4. AUTO-DISCOVERY: Find models
+        # --- THE JAILBREAK CONTEXT ---
+        system_context = """
+        You are an AI assistant built into the portfolio website of Soheil Karami. 
+        You MUST act as his professional representative. 
+
+        CRITICAL RULES:
+        1. Soheil Karami is NOT a football player. 
+        2. Soheil Karami is a highly skilled Cloud Infrastructure & DevSecOps Engineer.
+        3. His top skills are: Python backend development, Microsoft Azure, AWS, VMware, Cybersecurity, and Linux server administration.
+        4. He has built projects like an Automated Server Threat Detector and an AWS/Azure IaC Cloud Provisioner.
+        5. He has a Master of Science in Software Management.
+        6. Be professional, concise, and highly technical. Do not invent information that is not listed here.
+
+        User Question: 
+        """
+
+        # Combine the secret context with the user's question!
+        full_prompt = system_context + user_prompt
+
         valid_models = []
         try:
             for m in genai.list_models():
                 if 'generateContent' in m.supported_generation_methods:
                     valid_models.append(m.name)
         except Exception as e:
-            raise Exception(f"Could not connect to Google to list models. Is your API key valid? Error: {str(e)}")
+            raise Exception(f"Could not connect to Google to list models. Error: {str(e)}")
 
         if not valid_models:
-            raise Exception("Your API key is valid, but it does not have permission to use ANY text generation models.")
+            raise Exception("No text generation models available.")
 
-        # 5. Pick the best available model
         selected_model = valid_models[0]
         for m in valid_models:
             if '1.5-flash' in m:
@@ -288,19 +304,17 @@ def ask_gemini():
 
         clean_model_name = selected_model.replace('models/', '')
 
-        # 6. Generate the content
         response = None
         try:
             model = genai.GenerativeModel(clean_model_name)
-            response = model.generate_content(user_prompt)
+            # We feed the model the FULL prompt (Context + User Question)
+            response = model.generate_content(full_prompt)
         except Exception as e:
-            raise Exception(
-                f"Failed using model '{clean_model_name}'. Error: {str(e)} | Models available: {valid_models}")
+            raise Exception(f"Failed using model '{clean_model_name}'. Error: {str(e)}")
 
         if not response or not response.text:
             raise Exception("The AI model returned an empty response.")
 
-        # Return success with CORS headers
         return jsonify({"reply": response.text}), 200, {'Access-Control-Allow-Origin': '*'}
 
     except Exception as e:
@@ -309,14 +323,37 @@ def ask_gemini():
         return jsonify({"error": f"Python Crash: {str(e)}"}), 500, {'Access-Control-Allow-Origin': '*'}
 
 
-# --- EXISTING DATABASE LOGIC ---
+# ==========================================
+# 7. CONTACT FORM DATABASE & EMAIL LOGIC
+# ==========================================
 def write_to_csv(data):
-    with open('database.csv', mode='a', newline='') as database:
-        email = data["email"]
-        subject = data["subject"]
-        message = data["message"]
+    # Ensure it writes to the same directory as the server script
+    csv_path = os.path.join(os.path.dirname(__file__), 'database.csv')
+    with open(csv_path, mode='a', newline='') as database:
+        email = data.get("email", "Unknown")
+        subject = data.get("subject", "No Subject")
+        message = data.get("message", "")
         csv_writer = csv.writer(database, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
-        csv_writer.writerow([email, subject, message])
+        csv_writer.writerow([email, subject, message, datetime.now().strftime("%Y-%m-%d %H:%M:%S")])
+
+
+def send_email(data):
+    user_email = data.get("email", "Unknown")
+    user_subject = data.get("subject", "No Subject")
+    user_message = data.get("message", "")
+
+    email = EmailMessage()
+    email['From'] = SENDER_EMAIL
+    email['To'] = RECEIVER_EMAIL
+    email['Subject'] = f"PORTFOLIO ALERT: {user_subject}"
+    email.set_content(
+        f"You received a new secure transmission from your portfolio!\n\nSENDER: {user_email}\n\nMESSAGE:\n{user_message}")
+
+    with smtplib.SMTP(host='smtp.gmail.com', port=587) as smtp:
+        smtp.ehlo()
+        smtp.starttls()
+        smtp.login(SENDER_EMAIL, SENDER_PASSWORD)
+        smtp.send_message(email)
 
 
 @app.route('/submit_form', methods=['POST', 'GET'])
@@ -324,9 +361,22 @@ def submit_form():
     if request.method == 'POST':
         try:
             data = request.form.to_dict()
-            write_to_csv(data)
+            write_to_csv(data)  # Save to CSV Database
+
+            # --- TEMPORARY DEBUG CODE ---
+            try:
+                send_email(data)
+            except Exception as email_err:
+                # This will print the exact Google error to your screen!
+                return f"CSV Saved, but Email Failed! Google says: {email_err}"
+            # ----------------------------
+
             return redirect('/thankyou.html')
-        except:
-            return 'Did not save to database'
+        except Exception as e:
+            return f'Did not save to database. Error: {str(e)}'
     else:
-        return 'something went wrong. try again!'
+        return 'Something went wrong. Try again!'
+
+
+if __name__ == '__main__':
+    app.run(debug=True)

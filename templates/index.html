@@ -7,30 +7,24 @@
   <meta content="width=device-width,initial-scale=1" name="viewport">
   <meta content="description" name="DevSecOps & Cloud Engineer Portfolio">
 
-  <!-- Disable tap highlight on IE -->
   <meta name="msapplication-tap-highlight" content="no">
-
   <link rel="apple-touch-icon" sizes="180x180" href="./static/assets/apple-icon-180x180.png">
   <link href="./static/assets/favicon.ico" rel="icon">
 
   <title>Soheil Karami | DevSecOps Engineer</title>
-
-  <!-- Old Template CSS -->
   <link href="./static/main.3f6952e4.css" rel="stylesheet">
 
-  <!-- Custom Modern CSS (Overriding the old template) -->
   <style>
     body, html {
         margin: 0 !important;
         padding: 0 !important;
         height: 100% !important;
-        background-color: #0f172a !important; /* Deep Slate 900 */
+        background-color: #0f172a !important;
         font-family: 'Inter', Roboto, sans-serif !important;
         color: #f8fafc !important;
         overflow: hidden !important;
     }
 
-    /* Subtle glowing background orb effect */
     .glow-bg {
         position: absolute;
         width: 600px;
@@ -70,7 +64,7 @@
     .hero-subtitle {
         font-size: 1.5rem !important;
         font-weight: 400 !important;
-        color: #38bdf8 !important; /* Neon Blue */
+        color: #38bdf8 !important;
         margin-bottom: 40px !important;
         height: 40px !important;
         display: flex;
@@ -78,7 +72,6 @@
         justify-content: center;
     }
 
-    /* Custom Blinking Cursor */
     .typing-cursor {
         display: inline-block;
         width: 3px;
@@ -93,7 +86,6 @@
         50% { opacity: 0; }
     }
 
-    /* Modern Buttons */
     .btn-container {
         display: flex;
         gap: 20px;
@@ -136,7 +128,6 @@
         transform: translateY(-2px);
     }
 
-    /* Trust Bar */
     .trust-bar {
         position: absolute;
         bottom: 40px;
@@ -171,13 +162,11 @@
 </head>
 
 <body>
-<!-- Border Frame -->
 <div id="site-border-left"></div>
 <div id="site-border-right"></div>
 <div id="site-border-top"></div>
 <div id="site-border-bottom"></div>
 
-<!-- Navbar -->
 <header>
   <nav class="navbar navbar-fixed-top navbar-inverse" style="background: transparent !important; border: none !important; padding-top: 15px;">
     <div class="container">
@@ -201,26 +190,20 @@
   </nav>
 </header>
 
-<!-- Main Hero Section -->
 <div class="glow-bg"></div>
 <div class="hero-container">
-
     <h1 class="hero-title">Soheil Karami</h1>
 
-    <!-- Custom Bulletproof Typing Animation Container -->
     <div class="hero-subtitle">
         <span id="custom-typewriter"></span><span class="typing-cursor"></span>
     </div>
 
-    <!-- Call to Action Buttons -->
     <div class="btn-container">
         <a href="./resume.html" class="btn-primary-custom">Interact with AI Resume ✨</a>
         <a href="./works.html" class="btn-secondary-custom">View Engineering Projects</a>
     </div>
-
 </div>
 
-<!-- Tech Stack Trust Bar -->
 <div class="trust-bar">
     <span>AWS & Azure</span> •
     <span>Python Automation</span> •
@@ -228,15 +211,17 @@
     <span>DevSecOps</span>
 </div>
 
-<!-- Custom Vanilla JS Typing Effect & Tracker -->
 <script>
   document.addEventListener("DOMContentLoaded", function () {
 
-      // --- Invisible Visitor Tracker ---
-      // This silently tells your Python server to add 1 view when someone loads the home page
+      // --- NEW: Identify as the Home Page ---
       setTimeout(() => {
-          fetch("https://soheilk.online/api/track_view", { method: "POST" })
-              .catch(err => console.error("Tracking error:", err));
+          fetch("https://soheilk.online/api/track_view", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ page: "home" }) // Telling server this is the Home page!
+          })
+          .catch(err => console.error("Tracking error:", err));
       }, 1000);
 
       // --- Typing Effect Logic ---
@@ -266,18 +251,15 @@
           let typingSpeed = isDeleting ? 40 : 80;
 
           if (!isDeleting && charIndex === currentTitle.length) {
-              typingSpeed = 2000; // Pause at the end of the word
+              typingSpeed = 2000;
               isDeleting = true;
           } else if (isDeleting && charIndex === 0) {
               isDeleting = false;
-              titleIndex = (titleIndex + 1) % titles.length; // Move to next word
-              typingSpeed = 500; // Pause before typing next word
+              titleIndex = (titleIndex + 1) % titles.length;
+              typingSpeed = 500;
           }
-
           setTimeout(type, typingSpeed);
       }
-
-      // Start the typing effect
       setTimeout(type, 1000);
   });
 </script>
