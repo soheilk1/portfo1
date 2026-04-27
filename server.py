@@ -24,7 +24,7 @@ SENDER_EMAIL = os.getenv("SENDER_EMAIL", "soheil3005@gmail.com")
 RECEIVER_EMAIL = os.getenv("RECEIVER_EMAIL", "soheil3005@gmail.com")
 
 # SECURITY: Never hardcode passwords! We pull this from the .env file now.
-SENDER_PASSWORD = os.getenv("SENDER_PASSWORD") 
+SENDER_PASSWORD = os.getenv("SENDER_PASSWORD")
 
 # ==========================================
 # 3. SECURE API KEY LOADING
@@ -45,6 +45,7 @@ except Exception as e:
     GEMINI_READY = False
     GEMINI_ERROR = f"Failed to load API key: {str(e)}"
 
+
 # ==========================================
 # 4. BASIC PAGE ROUTING
 # ==========================================
@@ -53,9 +54,11 @@ except Exception as e:
 def home():
     return render_template('index.html')
 
+
 @app.route('/<string:page_name>')
 def html_page(page_name):
     return render_template(page_name)
+
 
 # ==========================================
 # 5. PORTAL SECURITY & ANTI-BRUTE FORCE
@@ -66,12 +69,14 @@ def get_client_ip():
         return ip.split(',')[0].strip()
     return "Unknown IP"
 
+
 def get_portal_password():
     pwd_file = os.path.join(os.path.dirname(__file__), 'password.txt')
     if os.path.exists(pwd_file):
         with open(pwd_file, 'r') as f:
             return f.read().strip()
     return "admin"
+
 
 def is_ip_banned(ip):
     banned_file = os.path.join(os.path.dirname(__file__), 'banned_ips.txt')
@@ -80,6 +85,7 @@ def is_ip_banned(ip):
             if ip in f.read().splitlines():
                 return True
     return False
+
 
 def record_failed_attempt(ip):
     attempts_file = os.path.join(os.path.dirname(__file__), 'failed_attempts.json')
@@ -101,6 +107,7 @@ def record_failed_attempt(ip):
     with open(attempts_file, 'w') as f:
         json.dump(attempts, f)
 
+
 def reset_failed_attempt(ip):
     attempts_file = os.path.join(os.path.dirname(__file__), 'failed_attempts.json')
     if os.path.exists(attempts_file):
@@ -113,6 +120,7 @@ def reset_failed_attempt(ip):
                     json.dump(attempts, f)
         except:
             pass
+
 
 # ==========================================
 # 6. ADMIN DASHBOARD & ANALYTICS
@@ -141,6 +149,7 @@ def track_view():
         return jsonify({"views": count}), 200, {'Access-Control-Allow-Origin': '*'}
     except Exception as e:
         return jsonify({"error": str(e)}), 500, {'Access-Control-Allow-Origin': '*'}
+
 
 @app.route("/api/get_views", methods=['POST', 'OPTIONS'])
 def get_views():
@@ -183,6 +192,7 @@ def get_views():
     except Exception as e:
         return jsonify({"error": str(e)}), 500, {'Access-Control-Allow-Origin': '*'}
 
+
 @app.route("/api/clear_views", methods=['POST', 'OPTIONS'])
 def clear_views():
     if request.method == 'OPTIONS':
@@ -211,6 +221,7 @@ def clear_views():
     except Exception as e:
         return jsonify({"error": str(e)}), 500, {'Access-Control-Allow-Origin': '*'}
 
+
 @app.route("/api/change_password", methods=['POST', 'OPTIONS'])
 def change_password():
     if request.method == 'OPTIONS':
@@ -238,6 +249,7 @@ def change_password():
         return jsonify({"success": True}), 200, {'Access-Control-Allow-Origin': '*'}
     except Exception as e:
         return jsonify({"error": str(e)}), 500, {'Access-Control-Allow-Origin': '*'}
+
 
 # ==========================================
 # 7. AI RESUME LOGIC (With Persona Jailbreak)
@@ -313,6 +325,7 @@ def ask_gemini():
         print(error_trace)
         return jsonify({"error": f"Python Crash: {str(e)}"}), 500, {'Access-Control-Allow-Origin': '*'}
 
+
 # ==========================================
 # 8. CONTACT FORM DATABASE & EMAIL LOGIC
 # ==========================================
@@ -324,6 +337,7 @@ def write_to_csv(data):
         message = data.get("message", "")
         csv_writer = csv.writer(database, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
         csv_writer.writerow([email, subject, message, datetime.now().strftime("%Y-%m-%d %H:%M:%S")])
+
 
 def send_email(data):
     user_email = data.get("email", "Unknown")
@@ -346,26 +360,34 @@ def send_email(data):
         smtp.login(SENDER_EMAIL, SENDER_PASSWORD)
         smtp.send_message(email)
 
-@app.route('/submit_form', methods=['POST', 'GET'])
-def submit_form():
-    if request.method == 'POST':
+
+@app.route('/api/send_contact', methods=['POST', 'OPTIONS'])
+def send_contact():
+    # Handle the pre-flight request for CORS (so it doesn't get blocked)
+    if request.method == 'OPTIONS':
+        return jsonify({}), 200, {'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Headers': 'Content-Type'}
+
+    try:
+        # Get the JSON data sent from the contact.html fetch()
+        data = request.get_json(silent=True) or {}
+
+        # Save to database.csv
+        write_to_csv(data)
+
+        # Try to send the email
         try:
-            data = request.form.to_dict()
-            write_to_csv(data)  # Save to CSV Database
+            send_email(data)
+        except Exception as email_err:
+            # We log the error but do not crash. The user still gets a success UI.
+            print(f"Warning: Email failed to send. Error: {email_err}")
 
-            try:
-                send_email(data)
-            except Exception as email_err:
-                # Log the error on the server quietly, but don't crash the website for the user
-                print(f"Warning: Email failed to send. Google says: {email_err}")
+        # Respond to contact.html with a success message!
+        return jsonify({"success": True}), 200, {'Access-Control-Allow-Origin': '*'}
 
-            # Send them to the Thank You page regardless of email success, since the CSV saved properly
-            return redirect('/thankyou.html')
-            
-        except Exception as e:
-            return f'Did not save to database. Error: {str(e)}'
-    else:
-        return 'Something went wrong. Try again!'
+    except Exception as e:
+        return jsonify({"error": f'Did not save to database. Error: {str(e)}'}), 500, {
+            'Access-Control-Allow-Origin': '*'}
+
 
 # ==========================================
 # 9. GOOGLE CLOUD EXECUTION
