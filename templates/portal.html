@@ -3,287 +3,147 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Traffic Portal | Soheil</title>
+    <title>Traffic Portal</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-    <style>body { font-family: 'Inter', sans-serif; }</style>
+    <style>
+        body { background-color: #0f172a; color: #f8fafc; font-family: 'Inter', sans-serif; }
+        .card { background-color: #1e293b; border: 1px solid #334155; border-radius: 12px; }
+    </style>
 </head>
-<body class="bg-slate-900 text-white h-screen flex items-center justify-center p-4">
-    
-    <!-- LOGIN SCREEN -->
-    <div id="login-screen" class="bg-slate-800 p-8 rounded-2xl shadow-2xl border border-slate-700 max-w-sm w-full text-center">
-        <h1 class="text-2xl font-bold text-blue-400 mb-1">Traffic Portal</h1>
-        <p class="text-slate-400 text-sm mb-6">Enter your admin password</p>
-        
-        <input type="password" id="pass-input" class="w-full bg-slate-900 border border-slate-600 rounded-lg px-4 py-3 text-white mb-4 focus:outline-none focus:border-blue-500 transition" placeholder="Password" onkeypress="if(event.key === 'Enter') attemptLogin()">
-        
-        <p id="login-error" class="text-red-400 text-sm mb-4 hidden font-medium">Incorrect password.</p>
-        
-        <button onclick="attemptLogin()" class="w-full bg-blue-600 hover:bg-blue-500 disabled:opacity-70 text-white py-3 px-4 rounded-lg shadow-lg font-semibold transition-all">Login</button>
-        
-        <div class="mt-6">
-            <a href="./index.html" class="text-xs font-medium text-slate-500 hover:text-slate-300 transition">← Back to public site</a>
-        </div>
-    </div>
+<body class="flex items-center justify-center min-h-screen p-4">
 
-    <!-- DASHBOARD SCREEN -->
-    <div id="dashboard-screen" class="hidden bg-slate-800 p-8 rounded-2xl shadow-2xl border border-slate-700 max-w-md w-full text-center flex-col max-h-[95vh]">
-        
-        <!-- Header with Logout -->
-        <div class="flex justify-between items-center mb-6">
-            <h1 class="text-xl font-bold text-blue-400">Traffic Portal</h1>
-            <button onclick="logout()" class="text-xs font-semibold text-slate-400 hover:text-red-400 transition bg-slate-900 border border-slate-700 px-3 py-1.5 rounded-lg">Logout</button>
+    <div id="dashboard" class="w-full max-w-lg card p-8 shadow-2xl">
+        <div class="flex justify-between items-center mb-8">
+            <h1 class="text-2xl font-bold text-blue-400">Traffic Portal</h1>
+            <button onclick="logout()" class="bg-slate-700 hover:bg-slate-600 px-4 py-1 rounded text-xs font-bold uppercase border border-slate-600 transition-colors">Logout</button>
         </div>
-        
-        <!-- Dual Stats Box (THIS REPLACES THE OLD SINGLE TOTAL VIEWS BOX) -->
-        <div class="grid grid-cols-2 gap-4 mb-6">
-            <div class="bg-slate-900 p-4 rounded-xl flex flex-col justify-center border border-slate-700 shadow-inner items-center">
-                <span class="text-slate-500 text-[10px] font-bold tracking-widest uppercase mb-1">Home Views</span>
-                <h2 id="view-count-home" class="text-4xl font-black text-blue-400">...</h2>
-            </div>
-            <div class="bg-slate-900 p-4 rounded-xl flex flex-col justify-center border border-slate-700 shadow-inner items-center">
-                <span class="text-slate-500 text-[10px] font-bold tracking-widest uppercase mb-1">Resume Views</span>
-                <h2 id="view-count-resume" class="text-4xl font-black text-purple-400">...</h2>
+
+        <!-- Total Views Stats Card (Restored from Screenshot) -->
+        <div class="bg-slate-900/40 rounded-lg p-6 mb-6 text-center border border-slate-700/50 shadow-inner">
+            <h2 class="text-[11px] text-slate-500 font-bold tracking-widest uppercase mb-3">Total Views</h2>
+            <div id="total-views" class="text-5xl font-black text-blue-400 drop-shadow-md">0</div>
+        </div>
+
+        <!-- Recent Visitors List -->
+        <div class="bg-slate-900/50 rounded-lg p-5 mb-8 max-h-64 overflow-y-auto border border-slate-700">
+            <p class="text-[10px] text-slate-500 uppercase font-bold mb-4 tracking-widest">Recent Visitors (IPs)</p>
+            <div id="visitor-list" class="space-y-3 text-[11px] font-mono">
+                <!-- Data from API -->
             </div>
         </div>
 
-        <!-- Visitor Logs Table -->
-        <div class="bg-slate-900 rounded-xl border border-slate-700 shadow-inner mb-6 overflow-hidden flex flex-col text-left">
-            <div class="px-4 py-3 border-b border-slate-700 bg-slate-800/50 flex justify-between">
-                <span class="text-slate-400 text-xs font-bold tracking-widest uppercase">Recent Visitors</span>
-            </div>
-            <div class="h-48 overflow-y-auto p-0 scrollbar-thin scrollbar-thumb-slate-700">
-                <table class="w-full text-xs text-left text-slate-400">
-                    <tbody id="visitor-list" class="divide-y divide-slate-700/50">
-                        <tr>
-                            <td class="px-4 py-3 text-center text-slate-500">Loading visitors...</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <!-- Buttons Section -->
+        <!-- Action Buttons -->
         <div class="space-y-3">
-            <button id="refresh-btn" onclick="refreshStats()" class="w-full bg-blue-600 hover:bg-blue-500 disabled:opacity-70 disabled:cursor-not-allowed text-white py-3 px-4 rounded-lg shadow-lg hover:shadow-xl transition-all font-semibold flex items-center justify-center gap-2">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
-                <span>Refresh Stats</span>
+            <button onclick="loadStats()" class="w-full bg-blue-600 hover:bg-blue-500 py-3 rounded-lg font-bold flex items-center justify-center gap-2 transition-all shadow-lg">
+                <span>🔄</span> Refresh Stats
             </button>
 
-            <button onclick="openPasswordModal()" class="w-full bg-slate-700 hover:bg-slate-600 text-slate-200 hover:text-white py-2 px-4 rounded-lg transition-all text-sm font-semibold flex items-center justify-center gap-2">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"></path></svg>
-                <span>Change Password</span>
+            <button onclick="changePassword()" class="w-full bg-slate-700 hover:bg-slate-600 py-3 rounded-lg font-bold flex items-center justify-center gap-2 transition-all shadow-md">
+                <span>🔑</span> Change Password
             </button>
 
-            <button id="clear-btn" onclick="clearStats()" class="w-full bg-red-900/40 hover:bg-red-600 border border-red-800 text-red-200 hover:text-white disabled:opacity-70 disabled:cursor-not-allowed py-2 px-4 rounded-lg transition-all text-sm font-semibold flex items-center justify-center gap-2">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
-                <span>Clear Data</span>
+            <button onclick="clearData()" class="w-full bg-red-900/40 hover:bg-red-800/60 border border-red-500/30 py-3 rounded-lg font-bold text-red-200 flex items-center justify-center gap-2 transition-all shadow-md">
+                <span>🗑️</span> Clear Data
             </button>
-        </div>
-    </div>
-
-    <!-- CHANGE PASSWORD MODAL -->
-    <div id="password-modal" class="hidden fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-        <div class="bg-slate-800 p-6 rounded-2xl border border-slate-700 max-w-xs w-full shadow-2xl text-center">
-            <h3 class="text-xl font-bold text-white mb-4">Change Password</h3>
-            <input type="password" id="new-pass-input" class="w-full bg-slate-900 border border-slate-600 rounded-lg px-4 py-2.5 text-white mb-2 focus:outline-none focus:border-blue-500 transition text-sm" placeholder="Enter new password">
-            <p id="pwd-error" class="text-red-400 text-xs mb-4 hidden font-medium"></p>
-            <p id="pwd-success" class="text-green-400 text-xs mb-4 hidden font-medium">Password updated successfully!</p>
-            <div class="flex gap-2 mt-4">
-                <button onclick="closePasswordModal()" class="flex-1 bg-slate-700 hover:bg-slate-600 text-white py-2 rounded-lg font-semibold transition-all text-sm">Cancel</button>
-                <button id="save-pwd-btn" onclick="saveNewPassword()" class="flex-1 bg-blue-600 hover:bg-blue-500 text-white py-2 rounded-lg font-semibold transition-all text-sm">Save</button>
-            </div>
         </div>
     </div>
 
     <script>
-        let sessionPassword = "";
+        const BASE_URL = "https://soheilk.pythonanywhere.com";
+        const isPreview = window.location.protocol === 'blob:' || window.location.origin === 'null' || window.location.protocol === 'data:';
 
-        async function attemptLogin() {
-            sessionPassword = document.getElementById('pass-input').value;
-            const errorText = document.getElementById('login-error');
-            const loginBtn = document.querySelector('#login-screen button');
-
-            loginBtn.innerHTML = "Checking...";
-            loginBtn.disabled = true;
-            errorText.classList.add('hidden');
-
-            try {
-                const response = await fetch("/api/get_views", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ password: sessionPassword })
-                });
-
-                if (response.status === 401) {
-                    errorText.innerText = "Incorrect password.";
-                    errorText.classList.remove('hidden');
-                    sessionPassword = "";
-                } else if (response.ok) {
-                    const data = await response.json();
-                    document.getElementById('login-screen').classList.add('hidden');
-                    document.getElementById('dashboard-screen').classList.remove('hidden');
-                    document.getElementById('dashboard-screen').classList.add('flex');
-                    renderData(data);
-                } else {
-                    throw new Error("Server error");
-                }
-            } catch (e) {
-                errorText.innerText = "Offline or Network Error.";
-                errorText.classList.remove('hidden');
-            } finally {
-                loginBtn.innerHTML = "Login";
-                loginBtn.disabled = false;
+        const getSafeUrl = (endpoint) => {
+            if (isPreview) {
+                return `${BASE_URL}${endpoint}`;
             }
-        }
+            return endpoint;
+        };
 
-        async function refreshStats() {
-            const btn = document.getElementById('refresh-btn');
-            const originalHTML = btn.innerHTML;
-            btn.innerHTML = `<svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Fetching...`;
-            btn.disabled = true;
-
+        // Safe redirect function to catch the SyntaxError in preview/blob environments
+        const safeRedirect = (url) => {
             try {
-                const response = await fetch("/api/get_views", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ password: sessionPassword })
-                });
-                
-                if (response.ok) {
-                    const data = await response.json();
-                    renderData(data);
-                } else if (response.status === 401) {
-                    logout(); 
-                }
+                window.location.href = url;
             } catch (error) {
-                document.getElementById('view-count-home').innerText = "Err";
-                document.getElementById('view-count-resume').innerText = "Err";
-            } finally {
-                btn.innerHTML = originalHTML;
-                btn.disabled = false;
+                console.warn("Redirect safely blocked by preview environment.");
+                document.getElementById('dashboard').innerHTML = `
+                    <div class="text-center py-10">
+                        <p class="text-blue-400 font-bold mb-2">Action completed.</p>
+                        <p class="text-slate-500 text-sm">Automatic redirection is disabled in the preview editor.</p>
+                    </div>`;
             }
+        };
+
+        const pass = sessionStorage.getItem('admin_session_pass');
+
+        // Check Auth
+        if (!pass) {
+            safeRedirect('./resume.html');
         }
 
-        function renderData(data) {
-            const homeEl = document.getElementById('view-count-home');
-            const resumeEl = document.getElementById('view-count-resume');
-            const listEl = document.getElementById('visitor-list');
+        async function loadStats() {
+            if (!pass) return;
+            const list = document.getElementById('visitor-list');
+            const totalViews = document.getElementById('total-views');
 
-            if (data.views) {
-                homeEl.innerText = data.views.home || 0;
-                resumeEl.innerText = data.views.resume || 0;
-            } else {
-                homeEl.innerText = "Error";
-                resumeEl.innerText = "Error";
-            }
-
-            if (data.visitors && data.visitors.length > 0) {
-                listEl.innerHTML = data.visitors.map(v => {
-                    // Create beautiful colored badges based on which page they visited
-                    let pageBadge = `<span class="bg-slate-700 text-slate-300 px-2 py-0.5 rounded text-[10px] uppercase font-bold tracking-wider">${v.page || 'unknown'}</span>`;
-                    
-                    if (v.page === 'home') {
-                        pageBadge = `<span class="bg-blue-900/50 text-blue-300 border border-blue-800 px-2 py-0.5 rounded text-[10px] uppercase font-bold tracking-wider">Home</span>`;
-                    } else if (v.page === 'resume') {
-                        pageBadge = `<span class="bg-purple-900/50 text-purple-300 border border-purple-800 px-2 py-0.5 rounded text-[10px] uppercase font-bold tracking-wider">Resume</span>`;
-                    }
-
-                    return `
-                    <tr class="hover:bg-slate-800/30 transition border-b border-slate-700/30">
-                        <td class="px-4 py-3 font-mono text-blue-400 text-xs">${v.ip}</td>
-                        <td class="px-2 py-3 text-center">${pageBadge}</td>
-                        <td class="px-4 py-3 text-right text-slate-500 text-[10px] sm:text-xs">${v.time}</td>
-                    </tr>
-                `}).join('');
-            } else {
-                listEl.innerHTML = `<tr><td colspan="3" class="px-4 py-4 text-center text-slate-500">No visitors logged yet</td></tr>`;
-            }
-        }
-
-        async function clearStats() {
-            if (!confirm("Are you sure you want to delete all views and visitor IP logs? This cannot be undone.")) return;
-            const btn = document.getElementById('clear-btn');
-            const originalHTML = btn.innerHTML;
-            btn.innerHTML = `Clearing...`;
-            btn.disabled = true;
             try {
-                const response = await fetch("/api/clear_views", { 
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ password: sessionPassword })
+                const res = await fetch(getSafeUrl('/api/get_views'), {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ password: pass })
                 });
-                if (response.ok) { await refreshStats(); } 
-                else { alert("Unauthorized. Please log in again."); logout(); }
-            } catch (error) {
-                alert("Failed to clear data: " + error.message);
-            } finally {
-                btn.innerHTML = originalHTML;
-                btn.disabled = false;
-            }
-        }
+                const data = await res.json();
 
-        function openPasswordModal() {
-            document.getElementById('password-modal').classList.remove('hidden');
-            document.getElementById('pwd-error').classList.add('hidden');
-            document.getElementById('pwd-success').classList.add('hidden');
-            document.getElementById('new-pass-input').value = '';
-        }
-
-        function closePasswordModal() {
-            document.getElementById('password-modal').classList.add('hidden');
-        }
-
-        async function saveNewPassword() {
-            const newPassword = document.getElementById('new-pass-input').value;
-            const errorText = document.getElementById('pwd-error');
-            const successText = document.getElementById('pwd-success');
-            const btn = document.getElementById('save-pwd-btn');
-            
-            if (!newPassword) {
-                errorText.innerText = "Password cannot be empty.";
-                errorText.classList.remove('hidden');
-                return;
-            }
-            
-            btn.innerText = "Saving...";
-            btn.disabled = true;
-            errorText.classList.add('hidden');
-            successText.classList.add('hidden');
-            
-            try {
-                const response = await fetch("/api/change_password", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ password: sessionPassword, new_password: newPassword })
-                });
-                
-                if (response.ok) {
-                    successText.classList.remove('hidden');
-                    sessionPassword = newPassword; 
-                    setTimeout(closePasswordModal, 1500);
-                } else if (response.status === 401) {
-                    errorText.innerText = "Session expired. Please log out and try again.";
-                    errorText.classList.remove('hidden');
-                } else {
-                    errorText.innerText = "Failed to update password.";
-                    errorText.classList.remove('hidden');
+                if (data.views !== undefined && totalViews) {
+                    totalViews.innerText = data.views;
                 }
-            } catch (e) {
-                errorText.innerText = "Network error.";
-                errorText.classList.remove('hidden');
-            } finally {
-                btn.innerText = "Save";
-                btn.disabled = false;
-            }
+
+                if (data.visitors) {
+                    list.innerHTML = data.visitors.map(v => `
+                        <div class="flex justify-between border-b border-slate-800 pb-2">
+                            <span class="text-blue-300">${v.ip}</span>
+                            <span class="text-slate-500">${v.time}</span>
+                        </div>
+                    `).join('');
+                }
+            } catch(e) { console.error("Failed to load stats:", e); }
+        }
+
+        async function changePassword() {
+            const newPass = prompt("Enter new admin password:");
+            if (!newPass) return;
+            try {
+                const res = await fetch(getSafeUrl('/api/change_password'), {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ password: pass, new_password: newPass })
+                });
+                if (res.ok) {
+                    alert("Password updated successfully!");
+                    sessionStorage.setItem('admin_session_pass', newPass);
+                } else {
+                    alert("Failed to update password.");
+                }
+            } catch(e) { console.error(e); }
+        }
+
+        async function clearData() {
+            if(!confirm("Are you sure? This will wipe all CSV and view logs.")) return;
+            await fetch(getSafeUrl('/api/clear_views'), {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ password: pass })
+            });
+            loadStats();
         }
 
         function logout() {
-            sessionPassword = "";
-            document.getElementById('pass-input').value = "";
-            document.getElementById('dashboard-screen').classList.add('hidden');
-            document.getElementById('dashboard-screen').classList.remove('flex');
-            document.getElementById('login-screen').classList.remove('hidden');
+            sessionStorage.removeItem('admin_session_pass');
+            safeRedirect('./resume.html');
+        }
+
+        // Initialize
+        if (pass) {
+            window.onload = loadStats;
         }
     </script>
 </body>
