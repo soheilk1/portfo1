@@ -6,25 +6,25 @@
   <meta content="IE=edge" http-equiv="X-UA-Compatible">
   <meta content="width=device-width,initial-scale=1" name="viewport">
   <meta content="description" name="DevSecOps & Cloud Engineer Portfolio">
-
+  
   <meta name="msapplication-tap-highlight" content="no">
   <link rel="apple-touch-icon" sizes="180x180" href="./static/assets/apple-icon-180x180.png">
   <link href="./static/assets/favicon.ico" rel="icon">
 
   <title>Soheil Karami | DevSecOps Engineer</title>
   <link href="./static/main.3f6952e4.css" rel="stylesheet">
-
+  
   <style>
     body, html {
         margin: 0 !important;
         padding: 0 !important;
         height: 100% !important;
-        background-color: #0f172a !important;
+        background-color: #0f172a !important; 
         font-family: 'Inter', Roboto, sans-serif !important;
         color: #f8fafc !important;
         overflow: hidden !important;
     }
-
+    
     .glow-bg {
         position: absolute;
         width: 600px;
@@ -64,7 +64,7 @@
     .hero-subtitle {
         font-size: 1.5rem !important;
         font-weight: 400 !important;
-        color: #38bdf8 !important;
+        color: #38bdf8 !important; 
         margin-bottom: 40px !important;
         height: 40px !important;
         display: flex;
@@ -193,7 +193,7 @@
 <div class="glow-bg"></div>
 <div class="hero-container">
     <h1 class="hero-title">Soheil Karami</h1>
-
+    
     <div class="hero-subtitle">
         <span id="custom-typewriter"></span><span class="typing-cursor"></span>
     </div>
@@ -205,18 +205,18 @@
 </div>
 
 <div class="trust-bar">
-    <span>AWS & Azure</span> •
-    <span>Python Automation</span> •
-    <span>Cybersecurity</span> •
+    <span>AWS & Azure</span> • 
+    <span>Python Automation</span> • 
+    <span>Cybersecurity</span> • 
     <span>DevSecOps</span>
 </div>
 
 <script>
   document.addEventListener("DOMContentLoaded", function () {
-
+      
       // --- NEW: Identify as the Home Page ---
       setTimeout(() => {
-          fetch("https://soheilk.online/api/track_view", {
+          fetch("https://soheilk.online/api/track_view", { 
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({ page: "home" }) // Telling server this is the Home page!
@@ -226,20 +226,20 @@
 
       // --- Typing Effect Logic ---
       const titles = [
-          "Cloud Infrastructure Engineer",
-          "DevSecOps Specialist",
-          "Python Backend Developer",
+          "Cloud Infrastructure Engineer", 
+          "DevSecOps Specialist", 
+          "Python Backend Developer", 
           "IT Operations Manager"
       ];
-
+      
       let titleIndex = 0;
       let charIndex = 0;
       let isDeleting = false;
       const typewriterElement = document.getElementById("custom-typewriter");
-
+      
       function type() {
           const currentTitle = titles[titleIndex];
-
+          
           if (isDeleting) {
               typewriterElement.textContent = currentTitle.substring(0, charIndex - 1);
               charIndex--;
@@ -247,9 +247,9 @@
               typewriterElement.textContent = currentTitle.substring(0, charIndex + 1);
               charIndex++;
           }
-
+          
           let typingSpeed = isDeleting ? 40 : 80;
-
+          
           if (!isDeleting && charIndex === currentTitle.length) {
               typingSpeed = 2000;
               isDeleting = true;
@@ -267,5 +267,4 @@
 <script type="text/javascript" src="./static/main.70a66962.js"></script>
 
 </body>
-``
 </html>
