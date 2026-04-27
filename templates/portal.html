@@ -8,42 +8,56 @@
     <style>
         body { background-color: #0f172a; color: #f8fafc; font-family: 'Inter', sans-serif; }
         .card { background-color: #1e293b; border: 1px solid #334155; border-radius: 12px; }
+
+        /* Custom Scrollbar for Visitor List */
+        .visitor-scroll::-webkit-scrollbar { width: 4px; }
+        .visitor-scroll::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
     </style>
 </head>
 <body class="flex items-center justify-center min-h-screen p-4">
 
     <div id="dashboard" class="w-full max-w-lg card p-8 shadow-2xl">
+        <!-- Header -->
         <div class="flex justify-between items-center mb-8">
             <h1 class="text-2xl font-bold text-blue-400">Traffic Portal</h1>
-            <button onclick="logout()" class="bg-slate-700 hover:bg-slate-600 px-4 py-1 rounded text-xs font-bold uppercase border border-slate-600 transition-colors">Logout</button>
+            <button onclick="logout()" class="bg-[#0f172a] hover:bg-slate-800 px-4 py-1.5 rounded-md text-xs font-bold text-slate-300 border border-slate-700 transition-colors">Logout</button>
         </div>
 
-        <!-- Total Views Stats Card (Restored from Screenshot) -->
-        <div class="bg-slate-900/40 rounded-lg p-6 mb-6 text-center border border-slate-700/50 shadow-inner">
-            <h2 class="text-[11px] text-slate-500 font-bold tracking-widest uppercase mb-3">Total Views</h2>
-            <div id="total-views" class="text-5xl font-black text-blue-400 drop-shadow-md">0</div>
+        <!-- Split Views Stats Cards -->
+        <div class="grid grid-cols-2 gap-4 mb-6">
+            <div class="bg-[#0f172a] rounded-xl p-6 text-center border border-slate-700/50 shadow-inner">
+                <h2 class="text-[10px] text-slate-500 font-bold tracking-widest uppercase mb-2">Home Views</h2>
+                <div id="home-views" class="text-4xl font-black text-blue-400">0</div>
+            </div>
+            <div class="bg-[#0f172a] rounded-xl p-6 text-center border border-slate-700/50 shadow-inner">
+                <h2 class="text-[10px] text-slate-500 font-bold tracking-widest uppercase mb-2">Resume Views</h2>
+                <div id="resume-views" class="text-4xl font-black text-fuchsia-400">0</div>
+            </div>
         </div>
 
         <!-- Recent Visitors List -->
-        <div class="bg-slate-900/50 rounded-lg p-5 mb-8 max-h-64 overflow-y-auto border border-slate-700">
-            <p class="text-[10px] text-slate-500 uppercase font-bold mb-4 tracking-widest">Recent Visitors (IPs)</p>
-            <div id="visitor-list" class="space-y-3 text-[11px] font-mono">
-                <!-- Data from API -->
+        <div class="bg-[#0f172a] rounded-xl p-5 mb-8 border border-slate-700/50 shadow-inner">
+            <p class="text-[10px] text-slate-500 uppercase font-bold mb-4 tracking-widest">Recent Visitors</p>
+            <div id="visitor-list" class="visitor-scroll space-y-2 text-[11px] font-mono h-56 overflow-y-auto pr-2">
+                <!-- Data from API injected here -->
             </div>
         </div>
 
         <!-- Action Buttons -->
         <div class="space-y-3">
-            <button onclick="loadStats()" class="w-full bg-blue-600 hover:bg-blue-500 py-3 rounded-lg font-bold flex items-center justify-center gap-2 transition-all shadow-lg">
-                <span>🔄</span> Refresh Stats
+            <button onclick="loadStats()" class="w-full bg-blue-600 hover:bg-blue-500 py-3 rounded-lg font-bold flex items-center justify-center gap-2 transition-all shadow-lg text-sm">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2v6h-6"></path><path d="M3 12a9 9 0 0 1 15-6.7L21 8"></path><path d="M3 22v-6h6"></path><path d="M21 12a9 9 0 0 1-15 6.7L3 16"></path></svg>
+                Refresh Stats
             </button>
 
-            <button onclick="changePassword()" class="w-full bg-slate-700 hover:bg-slate-600 py-3 rounded-lg font-bold flex items-center justify-center gap-2 transition-all shadow-md">
-                <span>🔑</span> Change Password
+            <button onclick="changePassword()" class="w-full bg-slate-700 hover:bg-slate-600 py-3 rounded-lg font-bold flex items-center justify-center gap-2 transition-all shadow-md text-sm text-slate-200">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 18v3c0 .6.4 1 1 1h4v-3h3v-3h2l1.4-1.4a6.5 6.5 0 1 0-4-4Z"></path><circle cx="16.5" cy="7.5" r=".5"></circle></svg>
+                Change Password
             </button>
 
-            <button onclick="clearData()" class="w-full bg-red-900/40 hover:bg-red-800/60 border border-red-500/30 py-3 rounded-lg font-bold text-red-200 flex items-center justify-center gap-2 transition-all shadow-md">
-                <span>🗑️</span> Clear Data
+            <button onclick="clearData()" class="w-full bg-[#3b1c20] hover:bg-[#522228] border border-red-900/50 py-3 rounded-lg font-bold text-red-200 flex items-center justify-center gap-2 transition-all shadow-md text-sm">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"></path><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path></svg>
+                Clear Data
             </button>
         </div>
     </div>
@@ -59,7 +73,6 @@
             return endpoint;
         };
 
-        // Safe redirect function to catch the SyntaxError in preview/blob environments
         const safeRedirect = (url) => {
             try {
                 window.location.href = url;
@@ -74,16 +87,28 @@
         };
 
         const pass = sessionStorage.getItem('admin_session_pass');
+        if (!pass) safeRedirect('./resume.html');
 
-        // Check Auth
-        if (!pass) {
-            safeRedirect('./resume.html');
+        // Helper to colorize badges based on the page visited
+        function getBadgeHtml(pageName) {
+            const page = (pageName || 'unknown').toLowerCase();
+            if (page === 'resume') {
+                return `<span class="bg-[#2d1b4e] text-[#d8b4fe] border border-[#4c1d95] px-3 py-1 rounded-md text-[9px] font-bold uppercase tracking-wider">RESUME</span>`;
+            }
+            if (page === 'home' || page === 'index') {
+                return `<span class="bg-[#1e3a8a] text-[#93c5fd] border border-[#1e40af] px-3 py-1 rounded-md text-[9px] font-bold uppercase tracking-wider">HOME</span>`;
+            }
+            if (page === 'contact') {
+                return `<span class="bg-emerald-900/40 text-emerald-400 border border-emerald-800/50 px-3 py-1 rounded-md text-[9px] font-bold uppercase tracking-wider">CONTACT</span>`;
+            }
+            return `<span class="bg-slate-800 text-slate-400 border border-slate-700 px-3 py-1 rounded-md text-[9px] font-bold uppercase tracking-wider">${page}</span>`;
         }
 
         async function loadStats() {
             if (!pass) return;
             const list = document.getElementById('visitor-list');
-            const totalViews = document.getElementById('total-views');
+            const homeViewsEl = document.getElementById('home-views');
+            const resumeViewsEl = document.getElementById('resume-views');
 
             try {
                 const res = await fetch(getSafeUrl('/api/get_views'), {
@@ -93,15 +118,30 @@
                 });
                 const data = await res.json();
 
-                if (data.views !== undefined && totalViews) {
-                    totalViews.innerText = data.views;
+                let homeCount = 0;
+                let resumeCount = 0;
+
+                // Handle both dictionary response {home: 10, resume: 20} or counting manually from logs
+                if (data.views && typeof data.views === 'object') {
+                    homeCount = data.views.home || data.views.index || 0;
+                    resumeCount = data.views.resume || 0;
+                } else if (data.visitors) {
+                    data.visitors.forEach(v => {
+                        const p = (v.page || '').toLowerCase();
+                        if (p === 'home' || p === 'index') homeCount++;
+                        if (p === 'resume') resumeCount++;
+                    });
                 }
+
+                if (homeViewsEl) homeViewsEl.innerText = homeCount;
+                if (resumeViewsEl) resumeViewsEl.innerText = resumeCount;
 
                 if (data.visitors) {
                     list.innerHTML = data.visitors.map(v => `
-                        <div class="flex justify-between border-b border-slate-800 pb-2">
-                            <span class="text-blue-300">${v.ip}</span>
-                            <span class="text-slate-500">${v.time}</span>
+                        <div class="grid grid-cols-[1fr_auto_1fr] gap-4 items-center border-b border-slate-800/80 pb-2 mb-2">
+                            <span class="text-blue-300 text-left truncate">${v.ip}</span>
+                            <div class="text-center">${getBadgeHtml(v.page)}</div>
+                            <span class="text-slate-500 text-right">${v.time}</span>
                         </div>
                     `).join('');
                 }
@@ -141,7 +181,6 @@
             safeRedirect('./resume.html');
         }
 
-        // Initialize
         if (pass) {
             window.onload = loadStats;
         }
