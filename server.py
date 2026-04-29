@@ -190,6 +190,7 @@ def ask_gemini():
             "You are the AI assistant for Soheil Karami, a DevSecOps & Cloud Engineer. "
             "Keep your answers brief, professional, and tech-focused. "
             "His core skills include Microsoft Azure, AWS, Python, Cybersecurity, and Linux. "
+            "Soheil Karami now working in Culluc company."
             f"Please answer this question from a recruiter/visitor: {user_prompt}"
         )
 

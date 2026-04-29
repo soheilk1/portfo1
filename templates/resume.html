@@ -5,10 +5,174 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Resume | Soheil Karami</title>
 
-    <!-- Using standard Bootstrap 3 -->
+    <!-- Standard Bootstrap 3 & Fonts -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <link href="./static/main.3f6952e4.css" rel="stylesheet">
+
+    <style>
+        body, html {
+            margin: 0 !important;
+            padding: 0 !important;
+            min-height: 100% !important;
+            background-color: #020617 !important;
+            font-family: 'Inter', sans-serif !important;
+            color: #f8fafc !important;
+        }
+        .mono { font-family: 'JetBrains Mono', monospace; }
+
+        /* Unified Navigation Styles */
+        .navbar-inverse {
+            background-color: rgba(15, 23, 42, 0.90) !important;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(51, 65, 85, 0.5) !important;
+            padding-top: 15px !important;
+            padding-bottom: 15px !important;
+            z-index: 1000;
+        }
+        .navbar-inverse .navbar-nav > li > a {
+            color: #94a3b8 !important;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        .navbar-inverse .navbar-nav > li > a.active {
+            color: #38bdf8 !important;
+            font-weight: bold;
+            border-bottom: 2px solid #38bdf8;
+        }
+
+        /* Component Styles */
+        .profile-card {
+            background-color: #0f172a;
+            border: 1px solid #1e293b;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            margin-bottom: 25px;
+            position: relative;
+        }
+        .profile-title { font-size: 2.5rem; font-weight: 900; margin: 0 0 10px 0; }
+        .profile-subtitle { font-size: 1.2rem; color: #38bdf8; margin-bottom: 15px; }
+
+        .skill-badge {
+            display: inline-block;
+            padding: 6px 14px;
+            background-color: #1e293b;
+            color: #cbd5e1;
+            border: 1px solid #334155;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            margin: 4px 4px 0 0;
+        }
+        .skill-badge.highlight {
+            background-color: rgba(30, 58, 138, 0.3);
+            color: #93c5fd;
+            border-color: rgba(30, 64, 175, 0.5);
+        }
+
+        .root-access-box {
+            background-color: #000;
+            border-top: 4px solid #ef4444;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+            margin-bottom: 30px;
+        }
+        .root-input {
+            width: 100%;
+            background-color: #0f172a;
+            border: 1px solid #1e293b;
+            color: #cbd5e1;
+            padding: 12px;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            font-size: 12px;
+            outline: none;
+        }
+        .root-btn {
+            width: 100%;
+            background-color: #ef4444;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 11px;
+            text-transform: uppercase;
+        }
+
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            height: 600px;
+            background-color: #0f172a;
+            border: 1px solid #1e293b;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            overflow: hidden;
+            margin-bottom: 30px;
+        }
+        .chat-header {
+            background-color: #151e2e;
+            border-bottom: 1px solid #1e293b;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 13px;
+            font-weight: bold;
+        }
+        .chat-history {
+            flex-grow: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+        .chat-input-area {
+            background-color: #151e2e;
+            border-top: 1px solid #1e293b;
+            padding: 15px;
+            position: relative;
+        }
+        .chat-input {
+            width: 100%;
+            background-color: #0f172a;
+            border: 1px solid #334155;
+            color: #f8fafc;
+            border-radius: 8px;
+            padding: 14px 60px 14px 15px;
+            outline: none;
+            font-size: 14px;
+        }
+        .chat-btn {
+            position: absolute;
+            right: 25px;
+            top: 22px;
+            background-color: #2563eb;
+            color: white;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 6px;
+        }
+        .msg-bubble {
+            padding: 12px 16px;
+            border-radius: 14px;
+            font-size: 14px;
+            max-width: 85%;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+        .msg-ai { background-color: #1e293b; border: 1px solid #334155; align-self: flex-start; }
+        .msg-user { background-color: #2563eb; color: white; align-self: flex-end; margin-left: auto; }
+
+        @media (max-width: 991px) {
+            .chat-container { height: 500px; }
+            .profile-title { font-size: 2rem; }
+        }
+    </style>
 </head>
 <body>
 
@@ -16,14 +180,12 @@
   <nav class="navbar navbar-fixed-top navbar-inverse">
     <div class="container">
         <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false" style="border-color: #475569;">
-              <span class="sr-only">Toggle navigation</span>
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
               <span class="icon-bar" style="background-color: white;"></span>
               <span class="icon-bar" style="background-color: white;"></span>
               <span class="icon-bar" style="background-color: white;"></span>
             </button>
         </div>
-
       <div class="collapse navbar-collapse" id="navbar-collapse">
         <ul class="nav navbar-nav">
           <li><a href="./index.html">01 : Home</a></li>
@@ -37,21 +199,47 @@
   </nav>
 </header>
 
-<div class="container" style="padding-top: 100px; padding-bottom: 60px;">
+<div class="container" style="padding-top: 100px;">
+    <!-- TOP ROW: Header Info (Always first) -->
     <div class="row">
-        <!-- Left Column: Profile Info -->
-        <div class="col-md-5">
+        <div class="col-xs-12">
             <div class="profile-card">
                 <h1 class="profile-title">Soheil Karami</h1>
                 <h2 class="profile-subtitle mono">DevSecOps & Cloud Engineer</h2>
-                <div style="color: #94a3b8; font-size: 14px; line-height: 2;">
+                <div style="color: #94a3b8; font-size: 13px; line-height: 2;">
                     <div>📧 <a href="mailto:soheilk1@proton.me" style="color: #cbd5e1; text-decoration: none;">soheilk1@proton.me</a></div>
                     <div>📍 Kuala Lumpur, Malaysia</div>
                 </div>
             </div>
+        </div>
+    </div>
 
-            <div class="profile-card">
-                <h3 style="font-size: 12px; color: #64748b; text-transform: uppercase; letter-spacing: 1px; font-weight: bold; margin-top: 0;">Core Competencies</h3>
+    <!-- MAIN CONTENT ROW -->
+    <div class="row">
+        <!-- RIGHT COLUMN: Chat (First in HTML = Top on Mobile. Pushed Right on Desktop) -->
+        <div class="col-md-7 col-md-push-5">
+            <div class="chat-container">
+                <div class="chat-header">
+                    <span style="width: 10px; height: 10px; background-color: #22c55e; border-radius: 50%; display: inline-block;"></span>
+                    <span class="mono">Gemini_API // Interactive Resume</span>
+                </div>
+                <div id="chat-history" class="chat-history">
+                    <span style="font-size: 10px; color: #64748b; margin-bottom: 5px; font-family: monospace;">SYSTEM_AI</span>
+                    <div class="msg-bubble msg-ai">
+                        Hello! I am Soheil's AI assistant. Ask me about his DevSecOps background or skills.
+                    </div>
+                </div>
+                <div class="chat-input-area">
+                    <input type="text" id="ai-input" class="chat-input" placeholder="Ask me anything..." onkeypress="if(event.key === 'Enter') sendToAI()">
+                    <button onclick="sendToAI()" id="ai-btn" class="chat-btn">Send</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- LEFT COLUMN: Secondary Info (Second in HTML = Bottom on Mobile. Pulled Left on Desktop) -->
+        <div class="col-md-5 col-md-pull-7">
+            <div class="profile-card" style="padding: 20px 30px;">
+                <h3 style="font-size: 11px; color: #64748b; text-transform: uppercase; letter-spacing: 1px; font-weight: bold; margin-top: 0;">Core Competencies</h3>
                 <div style="margin-top: 15px;">
                     <span class="skill-badge highlight">Microsoft Azure</span>
                     <span class="skill-badge highlight">AWS</span>
@@ -61,32 +249,10 @@
                 </div>
             </div>
 
-            <div class="root-access-box scanline mono">
-                <div style="color: #ef4444; font-size: 13px; font-weight: bold; margin-bottom: 15px;">> ROOT_ACCESS_REQUIRED</div>
+            <div class="root-access-box mono">
+                <div style="color: #ef4444; font-size: 12px; font-weight: bold; margin-bottom: 15px;">> ROOT_ACCESS_REQUIRED</div>
                 <input type="password" id="admin-pass-entry" placeholder="Admin Password" class="root-input">
                 <button onclick="checkAdmin()" class="root-btn">Authenticate</button>
-            </div>
-        </div>
-
-        <!-- Right Column: AI Chat -->
-        <div class="col-md-7">
-            <div class="chat-container">
-                <div class="chat-header">
-                    <span style="width: 10px; height: 10px; background-color: #22c55e; border-radius: 50%; display: inline-block;"></span>
-                    <span class="mono">Gemini_API // Interactive Resume</span>
-                </div>
-
-                <div id="chat-history" class="chat-history">
-                    <span style="font-size: 10px; color: #64748b; margin-bottom: 5px; font-family: monospace;">SYSTEM_AI</span>
-                    <div class="msg-bubble msg-ai">
-                        Hello! I am Soheil's AI assistant. Ask me about his DevSecOps background or skills.
-                    </div>
-                </div>
-
-                <div class="chat-input-area">
-                    <input type="text" id="ai-input" class="chat-input" placeholder="Ask me anything..." onkeypress="if(event.key === 'Enter') sendToAI()">
-                    <button onclick="sendToAI()" id="ai-btn" class="chat-btn">Send</button>
-                </div>
             </div>
         </div>
     </div>
@@ -96,57 +262,20 @@
     © Soheil Karami | DevSecOps & IT Professional
 </footer>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
 <script>
-    setTimeout(() => {
-        fetch("/api/track_view", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ page: "resume" })
-        }).catch(err => { });
-    }, 1000);
-
-    function checkAdmin() {
-        const pass = document.getElementById('admin-pass-entry').value;
-        if(pass) {
-            sessionStorage.setItem('admin_session_pass', pass);
-            window.location.href = './portal.html';
-        }
-    }
-
     async function sendToAI() {
         const input = document.getElementById('ai-input');
         const btn = document.getElementById('ai-btn');
         const history = document.getElementById('chat-history');
         const prompt = input.value.trim();
-
         if(!prompt) return;
 
-        // 1. UI: Disable inputs & show user message
-        input.disabled = true;
-        btn.disabled = true;
-        btn.innerText = "...";
+        input.disabled = true; btn.disabled = true; btn.innerText = "...";
+        history.innerHTML += `<span style="font-size: 10px; color: #64748b; margin-bottom: 5px; font-family: monospace; text-align: right; margin-left: auto;">YOU</span><div class="msg-bubble msg-user">${escapeHTML(prompt)}</div>`;
 
-        history.innerHTML += `
-            <span style="font-size: 10px; color: #64748b; margin-bottom: 5px; font-family: monospace; text-align: right; margin-left: auto;">YOU</span>
-            <div class="msg-bubble msg-user">${escapeHTML(prompt)}</div>
-        `;
-
-        // 2. UI: Show custom "Fetching" indicator in the terminal
         const loadingId = 'loading-' + Date.now();
-        history.innerHTML += `
-            <div id="${loadingId}" style="display: flex; flex-direction: column; margin-bottom: 15px;">
-                <span style="font-size: 10px; color: #38bdf8; margin-bottom: 5px; font-family: monospace;">SYSTEM_FETCH</span>
-                <div class="msg-bubble msg-ai" style="opacity: 0.6; font-style: italic; border: 1px dashed #38bdf8;">
-                    > FETCHING_PAYLOAD: Connecting to Gemini_API...
-                </div>
-            </div>
-        `;
-
-        input.value = '';
-        history.scrollTop = history.scrollHeight;
+        history.innerHTML += `<div id="${loadingId}"><span style="font-size: 10px; color: #38bdf8; font-family: monospace;">SYSTEM_FETCH</span><div class="msg-bubble msg-ai" style="opacity: 0.6; font-style: italic;">> FETCHING_PAYLOAD: Connecting to Gemini_API...</div></div>`;
+        input.value = ''; history.scrollTop = history.scrollHeight;
 
         try {
             const res = await fetch("/ask_gemini", {
@@ -155,41 +284,31 @@
                 body: JSON.stringify({ prompt: prompt })
             });
             const data = await res.json();
+            document.getElementById(loadingId).remove();
 
-            // 3. UI: Remove loading indicator
-            const loadingEl = document.getElementById(loadingId);
-            if(loadingEl) loadingEl.remove();
-
-            // 4. UI: Append AI Message or Error
             if (data.error) {
-                history.innerHTML += `
-                    <span style="font-size: 10px; color: #ef4444; margin-bottom: 5px; font-family: monospace;">SYSTEM_ERROR</span>
-                    <div class="msg-bubble msg-ai" style="border: 1px solid #ef4444; color: #fca5a5;">${data.error}</div>
-                `;
+                history.innerHTML += `<span style="font-size: 10px; color: #ef4444; font-family: monospace;">SYSTEM_ERROR</span><div class="msg-bubble msg-ai" style="border: 1px solid #ef4444; color: #fca5a5;">${data.error}</div>`;
             } else {
-                history.innerHTML += `
-                    <span style="font-size: 10px; color: #38bdf8; margin-bottom: 5px; font-family: monospace;">GEMINI_AI</span>
-                    <div class="msg-bubble msg-ai">${data.reply || 'No response.'}</div>
-                `;
+                history.innerHTML += `<span style="font-size: 10px; color: #38bdf8; font-family: monospace;">GEMINI_AI</span><div class="msg-bubble msg-ai">${data.reply || 'No response.'}</div>`;
             }
         } catch(e) {
-            const loadingEl = document.getElementById(loadingId);
-            if(loadingEl) loadingEl.remove();
-            history.innerHTML += `<div style="text-align: center; color: #ef4444; font-size: 12px; margin-top: 10px;">Connection Error: Server unreachable.</div>`;
+            if(document.getElementById(loadingId)) document.getElementById(loadingId).remove();
+            history.innerHTML += `<div style="text-align: center; color: #ef4444; font-size: 12px;">Connection Error</div>`;
         } finally {
-            input.disabled = false;
-            btn.disabled = false;
-            btn.innerText = "Send";
+            input.disabled = false; btn.disabled = false; btn.innerText = "Send";
             history.scrollTop = history.scrollHeight;
             input.focus();
         }
     }
 
-    function escapeHTML(str) {
-        return str.replace(/[&<>'"]/g, tag => ({
-            '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'
-        }[tag]));
+    function checkAdmin() {
+        const pass = document.getElementById('admin-pass-entry').value;
+        if(pass) { sessionStorage.setItem('admin_session_pass', pass); window.location.href = './portal.html'; }
     }
+    function escapeHTML(str) { return str.replace(/[&<>'"]/g, tag => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[tag])); }
 </script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </body>
 </html>
