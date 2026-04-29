@@ -68,16 +68,8 @@ def get_portal_password():
     return "admin"
 
 
-def is_ip_banned(ip):
-    banned_file = os.path.join(os.path.dirname(__file__), 'banned_ips.txt')
-    if os.path.exists(banned_file):
-        with open(banned_file, 'r') as f:
-            return ip in f.read().splitlines()
-    return False
-
-
 # ==========================================
-# 6. ADMIN API (FOR PORTAL BUTTONS)
+# 6. ADMIN API (TRACKING)
 # ==========================================
 @app.route("/api/track_view", methods=['POST', 'OPTIONS'])
 def track_view():
@@ -89,60 +81,56 @@ def track_view():
         with open(log_file, 'a', newline='') as f:
             writer = csv.writer(f)
             writer.writerow([ip, datetime.now().strftime("%Y-%m-%d %H:%M:%S"), page])
-
-        # Update simple counter
-        count_file = os.path.join(os.path.dirname(__file__), 'views.txt')
-        count = int(open(count_file, 'r').read().strip() or 0) if os.path.exists(count_file) else 0
-        with open(count_file, 'w') as f:
-            f.write(str(count + 1))
-
-        return jsonify({"success": True}), 200, {'Access-Control-Allow-Origin': '*'}
+        return jsonify({"success": True}), 200
     except:
         return jsonify({"error": "fail"}), 500
 
 
-@app.route("/api/get_views", methods=['POST', 'OPTIONS'])
-def get_views():
+# ==========================================
+# 7. AI API (DYNAMIC MODEL SELECTION)
+# ==========================================
+@app.route('/ask_gemini', methods=['POST', 'OPTIONS'])
+def ask_gemini():
     if request.method == 'OPTIONS': return jsonify({}), 200
-    data = request.get_json(silent=True) or {}
-    if data.get('password') != get_portal_password():
-        return jsonify({"error": "Unauthorized"}), 401
 
-    visitors = []
-    log_file = os.path.join(os.path.dirname(__file__), 'visitor_ips.csv')
-    if os.path.exists(log_file):
-        with open(log_file, 'r') as f:
-            reader = csv.reader(f)
-            for row in reader:
-                if len(row) >= 2:
-                    visitors.append({"ip": row[0], "time": row[1], "page": row[2] if len(row) > 2 else "N/A"})
+    try:
+        if not GEMINI_READY:
+            return jsonify({"error": f"AI offline. Details: {GEMINI_ERROR}"}), 200
 
-    visitors.reverse()
-    return jsonify({"visitors": visitors[:100], "password_ok": True}), 200
+        data = request.get_json(silent=True) or {}
+        user_prompt = data.get('prompt')
+        if not user_prompt: return jsonify({"error": "No question provided."}), 200
 
+        # DYNAMICALLY FIND COMPATIBLE MODEL
+        available_model_name = None
+        for m in genai.list_models():
+            if 'generateContent' in m.supported_generation_methods:
+                available_model_name = m.name
+                if 'flash' in available_model_name or 'pro' in available_model_name:
+                    break
 
-@app.route("/api/clear_views", methods=['POST', 'OPTIONS'])
-def clear_views():
-    data = request.get_json()
-    if data.get('password') == get_portal_password():
-        open(os.path.join(os.path.dirname(__file__), 'visitor_ips.csv'), 'w').close()
-        open(os.path.join(os.path.dirname(__file__), 'views.txt'), 'w').write("0")
-        return jsonify({"success": True})
-    return jsonify({"error": "Auth failed"}), 401
+        if not available_model_name:
+            return jsonify({"error": "No compatible AI models found for this API key/region."}), 200
 
+        system_instruction = (
+            "You are the AI assistant for Soheil Karami, a DevSecOps & Cloud Engineer. "
+            "Keep your answers brief, professional, and tech-focused. "
+            "His core skills include Microsoft Azure, AWS, Python, Cybersecurity, and Linux. "
+            "Soheil Karami now working in Culluc company."
+            f"Please answer this question from a visitor: {user_prompt}"
+        )
 
-@app.route("/api/change_password", methods=['POST', 'OPTIONS'])
-def change_password():
-    data = request.get_json()
-    if data.get('password') == get_portal_password():
-        with open(os.path.join(os.path.dirname(__file__), 'password.txt'), 'w') as f:
-            f.write(data.get('new_password').strip())
-        return jsonify({"success": True})
-    return jsonify({"error": "Auth failed"}), 401
+        model = genai.GenerativeModel(available_model_name)
+        response = model.generate_content(system_instruction)
+        return jsonify({"reply": response.text}), 200
+
+    except Exception as e:
+        traceback.print_exc()
+        return jsonify({"error": f"Internal Error: {str(e)}"}), 200
 
 
 # ==========================================
-# 7. AI & CONTACT API
+# 8. CONTACT HELPERS
 # ==========================================
 @app.route('/api/send_contact', methods=['POST', 'OPTIONS'])
 def send_contact():
@@ -156,58 +144,6 @@ def send_contact():
         return jsonify({"error": str(e)}), 500
 
 
-@app.route('/ask_gemini', methods=['POST', 'OPTIONS'])
-def ask_gemini():
-    if request.method == 'OPTIONS':
-        return jsonify({}), 200
-
-    try:
-        # 1. Check if the API key was successfully loaded
-        if not GEMINI_READY:
-            return jsonify({"error": f"AI offline. API Key is missing or invalid. Details: {GEMINI_ERROR}"}), 200
-
-        data = request.get_json(silent=True) or {}
-        user_prompt = data.get('prompt')
-
-        # 2. Prevent empty queries
-        if not user_prompt:
-            return jsonify({"error": "No question was provided."}), 200
-
-        # 3. DYNAMICALLY FIND A COMPATIBLE MODEL (Fixes the 404 Error)
-        available_model_name = None
-        for m in genai.list_models():
-            if 'generateContent' in m.supported_generation_methods:
-                available_model_name = m.name
-                # Prefer flash or pro if available, but take whatever works
-                if 'flash' in available_model_name or 'pro' in available_model_name:
-                    break
-
-        if not available_model_name:
-            return jsonify({"error": "No compatible AI models found for this API key/region."}), 200
-
-        # 4. Instruction payload for the Gemini model
-        system_instruction = (
-            "You are the AI assistant for Soheil Karami, a DevSecOps & Cloud Engineer. "
-            "Keep your answers brief, professional, and tech-focused. "
-            "His core skills include Microsoft Azure, AWS, Python, Cybersecurity, and Linux. "
-            "Soheil Karami now working in Culluc company."
-            f"Please answer this question from a recruiter/visitor: {user_prompt}"
-        )
-
-        # 5. Generate Response using the dynamically discovered model
-        model = genai.GenerativeModel(available_model_name)
-        response = model.generate_content(system_instruction)
-
-        return jsonify({"reply": response.text}), 200
-
-    except Exception as e:
-        traceback.print_exc()
-        return jsonify({"error": f"Internal Python Error occurred: {str(e)}"}), 200
-
-
-# ==========================================
-# 8. CONTACT HELPERS
-# ==========================================
 def write_to_csv(data):
     csv_path = os.path.join(os.path.dirname(__file__), 'database.csv')
     with open(csv_path, mode='a', newline='') as database:
@@ -217,9 +153,7 @@ def write_to_csv(data):
 def send_email(data):
     if not SENDER_PASSWORD: return
     email = EmailMessage()
-    email['From'] = SENDER_EMAIL
-    email['To'] = RECEIVER_EMAIL
-    email['Subject'] = f"Alert: {data.get('subject')}"
+    email['From'], email['To'], email['Subject'] = SENDER_EMAIL, RECEIVER_EMAIL, f"Alert: {data.get('subject')}"
     email.set_content(f"Sender: {data.get('email')}\n\n{data.get('message')}")
     with smtplib.SMTP(host='smtp.gmail.com', port=587) as smtp:
         smtp.starttls()

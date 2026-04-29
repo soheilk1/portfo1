@@ -5,23 +5,15 @@
   <meta charset="UTF-8">
   <meta content="IE=edge" http-equiv="X-UA-Compatible">
   <meta content="width=device-width,initial-scale=1" name="viewport">
-  <meta content="description" name="Message Successfully Received">
-
-  <meta name="msapplication-tap-highlight" content="no">
-
-  <link rel="apple-touch-icon" sizes="180x180" href="./static/assets/apple-icon-180x180.png">
-  <link href="./static/assets/favicon.ico" rel="icon">
-
   <title>Transmission Success | Soheil-K</title>
 
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
-
-  <!-- Single Unified CSS File -->
+  <!-- Required Scripts & Fonts -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
   <link href="./static/main.3f6952e4.css" rel="stylesheet">
 </head>
 
-<body>
+<body style="background-color: #0f172a; color: white;">
 <div id="site-border-left"></div>
 <div id="site-border-right"></div>
 <div id="site-border-top"></div>
@@ -30,15 +22,6 @@
 <header>
   <nav class="navbar navbar-fixed-top navbar-inverse">
     <div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false" style="border-color: #475569;">
-              <span class="sr-only">Toggle navigation</span>
-              <span class="icon-bar" style="background-color: white;"></span>
-              <span class="icon-bar" style="background-color: white;"></span>
-              <span class="icon-bar" style="background-color: white;"></span>
-            </button>
-        </div>
-
       <div class="collapse navbar-collapse" id="navbar-collapse">
         <ul class="nav navbar-nav ">
           <li><a href="./index.html">01 : Home</a></li>
@@ -52,43 +35,26 @@
   </nav>
 </header>
 
-<div class="glow-bg glow-bg-success"></div>
+<div class="container success-container" style="padding-top: 120px; text-align: center;">
+    <div class="status-code" style="color: #4ade80; border: 1px solid #4ade80; display: inline-block; padding: 10px 20px; border-radius: 6px; font-family: 'JetBrains Mono'; margin-bottom: 20px;">HTTP 200: OK</div>
+    <h1 class="page-title" style="font-size: 4rem; font-weight: 900; margin-bottom: 20px;">Transmission Successful</h1>
+    <p class="page-subtitle" style="color: #94a3b8; font-size: 1.4rem; margin-bottom: 40px;">Your message has been securely stored. I will establish contact shortly.</p>
 
-<div class="container success-container">
-
-    <div class="status-code">HTTP 200: OK</div>
-
-    <h1 class="page-title">Transmission Successful</h1>
-
-    <p class="page-subtitle">Your encrypted payload has been successfully saved to the server database. I will review the system logs and establish contact with you shortly.</p>
-
-    <div class="terminal-output">
-        <p><span class="prompt">root@server:~#</span> ./process_inquiry.sh</p>
-        <p>> Parsing data...</p>
-        <p>> Verifying sender...</p>
-        <p>> Writing to database.csv...</p>
-        <p><span class="success">[ OK ] Payload securely stored.</span></p>
-        <p><span class="prompt">root@server:~#</span> _</p>
+    <div class="terminal-output" style="background: #050505; border-left: 4px solid #4ade80; padding: 30px; text-align: left; max-width: 600px; margin: 0 auto 40px auto; font-family: 'JetBrains Mono';">
+        <p><span style="color: #38bdf8;">root@server:~#</span> ./process_inquiry.sh</p>
+        <p>> Verifying sender identity...</p>
+        <p>> Syncing to encrypted database...</p>
+        <p style="color: #4ade80;">[ OK ] Payload securely stored.</p>
     </div>
 
-    <a href="./index.html" class="btn-return">Return to Main Terminal</a>
-
+    <a href="./index.html" class="btn-return" style="border: 1px solid #475569; padding: 15px 40px; border-radius: 8px; color: white; text-decoration: none; font-weight: bold;">Return to Main Terminal</a>
 </div>
 
-<!-- FIXED: Removed "position: absolute; bottom: 0;" and replaced with margin-top -->
-<footer class="text-center" style="padding: 20px 0; color: #64748b; font-size: 1.1rem; margin-top: 40px; width: 100%;">
-    <div class="container">
-        <div class="row">
-            <div class="col-xs-12">
-                <p>© Soheil Karami | DevSecOps & IT Professional</p>
-            </div>
-        </div>
-    </div>
+<footer class="text-center" style="padding: 40px 0; color: #64748b; font-size: 1.1rem; margin-top: 60px;">
+    <p>© Soheil Karami | DevSecOps & IT Professional</p>
 </footer>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="./static/main.70a66962.js"></script>
-
 </body>
 </html>
