@@ -173,7 +173,19 @@ def ask_gemini():
         if not user_prompt:
             return jsonify({"error": "No question was provided."}), 200
 
-        # 3. Instruction payload for the Gemini model
+        # 3. DYNAMICALLY FIND A COMPATIBLE MODEL (Fixes the 404 Error)
+        available_model_name = None
+        for m in genai.list_models():
+            if 'generateContent' in m.supported_generation_methods:
+                available_model_name = m.name
+                # Prefer flash or pro if available, but take whatever works
+                if 'flash' in available_model_name or 'pro' in available_model_name:
+                    break
+
+        if not available_model_name:
+            return jsonify({"error": "No compatible AI models found for this API key/region."}), 200
+
+        # 4. Instruction payload for the Gemini model
         system_instruction = (
             "You are the AI assistant for Soheil Karami, a DevSecOps & Cloud Engineer. "
             "Keep your answers brief, professional, and tech-focused. "
@@ -181,8 +193,8 @@ def ask_gemini():
             f"Please answer this question from a recruiter/visitor: {user_prompt}"
         )
 
-        # 4. Generate Response (CHANGED TO gemini-pro TO FIX 404 ERROR)
-        model = genai.GenerativeModel('gemini-pro')
+        # 5. Generate Response using the dynamically discovered model
+        model = genai.GenerativeModel(available_model_name)
         response = model.generate_content(system_instruction)
 
         return jsonify({"reply": response.text}), 200
