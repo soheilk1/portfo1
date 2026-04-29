@@ -15,7 +15,7 @@
             margin: 0 !important;
             padding: 0 !important;
             min-height: 100% !important;
-            background-color: #020617 !important;
+            background-color: #0f172a !important;
             font-family: 'Inter', sans-serif !important;
             color: #f8fafc !important;
         }
@@ -23,7 +23,7 @@
 
         /* Unified Navigation Styles */
         .navbar-inverse {
-            background-color: rgba(15, 23, 42, 0.90) !important;
+            background-color: rgba(15, 23, 42, 0.95) !important;
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             border-bottom: 1px solid rgba(51, 65, 85, 0.5) !important;
@@ -31,26 +31,15 @@
             padding-bottom: 15px !important;
             z-index: 1000;
         }
-        .navbar-inverse .navbar-nav > li > a {
-            color: #94a3b8 !important;
-            font-weight: 600;
-            font-size: 14px;
-        }
-        .navbar-inverse .navbar-nav > li > a.active {
-            color: #38bdf8 !important;
-            font-weight: bold;
-            border-bottom: 2px solid #38bdf8;
-        }
 
-        /* Component Styles */
+        /* Component Overrides for Resume Page */
         .profile-card {
-            background-color: #0f172a;
-            border: 1px solid #1e293b;
+            background-color: #1e293b;
+            border: 1px solid #334155;
             border-radius: 12px;
             padding: 30px;
             box-shadow: 0 10px 25px rgba(0,0,0,0.5);
             margin-bottom: 25px;
-            position: relative;
         }
         .profile-title { font-size: 2.5rem; font-weight: 900; margin: 0 0 10px 0; }
         .profile-subtitle { font-size: 1.2rem; color: #38bdf8; margin-bottom: 15px; }
@@ -58,7 +47,7 @@
         .skill-badge {
             display: inline-block;
             padding: 6px 14px;
-            background-color: #1e293b;
+            background-color: #0f172a;
             color: #cbd5e1;
             border: 1px solid #334155;
             border-radius: 20px;
@@ -67,9 +56,9 @@
             margin: 4px 4px 0 0;
         }
         .skill-badge.highlight {
-            background-color: rgba(30, 58, 138, 0.3);
+            background-color: rgba(37, 99, 235, 0.2);
             color: #93c5fd;
-            border-color: rgba(30, 64, 175, 0.5);
+            border-color: rgba(37, 99, 235, 0.4);
         }
 
         .root-access-box {
@@ -200,7 +189,7 @@
 </header>
 
 <div class="container" style="padding-top: 100px;">
-    <!-- TOP ROW: Header Info (Always first) -->
+    <!-- TOP ROW: Professional Info (Name & Title) -->
     <div class="row">
         <div class="col-xs-12">
             <div class="profile-card">
@@ -214,9 +203,11 @@
         </div>
     </div>
 
-    <!-- MAIN CONTENT ROW -->
+    <!-- MAIN CONTENT ROW: Restructured for Mobile Top Chat -->
     <div class="row">
-        <!-- RIGHT COLUMN: Chat (First in HTML = Top on Mobile. Pushed Right on Desktop) -->
+        <!-- RIGHT COLUMN (col-md-7): AI Chat
+             On Mobile (xs/sm) it is first.
+             On Desktop (md/lg) it is pushed to the right. -->
         <div class="col-md-7 col-md-push-5">
             <div class="chat-container">
                 <div class="chat-header">
@@ -236,7 +227,9 @@
             </div>
         </div>
 
-        <!-- LEFT COLUMN: Secondary Info (Second in HTML = Bottom on Mobile. Pulled Left on Desktop) -->
+        <!-- LEFT COLUMN (col-md-5): Sidebar Content
+             On Mobile (xs/sm) it is second.
+             On Desktop (md/lg) it is pulled to the left. -->
         <div class="col-md-5 col-md-pull-7">
             <div class="profile-card" style="padding: 20px 30px;">
                 <h3 style="font-size: 11px; color: #64748b; text-transform: uppercase; letter-spacing: 1px; font-weight: bold; margin-top: 0;">Core Competencies</h3>
@@ -263,19 +256,48 @@
 </footer>
 
 <script>
+    // --- PORTAL TRACKING FIX ---
+    // Ensure we track this visit as "resume" for the Traffic Portal
+    setTimeout(() => {
+        fetch("/api/track_view", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ page: "resume" })
+        }).catch(err => { /* Silent in local env */ });
+    }, 1000);
+
     async function sendToAI() {
         const input = document.getElementById('ai-input');
         const btn = document.getElementById('ai-btn');
         const history = document.getElementById('chat-history');
         const prompt = input.value.trim();
+
         if(!prompt) return;
 
-        input.disabled = true; btn.disabled = true; btn.innerText = "...";
-        history.innerHTML += `<span style="font-size: 10px; color: #64748b; margin-bottom: 5px; font-family: monospace; text-align: right; margin-left: auto;">YOU</span><div class="msg-bubble msg-user">${escapeHTML(prompt)}</div>`;
+        // 1. Disable inputs
+        input.disabled = true;
+        btn.disabled = true;
+        btn.innerText = "...";
 
+        // 2. Add user message
+        history.innerHTML += `
+            <span style="font-size: 10px; color: #64748b; margin-bottom: 5px; font-family: monospace; text-align: right; margin-left: auto;">YOU</span>
+            <div class="msg-bubble msg-user">${escapeHTML(prompt)}</div>
+        `;
+
+        // 3. Show Terminal Loading (Visual Fetching)
         const loadingId = 'loading-' + Date.now();
-        history.innerHTML += `<div id="${loadingId}"><span style="font-size: 10px; color: #38bdf8; font-family: monospace;">SYSTEM_FETCH</span><div class="msg-bubble msg-ai" style="opacity: 0.6; font-style: italic;">> FETCHING_PAYLOAD: Connecting to Gemini_API...</div></div>`;
-        input.value = ''; history.scrollTop = history.scrollHeight;
+        history.innerHTML += `
+            <div id="${loadingId}">
+                <span style="font-size: 10px; color: #38bdf8; margin-bottom: 5px; font-family: monospace;">SYSTEM_FETCH</span>
+                <div class="msg-bubble msg-ai" style="opacity: 0.6; font-style: italic;">
+                    > FETCHING_PAYLOAD: Connecting to Gemini_API...
+                </div>
+            </div>
+        `;
+
+        input.value = '';
+        history.scrollTop = history.scrollHeight;
 
         try {
             const res = await fetch("/ask_gemini", {
@@ -284,18 +306,30 @@
                 body: JSON.stringify({ prompt: prompt })
             });
             const data = await res.json();
-            document.getElementById(loadingId).remove();
+
+            // Remove loading indicator
+            const loadingEl = document.getElementById(loadingId);
+            if(loadingEl) loadingEl.remove();
 
             if (data.error) {
-                history.innerHTML += `<span style="font-size: 10px; color: #ef4444; font-family: monospace;">SYSTEM_ERROR</span><div class="msg-bubble msg-ai" style="border: 1px solid #ef4444; color: #fca5a5;">${data.error}</div>`;
+                history.innerHTML += `
+                    <span style="font-size: 10px; color: #ef4444; margin-bottom: 5px; font-family: monospace;">SYSTEM_ERROR</span>
+                    <div class="msg-bubble msg-ai" style="border: 1px solid #ef4444; color: #fca5a5;">${data.error}</div>
+                `;
             } else {
-                history.innerHTML += `<span style="font-size: 10px; color: #38bdf8; font-family: monospace;">GEMINI_AI</span><div class="msg-bubble msg-ai">${data.reply || 'No response.'}</div>`;
+                history.innerHTML += `
+                    <span style="font-size: 10px; color: #38bdf8; margin-bottom: 5px; font-family: monospace;">GEMINI_AI</span>
+                    <div class="msg-bubble msg-ai">${data.reply || 'No response.'}</div>
+                `;
             }
         } catch(e) {
-            if(document.getElementById(loadingId)) document.getElementById(loadingId).remove();
-            history.innerHTML += `<div style="text-align: center; color: #ef4444; font-size: 12px;">Connection Error</div>`;
+            const loadingEl = document.getElementById(loadingId);
+            if(loadingEl) loadingEl.remove();
+            history.innerHTML += `<div style="text-align: center; color: #ef4444; font-size: 12px; margin-top: 10px;">Connection Error: Server unreachable.</div>`;
         } finally {
-            input.disabled = false; btn.disabled = false; btn.innerText = "Send";
+            input.disabled = false;
+            btn.disabled = false;
+            btn.innerText = "Send";
             history.scrollTop = history.scrollHeight;
             input.focus();
         }
@@ -303,11 +337,21 @@
 
     function checkAdmin() {
         const pass = document.getElementById('admin-pass-entry').value;
-        if(pass) { sessionStorage.setItem('admin_session_pass', pass); window.location.href = './portal.html'; }
+        if(pass) {
+            sessionStorage.setItem('admin_session_pass', pass);
+            // Use safe navigation
+            window.location.href = './portal.html';
+        }
     }
-    function escapeHTML(str) { return str.replace(/[&<>'"]/g, tag => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[tag])); }
+
+    function escapeHTML(str) {
+        return str.replace(/[&<>'"]/g, tag => ({
+            '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'
+        }[tag]));
+    }
 </script>
 
+<!-- External Scripts for Navigation Toggle -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </body>
