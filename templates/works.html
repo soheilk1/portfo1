@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta content="IE=edge" http-equiv="X-UA-Compatible">
   <meta content="width=device-width,initial-scale=1" name="viewport">
-  <meta content="description" name="DevSecOps Projects">
+  <meta content="description" name="DevSecOps Projects and Engineering Portfolio">
 
   <meta name="msapplication-tap-highlight" content="no">
   <link rel="apple-touch-icon" sizes="180x180" href="./static/assets/apple-icon-180x180.png">
@@ -54,46 +54,57 @@
         line-height: 1.6;
     }
 
+    .project-card {
+        margin-bottom: 40px;
+        transition: transform 0.3s ease;
+    }
+
+    .project-card:hover {
+        transform: translateY(-5px);
+    }
+
     .card-container {
         background-color: #1e293b !important;
         border: 1px solid #334155 !important;
-        border-radius: 8px !important;
+        border-radius: 0 0 8px 8px !important;
         box-shadow: 0 10px 25px rgba(0,0,0,0.5) !important;
-        padding: 30px !important;
-        margin-top: -40px !important;
+        padding: 25px !important;
         position: relative;
         z-index: 2;
+        text-align: left;
     }
 
     .card-container h4 {
         color: #38bdf8 !important;
         font-family: 'Roboto Mono', monospace;
-        font-size: 1rem !important;
+        font-size: 0.85rem !important;
         margin-bottom: 10px !important;
+        text-transform: uppercase;
+        letter-spacing: 1px;
     }
 
     .card-container h3 {
         color: #f8fafc !important;
-        font-size: 1.5rem !important;
+        font-size: 1.4rem !important;
         font-weight: 700 !important;
-        margin-bottom: 15px !important;
+        margin-bottom: 12px !important;
         line-height: 1.3;
     }
 
     .card-container p {
         color: #cbd5e1 !important;
-        font-size: 1.05rem !important;
+        font-size: 1rem !important;
         line-height: 1.6 !important;
-        margin-bottom: 25px !important;
+        margin-bottom: 20px !important;
     }
 
     .btn-custom {
         background-color: transparent !important;
         color: #38bdf8 !important;
         border: 1px solid #38bdf8 !important;
-        padding: 12px 24px !important;
+        padding: 10px 20px !important;
         border-radius: 6px !important;
-        font-size: 1.1rem !important;
+        font-size: 0.95rem !important;
         font-weight: 600 !important;
         text-decoration: none !important;
         transition: all 0.3s ease !important;
@@ -103,30 +114,41 @@
     .btn-custom:hover {
         background-color: #38bdf8 !important;
         color: #0f172a !important;
-        transform: translateY(-2px);
     }
 
     .img-responsive {
-        border-radius: 8px;
+        border-radius: 8px 8px 0 0;
         border: 1px solid #334155;
-        transition: transform 0.3s ease;
-        position: relative;
-        z-index: 1;
+        border-bottom: none;
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
     }
 
-    .img-responsive:hover {
-        transform: scale(1.02);
-        box-shadow: 0 0 20px rgba(56, 189, 248, 0.2);
+    .tag-container {
+        margin-bottom: 15px;
+    }
+
+    .tag {
+        display: inline-block;
+        background-color: rgba(56, 189, 248, 0.1);
+        border: 1px solid rgba(56, 189, 248, 0.2);
+        color: #38bdf8;
+        font-size: 0.75rem;
+        padding: 2px 8px;
+        border-radius: 4px;
+        margin-right: 5px;
+        font-family: 'Roboto Mono', monospace;
+    }
+
+    @media (max-width: 768px) {
+        .page-title { font-size: 2.5rem !important; }
+        .card-container { padding: 20px !important; }
     }
   </style>
 </head>
 
 <body>
-<div id="site-border-left"></div>
-<div id="site-border-right"></div>
-<div id="site-border-top"></div>
-<div id="site-border-bottom"></div>
-
 <header>
   <nav class="navbar navbar-fixed-top navbar-inverse" style="background: transparent !important; border: none !important; padding-top: 15px;">
     <div class="container">
@@ -140,6 +162,7 @@
       <div class="collapse navbar-collapse" id="navbar-collapse">
         <ul class="nav navbar-nav ">
           <li><a href="./index.html" title="" style="color: #94a3b8 !important; font-weight: 600; transition: color 0.3s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">01 : Home</a></li>
+          <!-- ACTIVE MENU ITEM -->
           <li><a href="./works.html" title="" class="active" style="color: #38bdf8 !important; font-weight: bold; border-bottom: 2px solid #38bdf8;">02 : Works</a></li>
           <li><a href="./about.html" title="" style="color: #94a3b8 !important; font-weight: 600; transition: color 0.3s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">03 : About me</a></li>
           <li><a href="./contact.html" title="" style="color: #94a3b8 !important; font-weight: 600; transition: color 0.3s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">04 : Contact</a></li>
@@ -156,46 +179,52 @@
   <div class="container">
     <div class="row">
       <div class="col-sm-8 col-sm-offset-2 text-center">
-        <h1 class="page-title">02 : Works & Projects</h1>
-        <p class="page-subtitle">A collection of my recent technical projects, focusing on DevSecOps, Python Backend Development, Cybersecurity, and Cloud Automation.</p>
+        <h1 class="page-title">02 : Engineering Works</h1>
+        <p class="page-subtitle">Exploring the intersection of secure infrastructure, automated pipelines, and intelligent backend systems.</p>
       </div>
 
       <div class="col-md-12">
         <div class="row">
 
-            <div class="col-sm-4" style="margin-bottom: 30px;">
-              <a href="./resume.html">
-                <img src="https://placehold.co/600x400/0f172a/38bdf8?text=AI+Resume+Server" alt="AI Resume Server" class="img-responsive">
-              </a>
+            <!-- Project 1 -->
+            <div class="col-sm-4 project-card">
+              <img src="https://placehold.co/600x400/0f172a/38bdf8?text=AI+Resume+Server" alt="AI Resume Server" class="img-responsive">
               <div class="card-container">
-                <h4>001/003</h4>
-                <h3>AI-Powered Flask Server & Secure Portal</h3>
-                <p>A custom Python backend utilizing the Flask framework. Integrates Google's Gemini LLM API to provide an interactive resume experience. Protected by anti-brute-force login security algorithms.</p>
-                <a href="./resume.html" class="btn-custom">View Live Demo</a>
+                <h4>Project 001</h4>
+                <h3>AI-Powered Flask Server</h3>
+                <div class="tag-container">
+                    <span class="tag">Python</span><span class="tag">Gemini API</span><span class="tag">Flask</span>
+                </div>
+                <p>A custom backend utilizing Flask to serve an interactive resume. Integrated with Google Gemini for real-time query handling.</p>
+                <a href="./resume.html" class="btn-custom">View Demo</a>
               </div>
             </div>
 
-            <div class="col-sm-4" style="margin-bottom: 30px;">
-              <a href="https://github.com/soheilk1/Server-Threat-Detector.git" target="_blank">
-                <img src="https://placehold.co/600x400/0f172a/ef4444?text=Threat+Detector" alt="Threat Detector" class="img-responsive">
-              </a>
+            <!-- Project 2 -->
+            <div class="col-sm-4 project-card">
+              <img src="https://placehold.co/600x400/0f172a/ef4444?text=Threat+Detector" alt="Threat Detector" class="img-responsive">
               <div class="card-container">
-                <h4>002/003</h4>
-                <h3>Automated Server Threat Detector</h3>
-                <p>A DevSecOps Python automation tool designed to continuously parse Linux server logs. Uses pattern recognition to detect unauthorized access attempts and instantly dispatch security alerts.</p>
-                <a href="https://github.com/soheilk1/Server-Threat-Detector.git" target="_blank" class="btn-custom">View on GitHub</a>
+                <h4>Project 002</h4>
+                <h3>Server Threat Detector</h3>
+                <div class="tag-container">
+                    <span class="tag">Cybersecurity</span><span class="tag">Automation</span><span class="tag">Logs</span>
+                </div>
+                <p>Automated Python tool that monitors server auth logs, identifies brute-force patterns, and triggers security alerts.</p>
+                <a href="https://github.com/soheilk1/Server-Threat-Detector.git" target="_blank" class="btn-custom">Source Code</a>
               </div>
             </div>
 
-            <div class="col-sm-4" style="margin-bottom: 30px;">
-              <a href="https://github.com/soheilk1/WS-Cloud-Automation.git" target="_blank">
-                <img src="https://placehold.co/600x400/0f172a/eab308?text=Cloud+Automation" alt="Cloud Automation" class="img-responsive">
-              </a>
+            <!-- Project 3 -->
+            <div class="col-sm-4 project-card">
+              <img src="https://placehold.co/600x400/0f172a/eab308?text=Cloud+Automation" alt="Cloud Automation" class="img-responsive">
               <div class="card-container">
-                <h4>003/003</h4>
-                <h3>Azure/AWS Cloud IaC Automation</h3>
-                <p>An "Infrastructure as Code" script utilizing Boto3 and Azure SDKs. Automatically provisions secure virtual machines, configures firewalls, and deploys software stacks with a single execution.</p>
-                <a href="https://github.com/soheilk1/WS-Cloud-Automation.git" target="_blank" class="btn-custom">View on GitHub</a>
+                <h4>Project 003</h4>
+                <h3>Cloud IaC Automation</h3>
+                <div class="tag-container">
+                    <span class="tag">Azure</span><span class="tag">Boto3</span><span class="tag">DevOps</span>
+                </div>
+                <p>Infrastructure as Code scripts to provision secure VM clusters and configure network security groups automatically.</p>
+                <a href="https://github.com/soheilk1/WS-Cloud-Automation.git" target="_blank" class="btn-custom">Source Code</a>
               </div>
             </div>
 
