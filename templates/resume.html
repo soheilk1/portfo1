@@ -85,7 +85,7 @@
 
                 <div class="chat-input-area">
                     <input type="text" id="ai-input" class="chat-input" placeholder="Ask me anything..." onkeypress="if(event.key === 'Enter') sendToAI()">
-                    <button onclick="sendToAI()" class="chat-btn">Send</button>
+                    <button onclick="sendToAI()" id="ai-btn" class="chat-btn">Send</button>
                 </div>
             </div>
         </div>
@@ -118,16 +118,33 @@
 
     async function sendToAI() {
         const input = document.getElementById('ai-input');
+        const btn = document.getElementById('ai-btn');
+        const history = document.getElementById('chat-history');
         const prompt = input.value.trim();
+
         if(!prompt) return;
 
-        const history = document.getElementById('chat-history');
+        // 1. UI: Disable inputs & show user message
+        input.disabled = true;
+        btn.disabled = true;
+        btn.innerText = "...";
 
-        // Append User Message
         history.innerHTML += `
             <span style="font-size: 10px; color: #64748b; margin-bottom: 5px; font-family: monospace; text-align: right; margin-left: auto;">YOU</span>
             <div class="msg-bubble msg-user">${escapeHTML(prompt)}</div>
         `;
+
+        // 2. UI: Show custom "Fetching" indicator in the terminal
+        const loadingId = 'loading-' + Date.now();
+        history.innerHTML += `
+            <div id="${loadingId}" style="display: flex; flex-direction: column; margin-bottom: 15px;">
+                <span style="font-size: 10px; color: #38bdf8; margin-bottom: 5px; font-family: monospace;">SYSTEM_FETCH</span>
+                <div class="msg-bubble msg-ai" style="opacity: 0.6; font-style: italic; border: 1px dashed #38bdf8;">
+                    > FETCHING_PAYLOAD: Connecting to Gemini_API...
+                </div>
+            </div>
+        `;
+
         input.value = '';
         history.scrollTop = history.scrollHeight;
 
@@ -139,7 +156,11 @@
             });
             const data = await res.json();
 
-            // Append AI Message or Error
+            // 3. UI: Remove loading indicator
+            const loadingEl = document.getElementById(loadingId);
+            if(loadingEl) loadingEl.remove();
+
+            // 4. UI: Append AI Message or Error
             if (data.error) {
                 history.innerHTML += `
                     <span style="font-size: 10px; color: #ef4444; margin-bottom: 5px; font-family: monospace;">SYSTEM_ERROR</span>
@@ -152,9 +173,16 @@
                 `;
             }
         } catch(e) {
+            const loadingEl = document.getElementById(loadingId);
+            if(loadingEl) loadingEl.remove();
             history.innerHTML += `<div style="text-align: center; color: #ef4444; font-size: 12px; margin-top: 10px;">Connection Error: Server unreachable.</div>`;
+        } finally {
+            input.disabled = false;
+            btn.disabled = false;
+            btn.innerText = "Send";
+            history.scrollTop = history.scrollHeight;
+            input.focus();
         }
-        history.scrollTop = history.scrollHeight;
     }
 
     function escapeHTML(str) {
