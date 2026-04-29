@@ -17,7 +17,6 @@
 <body class="flex items-center justify-center min-h-screen p-4">
 
     <div id="portal-container" class="w-full max-w-2xl card-bg p-8 rounded-2xl shadow-2xl">
-        <!-- Header -->
         <div class="flex justify-between items-center mb-10">
             <div>
                 <h1 class="text-3xl font-black text-white tracking-tight">Traffic Portal</h1>
@@ -26,7 +25,6 @@
             <button onclick="logout()" class="bg-slate-800 hover:bg-slate-700 px-5 py-2 rounded-lg text-xs font-bold transition-all border border-slate-700">LOGOUT</button>
         </div>
 
-        <!-- Stats Grid -->
         <div class="grid grid-cols-3 gap-4 mb-8">
             <div class="bg-slate-950/50 rounded-xl p-5 border border-slate-800/50 text-center">
                 <p class="text-[10px] text-slate-500 font-bold uppercase tracking-widest mb-1">Home</p>
@@ -42,7 +40,6 @@
             </div>
         </div>
 
-        <!-- Visitor List -->
         <div class="bg-slate-950/50 rounded-xl p-6 border border-slate-800/50 mb-8">
             <h3 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">Live System Logs</h3>
             <div id="visitor-list" class="visitor-scroll h-64 overflow-y-auto pr-2 space-y-3">
@@ -50,16 +47,38 @@
             </div>
         </div>
 
-        <!-- Actions -->
         <div class="flex gap-3">
-            <button onclick="loadStats()" class="flex-1 bg-blue-600 hover:bg-blue-500 py-3 rounded-xl font-bold transition-all shadow-lg shadow-blue-900/20">Refresh Logs</button>
-            <button onclick="clearData()" class="px-6 bg-red-900/20 hover:bg-red-900/40 border border-red-900/30 text-red-400 rounded-xl font-bold transition-all">Clear</button>
+            <button onclick="loadStats()" class="flex-1 bg-blue-600 hover:bg-blue-500 py-3 rounded-xl font-bold transition-all shadow-lg shadow-blue-900/20 text-sm">Refresh Logs</button>
+            <button onclick="changePassword()" class="flex-1 bg-slate-800 hover:bg-slate-700 py-3 rounded-xl font-bold transition-all border border-slate-700 text-sm">Change Password</button>
+            <button onclick="clearData()" class="px-6 bg-red-900/20 hover:bg-red-900/40 border border-red-900/30 text-red-400 rounded-xl font-bold transition-all text-sm">Clear</button>
         </div>
     </div>
 
     <script>
+        // Use a safe redirect to prevent Location.href throwing invalid URL errors in the blob preview environment
+        const safeRedirect = (url) => {
+            try {
+                if (window.location.protocol === 'blob:' || window.location.origin === 'null') {
+                    const container = document.getElementById('portal-container');
+                    if (container) {
+                        container.innerHTML = `
+                            <div class="text-center py-10">
+                                <p class="text-blue-400 font-bold mb-2">Redirect Triggered</p>
+                                <p class="text-slate-500 text-sm">Automatic navigation to <b>${url}</b> is disabled in the preview environment.</p>
+                            </div>`;
+                    }
+                    return;
+                }
+                window.location.href = url;
+            } catch (e) {
+                console.error("Redirect error blocked:", e);
+            }
+        };
+
         const pass = sessionStorage.getItem('admin_session_pass');
-        if (!pass) window.location.href = './resume.html';
+        if (!pass) {
+            safeRedirect('./resume.html');
+        }
 
         function getBadge(page) {
             const p = (page || 'unk').toLowerCase();
@@ -116,12 +135,34 @@
             loadStats();
         }
 
-        function logout() {
-            sessionStorage.removeItem('admin_session_pass');
-            window.location.href = './resume.html';
+        async function changePassword() {
+            const newPass = prompt("Enter new admin password:");
+            if (!newPass) return;
+            try {
+                const res = await fetch('/api/change_password', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ password: pass, new_password: newPass })
+                });
+                if (res.ok) {
+                    alert("Password updated successfully!");
+                    sessionStorage.setItem('admin_session_pass', newPass);
+                } else {
+                    alert("Failed to update password. Check server logs.");
+                }
+            } catch(e) {
+                alert("Network Error while changing password.");
+            }
         }
 
-        window.onload = loadStats;
+        function logout() {
+            sessionStorage.removeItem('admin_session_pass');
+            safeRedirect('./resume.html');
+        }
+
+        if (pass) {
+            window.onload = loadStats;
+        }
     </script>
 </body>
 </html>
