@@ -162,17 +162,18 @@ def ask_gemini():
         return jsonify({}), 200
 
     try:
-        # Check if the API key was successfully loaded at the top of the file
+        # 1. Check if the API key was successfully loaded
         if not GEMINI_READY:
-            return jsonify({"error": "AI is currently offline (API key missing or invalid)."}), 500
+            return jsonify({"error": f"AI offline. API Key is missing or invalid. Details: {GEMINI_ERROR}"}), 200
 
-        data = request.get_json()
+        data = request.get_json(silent=True) or {}
         user_prompt = data.get('prompt')
 
+        # 2. Prevent empty queries
         if not user_prompt:
-            return jsonify({"error": "No question was provided."}), 400
+            return jsonify({"error": "No question was provided."}), 200
 
-        # Give the AI context so it answers intelligently about your portfolio
+        # 3. Instruction payload for the Gemini model
         system_instruction = (
             "You are the AI assistant for Soheil Karami, a DevSecOps & Cloud Engineer. "
             "Keep your answers brief, professional, and tech-focused. "
@@ -180,16 +181,15 @@ def ask_gemini():
             f"Please answer this question from a recruiter/visitor: {user_prompt}"
         )
 
-        # Call the Gemini model
+        # 4. Generate Response
         model = genai.GenerativeModel('gemini-1.5-flash')
         response = model.generate_content(system_instruction)
 
-        # Send the generated text back to the frontend
         return jsonify({"reply": response.text}), 200
 
     except Exception as e:
-        traceback.print_exc()  # Prints the exact error to your server logs
-        return jsonify({"error": "AI encountered an internal error while processing the request."}), 500
+        traceback.print_exc()
+        return jsonify({"error": f"Internal Python Error occurred: {str(e)}"}), 200
 
 
 # ==========================================

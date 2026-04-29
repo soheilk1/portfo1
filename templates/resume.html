@@ -5,11 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Resume | Soheil Karami</title>
 
-    <!-- Using standard Bootstrap 3 (matches the rest of your site) -->
+    <!-- Using standard Bootstrap 3 -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
-
-    <!-- All CSS is now loaded globally from this single file -->
     <link href="./static/main.3f6952e4.css" rel="stylesheet">
 </head>
 <body>
@@ -98,7 +96,6 @@
     © Soheil Karami | DevSecOps & IT Professional
 </footer>
 
-<!-- External Scripts for Navigation Toggle -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
@@ -108,9 +105,7 @@
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ page: "resume" })
-        }).catch(err => {
-            // Silently ignoring network errors from local preview environments
-        });
+        }).catch(err => { });
     }, 1000);
 
     function checkAdmin() {
@@ -144,13 +139,20 @@
             });
             const data = await res.json();
 
-            // Append AI Message
-            history.innerHTML += `
-                <span style="font-size: 10px; color: #38bdf8; margin-bottom: 5px; font-family: monospace;">GEMINI_AI</span>
-                <div class="msg-bubble msg-ai">${data.reply || 'No response.'}</div>
-            `;
+            // Append AI Message or Error
+            if (data.error) {
+                history.innerHTML += `
+                    <span style="font-size: 10px; color: #ef4444; margin-bottom: 5px; font-family: monospace;">SYSTEM_ERROR</span>
+                    <div class="msg-bubble msg-ai" style="border: 1px solid #ef4444; color: #fca5a5;">${data.error}</div>
+                `;
+            } else {
+                history.innerHTML += `
+                    <span style="font-size: 10px; color: #38bdf8; margin-bottom: 5px; font-family: monospace;">GEMINI_AI</span>
+                    <div class="msg-bubble msg-ai">${data.reply || 'No response.'}</div>
+                `;
+            }
         } catch(e) {
-            history.innerHTML += `<div style="text-align: center; color: #ef4444; font-size: 12px; margin-top: 10px;">Connection Error</div>`;
+            history.innerHTML += `<div style="text-align: center; color: #ef4444; font-size: 12px; margin-top: 10px;">Connection Error: Server unreachable.</div>`;
         }
         history.scrollTop = history.scrollHeight;
     }
