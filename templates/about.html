@@ -12,105 +12,13 @@
   <link href="./static/assets/favicon.ico" rel="icon">
 
   <title>About Me | Soheil-K</title>
+
+  <!-- Using standard Bootstrap 3 (matches the rest of your site) -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+
+  <!-- All CSS is now loaded globally from this single file -->
   <link href="./static/main.3f6952e4.css" rel="stylesheet">
-
-  <style>
-    body, html {
-        margin: 0 !important;
-        padding: 0 !important;
-        min-height: 100% !important;
-        background-color: #0f172a !important;
-        font-family: 'Inter', Roboto, sans-serif !important;
-        color: #f8fafc !important;
-    }
-
-    .glow-bg {
-        position: fixed;
-        width: 80vw;
-        height: 80vw;
-        max-width: 800px;
-        max-height: 800px;
-        background: radial-gradient(circle, rgba(56,189,248,0.1) 0%, rgba(15,23,42,0) 70%);
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        z-index: -1;
-        pointer-events: none;
-    }
-
-    .page-title {
-        font-size: 3.5rem !important;
-        font-weight: 800 !important;
-        letter-spacing: -1px !important;
-        color: #ffffff !important;
-        margin-top: 80px !important;
-        margin-bottom: 40px !important;
-    }
-
-    .about-h3 {
-        font-size: 2rem !important;
-        font-weight: 700 !important;
-        color: #f8fafc !important;
-        margin-bottom: 20px !important;
-        margin-top: 0 !important;
-    }
-
-    .about-text {
-        font-size: 1.15rem !important;
-        line-height: 1.8 !important;
-        color: #cbd5e1 !important;
-        margin-bottom: 20px !important;
-    }
-
-    hr {
-        border-top: 1px solid #334155 !important;
-        margin: 40px 0 !important;
-    }
-
-    /* Tech Terminal Boxes */
-    .tech-box {
-        background-color: #1e293b;
-        border: 1px solid #334155;
-        border-top: 3px solid #38bdf8;
-        border-radius: 8px;
-        padding: 25px 20px;
-        height: 100%;
-        box-shadow: 0 10px 20px rgba(0,0,0,0.3);
-        margin-bottom: 20px;
-    }
-
-    .tech-box h4 {
-        color: #f8fafc !important;
-        font-family: 'Roboto Mono', monospace;
-        font-size: 1.15rem !important;
-        margin-bottom: 20px !important;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-    }
-
-    .tech-box ul {
-        list-style: none;
-        padding: 0;
-        margin: 0;
-    }
-
-    .tech-box ul li {
-        color: #94a3b8;
-        font-size: 1.05rem;
-        margin-bottom: 12px;
-        padding-left: 20px;
-        position: relative;
-    }
-
-    .tech-box ul li::before {
-        content: '>';
-        position: absolute;
-        left: 0;
-        color: #38bdf8;
-        font-family: 'Roboto Mono', monospace;
-        font-weight: bold;
-    }
-  </style>
 </head>
 
 <body>
@@ -120,22 +28,24 @@
 <div id="site-border-bottom"></div>
 
 <header>
-  <nav class="navbar navbar-fixed-top navbar-inverse" style="background: transparent !important; border: none !important; padding-top: 15px;">
+  <nav class="navbar navbar-fixed-top navbar-inverse">
     <div class="container">
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false" style="border-color: #475569;">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar" style="background-color: white;"></span>
-          <span class="icon-bar" style="background-color: white;"></span>
-          <span class="icon-bar" style="background-color: white;"></span>
-        </button>
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false" style="border-color: #475569;">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar" style="background-color: white;"></span>
+              <span class="icon-bar" style="background-color: white;"></span>
+              <span class="icon-bar" style="background-color: white;"></span>
+            </button>
+        </div>
 
       <div class="collapse navbar-collapse" id="navbar-collapse">
         <ul class="nav navbar-nav ">
-          <li><a href="./index.html" title="" style="color: #94a3b8 !important; font-weight: 600; transition: color 0.3s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">01 : Home</a></li>
-          <li><a href="./works.html" title="" style="color: #94a3b8 !important; font-weight: 600; transition: color 0.3s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">02 : Works</a></li>
-          <li><a href="./about.html" title="" class="active" style="color: #38bdf8 !important; font-weight: bold; border-bottom: 2px solid #38bdf8;">03 : About me</a></li>
-          <li><a href="./contact.html" title="" style="color: #94a3b8 !important; font-weight: 600; transition: color 0.3s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">04 : Contact</a></li>
-          <li><a href="./resume.html" title="" style="color: #94a3b8 !important; font-weight: 600; transition: color 0.3s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">05 : Resume</a></li>
+          <li><a href="./index.html">01 : Home</a></li>
+          <li><a href="./works.html">02 : Works</a></li>
+          <li><a href="./about.html" class="active">03 : About me</a></li>
+          <li><a href="./contact.html">04 : Contact</a></li>
+          <li><a href="./resume.html">05 : Resume</a></li>
         </ul>
       </div>
     </div>
@@ -245,6 +155,21 @@
     </div>
 </footer>
 
+<!-- External Scripts for Navigation Toggle -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<script>
+    setTimeout(() => {
+        fetch("/api/track_view", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ page: "about" })
+        }).catch(err => {
+            // Silently ignoring network errors from local preview environments
+        });
+    }, 1000);
+</script>
 <script type="text/javascript" src="./static/main.70a66962.js"></script>
 </body>
 </html>

@@ -14,134 +14,12 @@
 
   <title>Transmission Success | Soheil-K</title>
 
+  <!-- Using standard Bootstrap 3 (matches the rest of your site) -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+
+  <!-- All CSS is now loaded globally from this single file -->
   <link href="./static/main.3f6952e4.css" rel="stylesheet">
-
-  <style>
-    body, html {
-        margin: 0 !important;
-        padding: 0 !important;
-        min-height: 100% !important;
-        background-color: #0f172a !important; /* Deep Slate 900 */
-        font-family: 'Inter', Roboto, sans-serif !important;
-        color: #f8fafc !important;
-    }
-
-    /* Subtle glowing background orb effect (Green for success) */
-    .glow-bg {
-        position: fixed;
-        width: 80vw;
-        height: 80vw;
-        max-width: 800px;
-        max-height: 800px;
-        background: radial-gradient(circle, rgba(74,222,128,0.15) 0%, rgba(15,23,42,0) 70%);
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        z-index: -1;
-        pointer-events: none;
-    }
-
-    .success-container {
-        min-height: 85vh;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        text-align: center;
-        padding: 80px 20px 40px 20px;
-        position: relative;
-        z-index: 10;
-    }
-
-    .status-code {
-        font-family: 'Roboto Mono', monospace;
-        color: #4ade80; /* Neon green */
-        font-size: 1.6rem; /* Massively Increased */
-        margin-bottom: 25px;
-        letter-spacing: 2px;
-        text-transform: uppercase;
-        border: 1px solid #4ade80;
-        padding: 10px 20px;
-        border-radius: 6px;
-        background-color: rgba(74, 222, 128, 0.1);
-        animation: pulse 2s infinite;
-    }
-
-    @keyframes pulse {
-        0% { box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.4); }
-        70% { box-shadow: 0 0 0 15px rgba(74, 222, 128, 0); }
-        100% { box-shadow: 0 0 0 0 rgba(74, 222, 128, 0); }
-    }
-
-    .page-title {
-        font-size: 5.5rem !important; /* Massively Increased */
-        font-weight: 900 !important;
-        letter-spacing: -1px !important;
-        color: #ffffff !important;
-        margin-bottom: 25px !important;
-        margin-top: 0 !important;
-        background: linear-gradient(to right, #ffffff, #94a3b8) !important;
-        -webkit-background-clip: text !important;
-        -webkit-text-fill-color: transparent !important;
-        line-height: 1.1 !important;
-    }
-
-    .page-subtitle {
-        color: #94a3b8 !important;
-        font-size: 1.6rem !important; /* Increased */
-        margin-bottom: 45px !important;
-        max-width: 800px;
-        line-height: 1.6;
-    }
-
-    .terminal-output {
-        font-family: 'Roboto Mono', monospace;
-        color: #a3bea3;
-        background-color: #050505;
-        border: 1px solid #334155;
-        border-left: 4px solid #4ade80;
-        border-radius: 8px;
-        padding: 30px;
-        margin-bottom: 45px;
-        text-align: left;
-        width: 100%;
-        max-width: 650px;
-        font-size: 1.3rem; /* Increased */
-        line-height: 1.7;
-        box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-    }
-
-    .terminal-output span.prompt { color: #38bdf8; }
-    .terminal-output span.success { color: #4ade80; font-weight: bold; }
-
-    .btn-return {
-        background-color: transparent !important;
-        color: #f8fafc !important;
-        padding: 18px 45px !important;
-        border-radius: 8px !important;
-        font-size: 1.4rem !important; /* Increased */
-        font-weight: 600 !important;
-        text-decoration: none !important;
-        transition: all 0.3s ease !important;
-        border: 1px solid #475569 !important;
-        display: inline-block;
-    }
-
-    .btn-return:hover {
-        background-color: #1e293b !important;
-        border-color: #38bdf8 !important;
-        color: white !important;
-        transform: translateY(-2px);
-        box-shadow: 0 4px 15px rgba(56, 189, 248, 0.2);
-    }
-
-    @media (max-width: 768px) {
-        .page-title { font-size: 3.5rem !important; }
-        .page-subtitle { font-size: 1.3rem !important; }
-        .btn-return { width: 100%; max-width: 350px; text-align: center; font-size: 1.2rem !important; }
-        .terminal-output { font-size: 1.1rem; }
-    }
-  </style>
 </head>
 
 <body>
@@ -151,29 +29,31 @@
 <div id="site-border-bottom"></div>
 
 <header>
-  <nav class="navbar navbar-fixed-top navbar-inverse" style="background: transparent !important; border: none !important; padding-top: 15px;">
+  <nav class="navbar navbar-fixed-top navbar-inverse">
     <div class="container">
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false" style="border-color: #475569;">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar" style="background-color: white;"></span>
-          <span class="icon-bar" style="background-color: white;"></span>
-          <span class="icon-bar" style="background-color: white;"></span>
-        </button>
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false" style="border-color: #475569;">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar" style="background-color: white;"></span>
+              <span class="icon-bar" style="background-color: white;"></span>
+              <span class="icon-bar" style="background-color: white;"></span>
+            </button>
+        </div>
 
       <div class="collapse navbar-collapse" id="navbar-collapse">
         <ul class="nav navbar-nav ">
-          <li><a href="./index.html" title="" style="color: #94a3b8 !important; font-weight: 600; transition: color 0.3s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">01 : Home</a></li>
-          <li><a href="./works.html" title="" style="color: #94a3b8 !important; font-weight: 600; transition: color 0.3s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">02 : Works</a></li>
-          <li><a href="./about.html" title="" style="color: #94a3b8 !important; font-weight: 600; transition: color 0.3s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">03 : About me</a></li>
-          <li><a href="./contact.html" title="" style="color: #94a3b8 !important; font-weight: 600; transition: color 0.3s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">04 : Contact</a></li>
-          <li><a href="./resume.html" title="" style="color: #94a3b8 !important; font-weight: 600; transition: color 0.3s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">05 : Resume</a></li>
+          <li><a href="./index.html">01 : Home</a></li>
+          <li><a href="./works.html">02 : Works</a></li>
+          <li><a href="./about.html">03 : About me</a></li>
+          <li><a href="./contact.html" class="active">04 : Contact</a></li>
+          <li><a href="./resume.html">05 : Resume</a></li>
         </ul>
       </div>
     </div>
   </nav>
 </header>
 
-<div class="glow-bg"></div>
+<div class="glow-bg glow-bg-success"></div>
 
 <div class="container success-container">
 
@@ -206,14 +86,9 @@
     </div>
 </footer>
 
-<script>
-  document.addEventListener("DOMContentLoaded", function (event) {
-     if (typeof navActivePage === 'function') {
-         navActivePage();
-     }
-  });
-</script>
-
+<!-- External Scripts for Navigation Toggle -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="./static/main.70a66962.js"></script>
 
 </body>

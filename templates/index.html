@@ -6,184 +6,42 @@
   <meta content="IE=edge" http-equiv="X-UA-Compatible">
   <meta content="width=device-width,initial-scale=1" name="viewport">
   <meta content="description" name="DevSecOps & Cloud Engineer Portfolio">
-  
+
   <meta name="msapplication-tap-highlight" content="no">
   <link rel="apple-touch-icon" sizes="180x180" href="./static/assets/apple-icon-180x180.png">
   <link href="./static/assets/favicon.ico" rel="icon">
 
   <title>Soheil Karami | DevSecOps Engineer</title>
+
+  <!-- All CSS is now loaded globally from this single file -->
   <link href="./static/main.3f6952e4.css" rel="stylesheet">
-  
-  <style>
-    body, html {
-        margin: 0 !important;
-        padding: 0 !important;
-        height: 100% !important;
-        background-color: #0f172a !important; 
-        font-family: 'Inter', Roboto, sans-serif !important;
-        color: #f8fafc !important;
-        overflow: hidden !important;
-    }
-    
-    .glow-bg {
-        position: absolute;
-        width: 600px;
-        height: 600px;
-        background: radial-gradient(circle, rgba(56,189,248,0.15) 0%, rgba(15,23,42,0) 70%);
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        z-index: -1;
-        pointer-events: none;
-    }
-
-    .hero-container {
-        height: 100vh;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        text-align: center;
-        padding: 0 20px;
-        position: relative;
-        z-index: 1;
-    }
-
-    .hero-title {
-        font-size: 4rem !important;
-        font-weight: 900 !important;
-        letter-spacing: -1px !important;
-        margin-bottom: 10px !important;
-        margin-top: 0 !important;
-        color: #ffffff !important;
-        background: linear-gradient(to right, #ffffff, #94a3b8) !important;
-        -webkit-background-clip: text !important;
-        -webkit-text-fill-color: transparent !important;
-    }
-
-    .hero-subtitle {
-        font-size: 1.5rem !important;
-        font-weight: 400 !important;
-        color: #38bdf8 !important; 
-        margin-bottom: 40px !important;
-        height: 40px !important;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .typing-cursor {
-        display: inline-block;
-        width: 3px;
-        height: 1.5rem;
-        background-color: #38bdf8;
-        margin-left: 4px;
-        animation: blink 1s step-end infinite;
-    }
-
-    @keyframes blink {
-        0%, 100% { opacity: 1; }
-        50% { opacity: 0; }
-    }
-
-    .btn-container {
-        display: flex;
-        gap: 20px;
-        margin-bottom: 60px;
-    }
-
-    .btn-primary-custom {
-        background-color: #2563eb !important;
-        color: white !important;
-        padding: 14px 32px !important;
-        border-radius: 8px !important;
-        font-size: 1.1rem !important;
-        font-weight: 600 !important;
-        text-decoration: none !important;
-        transition: all 0.3s ease !important;
-        border: 1px solid #2563eb !important;
-        box-shadow: 0 4px 14px 0 rgba(37, 99, 235, 0.39) !important;
-    }
-
-    .btn-primary-custom:hover {
-        background-color: #1d4ed8 !important;
-        transform: translateY(-2px);
-    }
-
-    .btn-secondary-custom {
-        background-color: transparent !important;
-        color: #f8fafc !important;
-        padding: 14px 32px !important;
-        border-radius: 8px !important;
-        font-size: 1.1rem !important;
-        font-weight: 600 !important;
-        text-decoration: none !important;
-        transition: all 0.3s ease !important;
-        border: 1px solid #475569 !important;
-    }
-
-    .btn-secondary-custom:hover {
-        background-color: #1e293b !important;
-        border-color: #94a3b8 !important;
-        transform: translateY(-2px);
-    }
-
-    .trust-bar {
-        position: absolute;
-        bottom: 40px;
-        width: 100%;
-        text-align: center;
-        color: #475569;
-        font-size: 0.9rem;
-        font-weight: 600;
-        letter-spacing: 2px;
-        text-transform: uppercase;
-        animation: fadeIn 2s ease-in 1s forwards;
-        opacity: 0;
-    }
-
-    .trust-bar span {
-        margin: 0 15px;
-    }
-
-    @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(10px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
-
-    @media (max-width: 768px) {
-        .hero-title { font-size: 2.5rem !important; }
-        .hero-subtitle { font-size: 1.2rem !important; height: 60px !important; }
-        .btn-container { flex-direction: column; gap: 15px; width: 100%; max-width: 300px; }
-        .btn-primary-custom, .btn-secondary-custom { width: 100%; text-align: center; }
-        .trust-bar span { display: block; margin: 10px 0; }
-    }
-  </style>
 </head>
 
-<body>
+<body class="home-body">
 <div id="site-border-left"></div>
 <div id="site-border-right"></div>
 <div id="site-border-top"></div>
 <div id="site-border-bottom"></div>
 
 <header>
-  <nav class="navbar navbar-fixed-top navbar-inverse" style="background: transparent !important; border: none !important; padding-top: 15px;">
+  <nav class="navbar navbar-fixed-top navbar-inverse">
     <div class="container">
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false" style="border-color: #475569;">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar" style="background-color: white;"></span>
-          <span class="icon-bar" style="background-color: white;"></span>
-          <span class="icon-bar" style="background-color: white;"></span>
-        </button>
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false" style="border-color: #475569;">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar" style="background-color: white;"></span>
+              <span class="icon-bar" style="background-color: white;"></span>
+              <span class="icon-bar" style="background-color: white;"></span>
+            </button>
+        </div>
 
       <div class="collapse navbar-collapse" id="navbar-collapse">
         <ul class="nav navbar-nav ">
-          <li><a href="./index.html" title="" style="color: #38bdf8 !important; font-weight: bold; border-bottom: 2px solid #38bdf8;">01 : Home</a></li>
-          <li><a href="./works.html" title="" style="color: #94a3b8 !important; font-weight: 600; transition: color 0.3s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">02 : Works</a></li>
-          <li><a href="./about.html" title="" style="color: #94a3b8 !important; font-weight: 600; transition: color 0.3s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">03 : About me</a></li>
-          <li><a href="./contact.html" title="" style="color: #94a3b8 !important; font-weight: 600; transition: color 0.3s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">04 : Contact</a></li>
-          <li><a href="./resume.html" title="" style="color: #94a3b8 !important; font-weight: 600; transition: color 0.3s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">05 : Resume</a></li>
+          <li><a href="./index.html" title="" class="active">01 : Home</a></li>
+          <li><a href="./works.html" title="">02 : Works</a></li>
+          <li><a href="./about.html" title="">03 : About me</a></li>
+          <li><a href="./contact.html" title="">04 : Contact</a></li>
+          <li><a href="./resume.html" title="">05 : Resume</a></li>
         </ul>
       </div>
     </div>
@@ -193,7 +51,7 @@
 <div class="glow-bg"></div>
 <div class="hero-container">
     <h1 class="hero-title">Soheil Karami</h1>
-    
+
     <div class="hero-subtitle">
         <span id="custom-typewriter"></span><span class="typing-cursor"></span>
     </div>
@@ -205,41 +63,44 @@
 </div>
 
 <div class="trust-bar">
-    <span>AWS & Azure</span> • 
-    <span>Python Automation</span> • 
-    <span>Cybersecurity</span> • 
+    <span>AWS & Azure</span> •
+    <span>Python Automation</span> •
+    <span>Cybersecurity</span> •
     <span>DevSecOps</span>
 </div>
 
 <script>
   document.addEventListener("DOMContentLoaded", function () {
-      
+
       // --- NEW: Identify as the Home Page ---
       setTimeout(() => {
-          fetch("https://soheilk.online/api/track_view", { 
+          fetch("/api/track_view", {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({ page: "home" }) // Telling server this is the Home page!
           })
-          .catch(err => console.error("Tracking error:", err));
+          .catch(err => {
+              // Silently ignoring network errors from local preview environments
+              // so it won't crash or clutter the console.
+          });
       }, 1000);
 
       // --- Typing Effect Logic ---
       const titles = [
-          "Cloud Infrastructure Engineer", 
-          "DevSecOps Specialist", 
-          "Python Backend Developer", 
+          "Cloud Infrastructure Engineer",
+          "DevSecOps Specialist",
+          "Python Backend Developer",
           "IT Operations Manager"
       ];
-      
+
       let titleIndex = 0;
       let charIndex = 0;
       let isDeleting = false;
       const typewriterElement = document.getElementById("custom-typewriter");
-      
+
       function type() {
           const currentTitle = titles[titleIndex];
-          
+
           if (isDeleting) {
               typewriterElement.textContent = currentTitle.substring(0, charIndex - 1);
               charIndex--;
@@ -247,9 +108,9 @@
               typewriterElement.textContent = currentTitle.substring(0, charIndex + 1);
               charIndex++;
           }
-          
+
           let typingSpeed = isDeleting ? 40 : 80;
-          
+
           if (!isDeleting && charIndex === currentTitle.length) {
               typingSpeed = 2000;
               isDeleting = true;
@@ -264,6 +125,9 @@
   });
 </script>
 
+<!-- External Scripts for Navigation Toggle -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="./static/main.70a66962.js"></script>
 
 </body>

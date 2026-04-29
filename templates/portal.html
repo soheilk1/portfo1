@@ -4,7 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Traffic Portal</title>
+
+    <!-- Link the global CSS file so standard styles apply if necessary -->
+    <link href="./static/main.3f6952e4.css" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
+
     <style>
         body { background-color: #0f172a; color: #f8fafc; font-family: 'Inter', sans-serif; }
         .card { background-color: #1e293b; border: 1px solid #334155; border-radius: 12px; }
@@ -63,15 +67,8 @@
     </div>
 
     <script>
-        const BASE_URL = "https://soheilk.pythonanywhere.com";
+        // Updated to use relative path just like your other site pages
         const isPreview = window.location.protocol === 'blob:' || window.location.origin === 'null' || window.location.protocol === 'data:';
-
-        const getSafeUrl = (endpoint) => {
-            if (isPreview) {
-                return `${BASE_URL}${endpoint}`;
-            }
-            return endpoint;
-        };
 
         const safeRedirect = (url) => {
             try {
@@ -89,7 +86,6 @@
         const pass = sessionStorage.getItem('admin_session_pass');
         if (!pass) safeRedirect('./resume.html');
 
-        // Helper to colorize badges based on the page visited
         function getBadgeHtml(pageName) {
             const page = (pageName || 'unknown').toLowerCase();
             if (page === 'resume') {
@@ -111,7 +107,7 @@
             const resumeViewsEl = document.getElementById('resume-views');
 
             try {
-                const res = await fetch(getSafeUrl('/api/get_views'), {
+                const res = await fetch('/api/get_views', {
                     method: 'POST',
                     headers: {'Content-Type': 'application/json'},
                     body: JSON.stringify({ password: pass })
@@ -121,7 +117,6 @@
                 let homeCount = 0;
                 let resumeCount = 0;
 
-                // Handle both dictionary response {home: 10, resume: 20} or counting manually from logs
                 if (data.views && typeof data.views === 'object') {
                     homeCount = data.views.home || data.views.index || 0;
                     resumeCount = data.views.resume || 0;
@@ -152,7 +147,7 @@
             const newPass = prompt("Enter new admin password:");
             if (!newPass) return;
             try {
-                const res = await fetch(getSafeUrl('/api/change_password'), {
+                const res = await fetch('/api/change_password', {
                     method: 'POST',
                     headers: {'Content-Type': 'application/json'},
                     body: JSON.stringify({ password: pass, new_password: newPass })
@@ -168,7 +163,7 @@
 
         async function clearData() {
             if(!confirm("Are you sure? This will wipe all CSV and view logs.")) return;
-            await fetch(getSafeUrl('/api/clear_views'), {
+            await fetch('/api/clear_views', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({ password: pass })
