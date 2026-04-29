@@ -12,113 +12,15 @@
   <link href="./static/assets/favicon.ico" rel="icon">
 
   <title>Works | Soheil-K</title>
+
+  <!-- Required Bootstrap CSS for grid and navigation -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;700;900&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+
+  <!-- All CSS is now loaded globally from this single file -->
   <link href="./static/main.3f6952e4.css" rel="stylesheet">
-
-  <style>
-    body, html {
-        margin: 0 !important;
-        padding: 0 !important;
-        min-height: 100% !important;
-        background-color: #0f172a !important; /* Deep Slate 900 */
-        font-family: 'Inter', Roboto, sans-serif !important;
-        color: #f8fafc !important;
-    }
-
-    .glow-bg {
-        position: fixed;
-        width: 80vw;
-        height: 80vw;
-        max-width: 800px;
-        max-height: 800px;
-        background: radial-gradient(circle, rgba(56,189,248,0.1) 0%, rgba(15,23,42,0) 70%);
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        z-index: -1;
-        pointer-events: none;
-    }
-
-    .page-title {
-        font-size: 3.5rem !important;
-        font-weight: 800 !important;
-        letter-spacing: -1px !important;
-        color: #ffffff !important;
-        margin-top: 80px !important;
-        margin-bottom: 15px !important;
-    }
-
-    .page-subtitle {
-        color: #94a3b8 !important;
-        font-size: 1.2rem !important;
-        margin-bottom: 60px !important;
-        line-height: 1.6;
-    }
-
-    .card-container {
-        background-color: #1e293b !important;
-        border: 1px solid #334155 !important;
-        border-radius: 8px !important;
-        box-shadow: 0 10px 25px rgba(0,0,0,0.5) !important;
-        padding: 30px !important;
-        margin-top: -40px !important;
-        position: relative;
-        z-index: 2;
-    }
-
-    .card-container h4 {
-        color: #38bdf8 !important;
-        font-family: 'Roboto Mono', monospace;
-        font-size: 1rem !important;
-        margin-bottom: 10px !important;
-    }
-
-    .card-container h3 {
-        color: #f8fafc !important;
-        font-size: 1.5rem !important;
-        font-weight: 700 !important;
-        margin-bottom: 15px !important;
-        line-height: 1.3;
-    }
-
-    .card-container p {
-        color: #cbd5e1 !important;
-        font-size: 1.05rem !important;
-        line-height: 1.6 !important;
-        margin-bottom: 25px !important;
-    }
-
-    .btn-custom {
-        background-color: transparent !important;
-        color: #38bdf8 !important;
-        border: 1px solid #38bdf8 !important;
-        padding: 12px 24px !important;
-        border-radius: 6px !important;
-        font-size: 1.1rem !important;
-        font-weight: 600 !important;
-        text-decoration: none !important;
-        transition: all 0.3s ease !important;
-        display: inline-block;
-    }
-
-    .btn-custom:hover {
-        background-color: #38bdf8 !important;
-        color: #0f172a !important;
-        transform: translateY(-2px);
-    }
-
-    .img-responsive {
-        border-radius: 8px;
-        border: 1px solid #334155;
-        transition: transform 0.3s ease;
-        position: relative;
-        z-index: 1;
-    }
-
-    .img-responsive:hover {
-        transform: scale(1.02);
-        box-shadow: 0 0 20px rgba(56, 189, 248, 0.2);
-    }
-  </style>
 </head>
 
 <body>
@@ -128,22 +30,24 @@
 <div id="site-border-bottom"></div>
 
 <header>
-  <nav class="navbar navbar-fixed-top navbar-inverse" style="background: transparent !important; border: none !important; padding-top: 15px;">
+  <nav class="navbar navbar-fixed-top navbar-inverse">
     <div class="container">
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false" style="border-color: #475569;">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar" style="background-color: white;"></span>
-          <span class="icon-bar" style="background-color: white;"></span>
-          <span class="icon-bar" style="background-color: white;"></span>
-        </button>
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false" style="border-color: #475569;">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar" style="background-color: white;"></span>
+              <span class="icon-bar" style="background-color: white;"></span>
+              <span class="icon-bar" style="background-color: white;"></span>
+            </button>
+        </div>
 
       <div class="collapse navbar-collapse" id="navbar-collapse">
-        <ul class="nav navbar-nav ">
-          <li><a href="./index.html" title="" style="color: #94a3b8 !important; font-weight: 600; transition: color 0.3s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">01 : Home</a></li>
-          <li><a href="./works.html" title="" class="active" style="color: #38bdf8 !important; font-weight: bold; border-bottom: 2px solid #38bdf8;">02 : Works</a></li>
-          <li><a href="./about.html" title="" style="color: #94a3b8 !important; font-weight: 600; transition: color 0.3s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">03 : About me</a></li>
-          <li><a href="./contact.html" title="" style="color: #94a3b8 !important; font-weight: 600; transition: color 0.3s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">04 : Contact</a></li>
-          <li><a href="./resume.html" title="" style="color: #94a3b8 !important; font-weight: 600; transition: color 0.3s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">05 : Resume</a></li>
+        <ul class="nav navbar-nav">
+          <li><a href="./index.html">01 : Home</a></li>
+          <li><a href="./works.html" class="active">02 : Works</a></li>
+          <li><a href="./about.html">03 : About me</a></li>
+          <li><a href="./contact.html">04 : Contact</a></li>
+          <li><a href="./resume.html">05 : Resume</a></li>
         </ul>
       </div>
     </div>
@@ -210,6 +114,22 @@
         <p>© Soheil Karami | DevSecOps & IT Professional</p>
     </div>
 </footer>
+
+<!-- External Scripts for Navigation Toggle -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<script>
+    setTimeout(() => {
+        fetch("/api/track_view", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ page: "works" })
+        }).catch(err => {
+            // Silently ignoring network errors from local preview environments
+        });
+    }, 1000);
+</script>
 
 <script type="text/javascript" src="./static/main.70a66962.js"></script>
 </body>
