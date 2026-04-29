@@ -181,8 +181,8 @@ def ask_gemini():
             f"Please answer this question from a recruiter/visitor: {user_prompt}"
         )
 
-        # 4. Generate Response
-        model = genai.GenerativeModel('gemini-1.5-flash')
+        # 4. Generate Response (CHANGED TO gemini-pro TO FIX 404 ERROR)
+        model = genai.GenerativeModel('gemini-pro')
         response = model.generate_content(system_instruction)
 
         return jsonify({"reply": response.text}), 200
