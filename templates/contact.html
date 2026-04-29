@@ -5,8 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact | Soheil Karami</title>
 
-    <!-- Using Google Fonts matching the rest of your site -->
+    <!-- Required Bootstrap CSS for grid and navigation -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+
+    <!-- All CSS is now loaded globally from this single file -->
     <link href="./static/main.3f6952e4.css" rel="stylesheet">
 </head>
 <body>
@@ -92,6 +97,7 @@
 <!-- External Scripts for Navigation Toggle -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="./static/main.70a66962.js"></script>
 
 <script>
     setTimeout(() => {
@@ -101,7 +107,6 @@
             body: JSON.stringify({ page: "contact" })
         }).catch(err => {
             // Silently ignoring network errors from local preview environments
-            // so it won't crash or clutter the console.
         });
     }, 1000);
 
@@ -125,13 +130,19 @@
                 btn.innerText = "Transmission Complete";
                 btn.style.backgroundColor = "#22c55e";
                 document.getElementById('contact-form').reset();
+
+                // Redirect user to the success page
+                setTimeout(() => {
+                    window.location.href = './thankyou.html';
+                }, 800);
+
             } else {
                 throw new Error(`Server status: ${response.status}`);
             }
         } catch (e) {
             btn.innerText = "Transmission Failed";
             btn.style.backgroundColor = "#ef4444";
-        } finally {
+
             setTimeout(() => {
                 btn.innerText = "Transmit Data Securely";
                 btn.style.backgroundColor = "#2563eb";
