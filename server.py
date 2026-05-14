@@ -95,8 +95,23 @@ def is_ip_banned(ip):
 # ==========================================
 # 6.5 LOGIN & RATE LIMITING
 # ==========================================
-# Dictionary to track failed login attempts by IP address in memory
-failed_logins = {}
+def get_failed_logins():
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    filepath = os.path.join(base_dir, 'failed_logins.json')
+    if os.path.exists(filepath):
+        try:
+            with open(filepath, 'r') as f:
+                return json.load(f)
+        except:
+            return {}
+    return {}
+
+
+def save_failed_logins(data):
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    filepath = os.path.join(base_dir, 'failed_logins.json')
+    with open(filepath, 'w') as f:
+        json.dump(data, f)
 
 
 @app.route("/api/login", methods=['POST', 'OPTIONS'])
@@ -104,9 +119,10 @@ def login():
     if request.method == 'OPTIONS': return jsonify({}), 200
 
     ip = get_client_ip()
+    logins = get_failed_logins()
 
-    # 1. Check if the IP is already permanently banned in the text file, or locked in memory
-    if is_ip_banned(ip) or failed_logins.get(ip, 0) >= 3:
+    # 1. Check if the IP is already permanently banned in the text file, or locked in json
+    if is_ip_banned(ip) or logins.get(ip, 0) >= 3:
         return jsonify({"error": "Terminal Locked. Access permanently denied."}), 403
 
     data = request.get_json(silent=True) or {}
@@ -114,16 +130,20 @@ def login():
 
     # 2. Verify the password
     if password_attempt == get_portal_password():
-        # Success: Reset the memory counter for this IP
-        failed_logins[ip] = 0
+        # Success: Reset the tracking counter for this IP
+        logins[ip] = 0
+        save_failed_logins(logins)
         return jsonify({"success": True}), 200
     else:
         # Failure: Increment the counter
-        failed_logins[ip] = failed_logins.get(ip, 0) + 1
-        attempts_left = 3 - failed_logins[ip]
+        current_strikes = logins.get(ip, 0) + 1
+        logins[ip] = current_strikes
+        save_failed_logins(logins)
+
+        attempts_left = 3 - current_strikes
 
         # 3. TRIGGER PERMANENT BAN IF THEY HIT 3 STRIKES
-        if failed_logins[ip] >= 3:
+        if current_strikes >= 3:
             base_dir = os.path.dirname(os.path.abspath(__file__))
             ban_file = os.path.join(base_dir, 'banned_ips.txt')
 
