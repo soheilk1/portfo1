@@ -84,7 +84,7 @@ def get_portal_password():
 
 
 # ==========================================
-# 6.5 LOGIN & RATE LIMITING
+#  6.5 LOGIN & PERMANENT RATE LIMITING
 # ==========================================
 # Dictionary to track failed login attempts by IP address
 failed_logins = {}
@@ -96,22 +96,34 @@ def login():
 
     ip = get_client_ip()
 
-    # 1. Check if the IP is already banned (3 or more failed attempts)
-    if failed_logins.get(ip, 0) >= 3:
-        return jsonify({"error": "Terminal Locked. Maximum attempts exceeded."}), 403
+    # 1. Check if the IP is already permanently banned in the text file, or locked in memory
+    if is_ip_banned(ip) or failed_logins.get(ip, 0) >= 3:
+        return jsonify({"error": "Terminal Locked. Access permanently denied."}), 403
 
     data = request.get_json(silent=True) or {}
     password_attempt = data.get('password', '')
 
     # 2. Verify the password
     if password_attempt == get_portal_password():
-        # Success: Reset the counter for this IP
+        # Success: Reset the memory counter for this IP
         failed_logins[ip] = 0
         return jsonify({"success": True}), 200
     else:
         # Failure: Increment the counter
         failed_logins[ip] = failed_logins.get(ip, 0) + 1
         attempts_left = 3 - failed_logins[ip]
+
+        # 3. TRIGGER PERMANENT BAN IF THEY HIT 3 STRIKES
+        if failed_logins[ip] >= 3:
+            base_dir = os.path.dirname(os.path.abspath(__file__))
+            ban_file = os.path.join(base_dir, 'banned_ips.txt')
+
+            # Append the IP to the banned file
+            with open(ban_file, 'a') as f:
+                f.write(ip + '\n')
+
+            return jsonify({"error": "Maximum attempts exceeded. IP permanently logged and banned."}), 403
+
         return jsonify({"error": f"Invalid password. {attempts_left} attempts remaining."}), 401
 
 
