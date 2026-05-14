@@ -245,7 +245,10 @@
             <div class="root-access-box mono">
                 <div style="color: #ef4444; font-size: 12px; font-weight: bold; margin-bottom: 15px;">> ROOT_ACCESS_REQUIRED</div>
                 <input type="password" id="admin-pass-entry" placeholder="Admin Password" class="root-input">
-                <button onclick="checkAdmin()" class="root-btn">Authenticate</button>
+
+                <div id="login-error-msg" style="color: #ef4444; font-size: 11px; margin-bottom: 10px; display: none;"></div>
+
+                <button onclick="checkAdmin()" id="auth-btn" class="root-btn">Authenticate</button>
             </div>
         </div>
     </div>
@@ -334,13 +337,52 @@
             input.focus();
         }
     }
-
-    function checkAdmin() {
+async function checkAdmin() {
         const pass = document.getElementById('admin-pass-entry').value;
-        if(pass) {
-            sessionStorage.setItem('admin_session_pass', pass);
-            // Use safe navigation
-            window.location.href = './portal.html';
+        const errorMsg = document.getElementById('login-error-msg');
+        const authBtn = document.getElementById('auth-btn');
+
+        if (!pass) return;
+
+        // Reset UI to loading state
+        errorMsg.style.display = 'none';
+        authBtn.innerText = "Authenticating...";
+        authBtn.disabled = true;
+
+        try {
+            // Ask the Python server if the password is correct
+            const response = await fetch('/api/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ password: pass })
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                // Success! Save session and redirect
+                sessionStorage.setItem('admin_session_pass', pass);
+
+                // Safe redirect logic
+                if (window.location.protocol === 'blob:' || window.location.origin === 'null') {
+                    authBtn.innerText = "Redirect Triggered";
+                    errorMsg.innerText = "Automatic navigation is disabled in preview.";
+                    errorMsg.style.display = 'block';
+                } else {
+                    window.location.href = './portal.html';
+                }
+            } else {
+                // Failed! Show the error message from the server (e.g., "2 attempts remaining")
+                errorMsg.innerText = "> ERROR: " + (data.error || "Access Denied");
+                errorMsg.style.display = 'block';
+                authBtn.innerText = "Authenticate";
+                authBtn.disabled = false;
+            }
+        } catch (e) {
+            errorMsg.innerText = "> ERROR: Network connection failed.";
+            errorMsg.style.display = 'block';
+            authBtn.innerText = "Authenticate";
+            authBtn.disabled = false;
         }
     }
 

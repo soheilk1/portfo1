@@ -9,6 +9,34 @@ import google.generativeai as genai
 from dotenv import load_dotenv
 from flask import Flask, render_template, request, redirect, jsonify, make_response
 
+
+failed_logins = {}
+
+@app.route("/api/login", methods=['POST', 'OPTIONS'])
+def login():
+    if request.method == 'OPTIONS' : return jsonify({}), 200
+
+    ip = get_client_ip()
+
+    #1. Check if the IP is alreadybanned (3 or more failed attempts)
+    if failed_logins.get(ip, 0) >= 3:
+        return jsonify({"error": "Terminal Locked. Maximum attempts exceeded."}), 403
+
+    data = request.get_json(silent=True) or {}
+    password_attempt = data.get('password', '')
+
+    # 2. Verify the password
+    if password_attempt == get_portal_password():
+        #Success : Reset the counter for this IP
+        failed_logins[ip] = 0
+        return jsonify({"Success": True}), 200
+    else:
+        #Failed increment the counter
+        failed_logins[ip] = failed_logins.get(ip, 0) + 1
+        attempt_left = 3 - failed_logins[ip]
+        return jsonify({"error": f"Invalid password. {attempt_left} attempts remaining."}), 401
+
+
 app = Flask(__name__)
 
 # ==========================================
