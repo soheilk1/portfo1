@@ -9,34 +9,6 @@ import google.generativeai as genai
 from dotenv import load_dotenv
 from flask import Flask, render_template, request, redirect, jsonify, make_response
 
-
-failed_logins = {}
-
-@app.route("/api/login", methods=['POST', 'OPTIONS'])
-def login():
-    if request.method == 'OPTIONS' : return jsonify({}), 200
-
-    ip = get_client_ip()
-
-    #1. Check if the IP is alreadybanned (3 or more failed attempts)
-    if failed_logins.get(ip, 0) >= 3:
-        return jsonify({"error": "Terminal Locked. Maximum attempts exceeded."}), 403
-
-    data = request.get_json(silent=True) or {}
-    password_attempt = data.get('password', '')
-
-    # 2. Verify the password
-    if password_attempt == get_portal_password():
-        #Success : Reset the counter for this IP
-        failed_logins[ip] = 0
-        return jsonify({"Success": True}), 200
-    else:
-        #Failed increment the counter
-        failed_logins[ip] = failed_logins.get(ip, 0) + 1
-        attempt_left = 3 - failed_logins[ip]
-        return jsonify({"error": f"Invalid password. {attempt_left} attempts remaining."}), 401
-
-
 app = Flask(__name__)
 
 # ==========================================
@@ -109,6 +81,38 @@ def get_portal_password():
         with open(pwd_file, 'r') as f:
             return f.read().strip()
     return "admin"
+
+
+# ==========================================
+# 6.5 LOGIN & RATE LIMITING
+# ==========================================
+# Dictionary to track failed login attempts by IP address
+failed_logins = {}
+
+
+@app.route("/api/login", methods=['POST', 'OPTIONS'])
+def login():
+    if request.method == 'OPTIONS': return jsonify({}), 200
+
+    ip = get_client_ip()
+
+    # 1. Check if the IP is already banned (3 or more failed attempts)
+    if failed_logins.get(ip, 0) >= 3:
+        return jsonify({"error": "Terminal Locked. Maximum attempts exceeded."}), 403
+
+    data = request.get_json(silent=True) or {}
+    password_attempt = data.get('password', '')
+
+    # 2. Verify the password
+    if password_attempt == get_portal_password():
+        # Success: Reset the counter for this IP
+        failed_logins[ip] = 0
+        return jsonify({"success": True}), 200
+    else:
+        # Failure: Increment the counter
+        failed_logins[ip] = failed_logins.get(ip, 0) + 1
+        attempts_left = 3 - failed_logins[ip]
+        return jsonify({"error": f"Invalid password. {attempts_left} attempts remaining."}), 401
 
 
 # ==========================================
@@ -231,7 +235,6 @@ def ask_gemini():
         Programming Skills: Python (Backend), Flutter Mobile, Java, PHP, HTML5 Design.
         Databases & Ops Skills: MySQL, SQL, Disaster Recovery, Project Management, Active Directory.
         Education: Master of Science in Software Management AND Bachelor of Information & Communications Technology (Both from Limkokwing University of Creative Technology, Kuala Lumpur).
-        Soheil Karami now working in Culluc company.
         Certifications: Google AI Professional Certificate, Certificate of Cyber Security, Certificate of Python Zero to Mastery, Info Systems Management Certificate.
         """
 

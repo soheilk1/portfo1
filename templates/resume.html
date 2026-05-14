@@ -260,7 +260,6 @@
 
 <script>
     // --- PORTAL TRACKING FIX ---
-    // Ensure we track this visit as "resume" for the Traffic Portal
     setTimeout(() => {
         fetch("/api/track_view", {
             method: "POST",
@@ -337,7 +336,8 @@
             input.focus();
         }
     }
-async function checkAdmin() {
+
+    async function checkAdmin() {
         const pass = document.getElementById('admin-pass-entry').value;
         const errorMsg = document.getElementById('login-error-msg');
         const authBtn = document.getElementById('auth-btn');
