@@ -83,10 +83,19 @@ def get_portal_password():
     return "admin"
 
 
+def is_ip_banned(ip):
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    banned_file = os.path.join(base_dir, 'banned_ips.txt')
+    if os.path.exists(banned_file):
+        with open(banned_file, 'r') as f:
+            return ip in f.read().splitlines()
+    return False
+
+
 # ==========================================
-#  6.5 LOGIN & PERMANENT RATE LIMITING
+# 6.5 LOGIN & RATE LIMITING
 # ==========================================
-# Dictionary to track failed login attempts by IP address
+# Dictionary to track failed login attempts by IP address in memory
 failed_logins = {}
 
 
