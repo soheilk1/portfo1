@@ -3,207 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Products | Soheil Karami</title>
-
-    <!-- Standard Bootstrap 3 & Fonts (From your site) -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
-    <link href="./static/main.3f6952e4.css" rel="stylesheet">
-
-    <!-- Tailwind CSS (CDN allowed by Gumroad Sandbox) -->
+    <title data-gumroad-field="name">ocdaqy</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            darkMode: 'class', // Force dark mode to match your site
-            theme: {
-                extend: {
-                    colors: {
-                        brand: {
-                            500: '#38bdf8', // Your site's signature blue
-                        },
-                        sitebg: '#0f172a',
-                        cardbg: '#1e293b',
-                    },
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                        mono: ['JetBrains Mono', 'monospace'],
-                    }
-                }
-            }
-        }
-    </script>
-
-    <!-- Inline CSS for Site Integration & Animations -->
     <style>
-        body, html {
-            margin: 0 !important;
-            padding: 0 !important;
-            min-height: 100% !important;
-            background-color: #0f172a !important; /* Match your site background */
-            font-family: 'Inter', sans-serif !important;
-            color: #f8fafc !important;
-            -webkit-font-smoothing: antialiased;
+        .gradient-text {
+            background: linear-gradient(to right, #38bdf8, #818cf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
-
-        /* Animations */
-        .fade-in { animation: fadeIn 0.6s ease-out forwards; opacity: 0; }
-        .delay-100 { animation-delay: 100ms; }
-        .delay-200 { animation-delay: 200ms; }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Styling for the HTML that Gumroad injects dynamically */
-        #gumroad-desc-container p { margin-bottom: 1.25rem; line-height: 1.75; color: #cbd5e1; }
-        #gumroad-desc-container h2, #gumroad-desc-container h3 {
-            font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; color: #f8fafc;
-        }
-        #gumroad-desc-container ul { list-style-type: disc; padding-left: 1.5rem; margin-bottom: 1.25rem; color: #cbd5e1;}
-        #gumroad-desc-container li { margin-bottom: 0.5rem; }
-        #gumroad-desc-container a { color: #38bdf8; text-decoration: underline; }
     </style>
 </head>
-<body class="flex flex-col transition-colors duration-300">
+<body class="bg-slate-950 text-slate-100 font-sans antialiased">
 
-    <!-- Unified Navigation Bar (Replaced the hardcoded header) -->
-    <script src="./static/navbar.js"></script>
-
-    <!-- Main Layout (Fixed overlap by enforcing strict 150px padding top) -->
-    <main class="flex-grow w-full max-w-6xl mx-auto px-6 pb-16 flex flex-col md:flex-row gap-12 lg:gap-20" style="padding-top: 150px;">
-
-        <!-- Left Column: Product Info -->
-        <div class="flex-1 fade-in delay-100">
-            <!-- Gumroad Injected Title -->
-            <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight mb-6 leading-tight text-white" data-gumroad-field="name">
-                DevSecOps Enterprise Blueprint
-            </h1>
-
-            <div class="h-1 w-12 bg-brand-500 mb-8 rounded-sm"></div>
-
-            <!-- Gumroad Injected Description -->
-            <div id="gumroad-desc-container" class="text-base md:text-lg" data-gumroad-field="description">
-                <p>This is a placeholder description that will be replaced by Gumroad when the page is live.</p>
-                <p>It supports the formatting you set up in your Gumroad product dashboard, like <strong>bold text</strong>, lists, and links.</p>
-                <ul>
-                    <li>Complete Terraform Scripts</li>
-                    <li>Secure CI/CD Pipelines</li>
-                    <li>Premium Support</li>
-                </ul>
-            </div>
+    <!-- Header / Hero Section -->
+    <header class="max-w-4xl mx-auto px-6 py-20 text-center">
+        <h1 class="text-5xl md:text-6xl font-black mb-6 gradient-text" data-gumroad-field="name">
+            ocdaqy
+        </h1>
+        <div class="text-xl text-slate-400 mb-10" data-gumroad-field="description">
+            <!-- Gumroad will populate the product description here -->
         </div>
 
-        <!-- Right Column: Sticky Pricing Card -->
-        <div class="w-full md:w-80 lg:w-96 flex-shrink-0 fade-in delay-200">
-            <!-- Adjusted top distance to 110px so it clears the navbar when scrolling -->
-            <div class="sticky bg-cardbg rounded-xl p-8 shadow-2xl border border-slate-700" style="top: 110px;">
-
-                <h2 class="text-lg font-bold mb-1 text-white">Get Access</h2>
-                <p class="text-sm text-brand-500 mb-6 font-mono">Instant delivery</p>
-
-                <!-- Gumroad Injected Price -->
-                <div class="text-4xl font-extrabold mb-8 flex items-baseline gap-1 text-white">
-                    <span data-gumroad-field="price">$29.00</span>
-                </div>
-
-                <!-- Buy Button triggered via Gumroad Action -->
-                <button data-gumroad-action="buy" class="w-full bg-blue-600 text-white font-bold py-4 px-4 rounded-lg hover:bg-blue-500 transition-colors duration-200 flex items-center justify-center gap-2 group border border-blue-400">
-                    <span>I want this</span>
-                    <!-- Inline SVG Arrow -->
-                    <svg class="w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
-                    </svg>
-                </button>
-
-                <div class="mt-6 pt-4 border-t border-slate-700 flex items-center justify-center gap-2 text-xs text-slate-400">
-                    <!-- Inline SVG Lock for Security -->
-                    <svg class="w-3.5 h-3.5 text-emerald-400" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"></path>
-                    </svg>
-                    <span class="font-mono uppercase tracking-wider">Secure checkout via Gumroad</span>
-                </div>
-            </div>
-
-            <!-- Core Competencies Section -->
-            <div class="bg-cardbg rounded-xl p-8 shadow-2xl border border-slate-700 mt-8 fade-in delay-200">
-                <h3 class="text-[11px] text-slate-400 uppercase tracking-widest font-bold mt-0 mb-4">Core Competencies</h3>
-                <div>
-                    <span class="skill-badge highlight">Microsoft Azure</span>
-                    <span class="skill-badge highlight">AWS</span>
-                    <span class="skill-badge">Python</span>
-                    <span class="skill-badge">Cybersecurity</span>
-                    <span class="skill-badge">Linux Server</span>
-                </div>
-            </div>
-
-
-
+        <div class="flex justify-center items-center gap-6">
+            <div class="text-3xl font-bold" data-gumroad-field="price">$0.00</div>
+            <button data-gumroad-action="buy" class="bg-blue-600 hover:bg-blue-500 text-white font-bold py-4 px-10 rounded-xl transition-all shadow-lg shadow-blue-900/20">
+                Get Access Now
+            </button>
         </div>
-    </main>
+    </header>
 
-    <!-- STANDARD SITE FOOTER -->
-    <footer class="text-center fade-in delay-200" style="padding: 20px 0; color: #64748b; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; font-family: 'Inter', sans-serif;">
-        © <script>document.write(new Date().getFullYear())</script> Soheil Karami | DevSecOps & IT Professional
+    <!-- Features / Info Section -->
+    <section class="max-w-4xl mx-auto px-6 pb-20">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-10">
+            <h2 class="text-2xl font-bold mb-6 text-white">Why Choose ocdaqy?</h2>
+            <ul class="space-y-4 text-slate-300">
+                <li class="flex items-start gap-3">
+                    <span class="text-blue-500 font-bold">✓</span> Premium quality assets designed for scale.
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-blue-500 font-bold">✓</span> Instant delivery straight to your inbox.
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-blue-500 font-bold">✓</span> Fully documented and ready for production.
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="text-center pb-10 text-slate-600 text-sm">
+        Powered by Gumroad
     </footer>
 
-    <!-- Scripts for Navigation Toggle & Tracking -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
-    <script>
-        // Track visits to the checkout page in your Portal
-        setTimeout(() => {
-            fetch("/api/track_view", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ page: "products" })
-            }).catch(err => { /* Silent in local env */ });
-        }, 1000);
-
-        // Root Access Authentication Logic
-        async function checkAdmin() {
-            const pass = document.getElementById('admin-pass-entry').value;
-            const errorMsg = document.getElementById('login-error-msg');
-            const authBtn = document.getElementById('auth-btn');
-
-            if (!pass) return;
-
-            errorMsg.style.display = 'none';
-            authBtn.innerText = "Authenticating...";
-            authBtn.disabled = true;
-
-            try {
-                const response = await fetch('/api/login', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ password: pass })
-                });
-
-                const data = await response.json();
-
-                if (response.ok) {
-                    sessionStorage.setItem('admin_session_pass', pass);
-                    if (window.location.protocol === 'blob:' || window.location.origin === 'null') {
-                        authBtn.innerText = "Redirect Triggered";
-                        errorMsg.innerText = "Automatic navigation is disabled in preview.";
-                        errorMsg.style.display = 'block';
-                    } else {
-                        window.location.href = './portal.html';
-                    }
-                } else {
-                    errorMsg.innerText = "> ERROR: " + (data.error || "Access Denied");
-                    errorMsg.style.display = 'block';
-                    authBtn.innerText = "Authenticate";
-                    authBtn.disabled = false;
-                }
-            } catch (e) {
-                errorMsg.innerText = "> ERROR: Network connection failed.";
-                errorMsg.style.display = 'block';
-                authBtn.innerText = "Authenticate";
-                authBtn.disabled = false;
-            }
-        }
-    </script>
 </body>
 </html>
