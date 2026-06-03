@@ -14,12 +14,12 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
-            darkMode: 'class',
+            darkMode: 'class', // Force dark mode to match your site
             theme: {
                 extend: {
                     colors: {
                         brand: {
-                            500: '#38bdf8',
+                            500: '#38bdf8', // Your site's signature blue
                         },
                         sitebg: '#0f172a',
                         cardbg: '#1e293b',
@@ -39,28 +39,13 @@
             margin: 0 !important;
             padding: 0 !important;
             min-height: 100% !important;
-            background-color: #0f172a !important;
+            background-color: #0f172a !important; /* Match your site background */
             font-family: 'Inter', sans-serif !important;
             color: #f8fafc !important;
             -webkit-font-smoothing: antialiased;
         }
 
-        /* CRITICAL FIX: Stops Tailwind's .collapse utility from hiding Bootstrap's navbar */
-        .navbar-collapse.collapse {
-            visibility: visible !important;
-        }
-
-        /* Extra style overrides for standard menu padding on Tailwind containers */
-        .navbar-inverse {
-            background-color: rgba(15, 23, 42, 0.95) !important;
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border-bottom: 1px solid rgba(51, 65, 85, 0.5) !important;
-            padding-top: 15px !important;
-            padding-bottom: 15px !important;
-            z-index: 1000;
-        }
-
+        /* Animations */
         .fade-in { animation: fadeIn 0.6s ease-out forwards; opacity: 0; }
         .delay-100 { animation-delay: 100ms; }
         .delay-200 { animation-delay: 200ms; }
@@ -70,6 +55,7 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
+        /* Styling for the HTML that Gumroad injects dynamically */
         #gumroad-desc-container p { margin-bottom: 1.25rem; line-height: 1.75; color: #cbd5e1; }
         #gumroad-desc-container h2, #gumroad-desc-container h3 {
             font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; color: #f8fafc;
@@ -81,20 +67,22 @@
 </head>
 <body class="flex flex-col transition-colors duration-300">
 
-    <!-- Unified Navigation Bar -->
+    <!-- Unified Navigation Bar (Replaced the hardcoded header) -->
     <script src="./static/navbar.js"></script>
 
-    <!-- Main Layout -->
-    <main class="flex-grow w-full max-w-6xl mx-auto px-6 pt-32 pb-16 flex flex-col md:flex-row gap-12 lg:gap-20">
+    <!-- Main Layout (Fixed overlap by enforcing strict 150px padding top) -->
+    <main class="flex-grow w-full max-w-6xl mx-auto px-6 pb-16 flex flex-col md:flex-row gap-12 lg:gap-20" style="padding-top: 150px;">
 
         <!-- Left Column: Product Info -->
         <div class="flex-1 fade-in delay-100">
+            <!-- Gumroad Injected Title -->
             <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight mb-6 leading-tight text-white" data-gumroad-field="name">
                 DevSecOps Enterprise Blueprint
             </h1>
 
             <div class="h-1 w-12 bg-brand-500 mb-8 rounded-sm"></div>
 
+            <!-- Gumroad Injected Description -->
             <div id="gumroad-desc-container" class="text-base md:text-lg" data-gumroad-field="description">
                 <p>This is a placeholder description that will be replaced by Gumroad when the page is live.</p>
                 <p>It supports the formatting you set up in your Gumroad product dashboard, like <strong>bold text</strong>, lists, and links.</p>
@@ -108,22 +96,28 @@
 
         <!-- Right Column: Sticky Pricing Card -->
         <div class="w-full md:w-80 lg:w-96 flex-shrink-0 fade-in delay-200">
-            <div class="sticky top-28 bg-cardbg rounded-xl p-8 shadow-2xl border border-slate-700">
+            <!-- Adjusted top distance to 110px so it clears the navbar when scrolling -->
+            <div class="sticky bg-cardbg rounded-xl p-8 shadow-2xl border border-slate-700" style="top: 110px;">
+
                 <h2 class="text-lg font-bold mb-1 text-white">Get Access</h2>
                 <p class="text-sm text-brand-500 mb-6 font-mono">Instant delivery</p>
 
+                <!-- Gumroad Injected Price -->
                 <div class="text-4xl font-extrabold mb-8 flex items-baseline gap-1 text-white">
                     <span data-gumroad-field="price">$29.00</span>
                 </div>
 
+                <!-- Buy Button triggered via Gumroad Action -->
                 <button data-gumroad-action="buy" class="w-full bg-blue-600 text-white font-bold py-4 px-4 rounded-lg hover:bg-blue-500 transition-colors duration-200 flex items-center justify-center gap-2 group border border-blue-400">
                     <span>I want this</span>
+                    <!-- Inline SVG Arrow -->
                     <svg class="w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
                     </svg>
                 </button>
 
                 <div class="mt-6 pt-4 border-t border-slate-700 flex items-center justify-center gap-2 text-xs text-slate-400">
+                    <!-- Inline SVG Lock for Security -->
                     <svg class="w-3.5 h-3.5 text-emerald-400" fill="currentColor" viewBox="0 0 20 20">
                         <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"></path>
                     </svg>
@@ -142,6 +136,15 @@
                     <span class="skill-badge">Linux Server</span>
                 </div>
             </div>
+
+            <!-- Root Access Section -->
+            <div class="root-access-box mono mt-8 fade-in delay-200">
+                <div class="text-red-500 text-xs font-bold mb-4">> ROOT_ACCESS_REQUIRED</div>
+                <input type="password" id="admin-pass-entry" placeholder="Admin Password" class="root-input">
+                <div id="login-error-msg" class="text-red-500 text-[11px] mb-2" style="display: none;"></div>
+                <button onclick="checkAdmin()" id="auth-btn" class="root-btn">Authenticate</button>
+            </div>
+
         </div>
     </main>
 
@@ -155,6 +158,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
     <script>
+        // Track visits to the checkout page in your Portal
         setTimeout(() => {
             fetch("/api/track_view", {
                 method: "POST",
@@ -162,6 +166,50 @@
                 body: JSON.stringify({ page: "products" })
             }).catch(err => { /* Silent in local env */ });
         }, 1000);
+
+        // Root Access Authentication Logic
+        async function checkAdmin() {
+            const pass = document.getElementById('admin-pass-entry').value;
+            const errorMsg = document.getElementById('login-error-msg');
+            const authBtn = document.getElementById('auth-btn');
+
+            if (!pass) return;
+
+            errorMsg.style.display = 'none';
+            authBtn.innerText = "Authenticating...";
+            authBtn.disabled = true;
+
+            try {
+                const response = await fetch('/api/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ password: pass })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    sessionStorage.setItem('admin_session_pass', pass);
+                    if (window.location.protocol === 'blob:' || window.location.origin === 'null') {
+                        authBtn.innerText = "Redirect Triggered";
+                        errorMsg.innerText = "Automatic navigation is disabled in preview.";
+                        errorMsg.style.display = 'block';
+                    } else {
+                        window.location.href = './portal.html';
+                    }
+                } else {
+                    errorMsg.innerText = "> ERROR: " + (data.error || "Access Denied");
+                    errorMsg.style.display = 'block';
+                    authBtn.innerText = "Authenticate";
+                    authBtn.disabled = false;
+                }
+            } catch (e) {
+                errorMsg.innerText = "> ERROR: Network connection failed.";
+                errorMsg.style.display = 'block';
+                authBtn.innerText = "Authenticate";
+                authBtn.disabled = false;
+            }
+        }
     </script>
 </body>
 </html>
