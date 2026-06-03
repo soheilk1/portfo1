@@ -51,7 +51,7 @@
         <!-- Right Column -->
         <div class="col-md-6">
             <div class="payload-box">
-                <!-- Removed onsubmit from the form to prevent conflicts -->
+                <!-- Cleaned form tag: No inline onsubmit handlers -->
                 <form id="contact-form">
                     <label class="payload-label">Target Address (Email)</label>
                     <input type="email" id="sender-email" required placeholder="user@domain.com" class="payload-input">
@@ -60,8 +60,8 @@
                     <label class="payload-label">Encrypted Payload (Message)</label>
                     <textarea id="sender-message" required rows="6" placeholder="Enter your message here..." class="payload-input" style="resize: vertical;"></textarea>
 
-                    <!-- Changed type="submit" to type="button" and added onclick -->
-                    <button type="button" id="transmit-btn" class="transmit-btn shadow-lg" onclick="handleTransmit()">Transmit Data Securely</button>
+                    <!-- Standard submit button -->
+                    <button type="submit" id="transmit-btn" class="transmit-btn shadow-lg">Transmit Data Securely</button>
                 </form>
             </div>
         </div>
@@ -77,28 +77,23 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 <script>
-    async function handleTransmit() {
+    // Bind the event listener directly in JavaScript for maximum reliability
+    document.getElementById('contact-form').addEventListener('submit', async function(event) {
+
+        // 1. Instantly stop the browser from refreshing the page
+        event.preventDefault();
+
         const btn = document.getElementById('transmit-btn');
         const email = document.getElementById('sender-email').value;
         const subject = document.getElementById('sender-subject').value;
         const message = document.getElementById('sender-message').value;
 
-        // Basic validation since we removed the standard form submit
-        if (!email || !subject || !message) {
-            btn.innerText = "Please fill all fields";
-            btn.style.backgroundColor = "#ef4444";
-            setTimeout(() => {
-                btn.innerText = "Transmit Data Securely";
-                btn.style.backgroundColor = "#2563eb";
-            }, 2000);
-            return;
-        }
-
-        // Visual feedback
+        // 2. Visual feedback
         btn.innerText = "Encrypting & Transmitting...";
         btn.disabled = true;
 
         try {
+            // 3. Send the data to your Flask backend
             const response = await fetch('/api/send_contact', {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -106,8 +101,16 @@
             });
 
             if (response.ok) {
-                // SUCCESS: Force immediate redirect using absolute path relative to Flask root
-                window.location.href = "/thankyou.html";
+                // 4. SUCCESS: Turn button green and notify user
+                btn.innerText = "Transmission Complete! Redirecting...";
+                btn.style.backgroundColor = "#22c55e";
+
+                // 5. Wait 1.5 seconds so the user can read the success message, then securely redirect
+                setTimeout(() => {
+                    // Using standard relative path mapping to hit your Flask 'thankyou.html' route
+                    window.location.href = "thankyou.html";
+                }, 1500);
+
             } else {
                 throw new Error(`Server returned status: ${response.status}`);
             }
@@ -119,11 +122,11 @@
             // Allow user to retry after a delay
             setTimeout(() => {
                 btn.innerText = "Transmit Data Securely";
-                btn.style.backgroundColor = "#2563eb";
+                btn.style.backgroundColor = ""; // Resets to CSS default
                 btn.disabled = false;
             }, 3000);
         }
-    }
+    });
 </script>
 
 </body>
