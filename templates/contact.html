@@ -73,55 +73,41 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-<script>
-    async function checkAdmin() {
-        const passElement = document.getElementById('admin-pass-entry');
-        const errorMsg = document.getElementById('login-error-msg');
-        const authBtn = document.getElementById('auth-btn');
+async function handleTransmit() {
+        const btn = document.querySelector('.transmit-btn');
+        const email = document.getElementById('sender-email').value;
+        const subject = document.getElementById('sender-subject').value;
+        const message = document.getElementById('sender-message').value;
 
-        if (!passElement) return;
-        const pass = passElement.value;
-
-        if (!pass) return;
-
-        // Reset UI to loading state
-        errorMsg.style.display = 'none';
-        authBtn.innerText = "Authenticating...";
-        authBtn.disabled = true;
+        // Visual feedback
+        btn.innerText = "Encrypting & Transmitting...";
+        btn.disabled = true;
 
         try {
-            const response = await fetch('/api/login', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ password: pass })
+            const response = await fetch(`/api/send_contact`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email: email, subject: subject, message: message })
             });
 
-            const data = await response.json();
-
             if (response.ok) {
-                sessionStorage.setItem('admin_session_pass', pass);
-
-                // Safe redirect check
-                if (window.location.protocol === 'blob:' || window.location.origin === 'null') {
-                    authBtn.innerText = "Auth Success";
-                    errorMsg.innerText = "> Navigation disabled in preview environment.";
-                    errorMsg.style.display = 'block';
-                } else {
-                    window.location.href = './portal.html';
-                }
+                // SUCCESS: Redirect to thank you page
+                window.location.href = './thankyou.html';
             } else {
-                errorMsg.innerText = "> ERROR: " + (data.error || "Access Denied");
-                errorMsg.style.display = 'block';
-                authBtn.innerText = "Authenticate";
-                authBtn.disabled = false;
+                throw new Error(`Server returned status: ${response.status}`);
             }
         } catch (e) {
-            errorMsg.innerText = "> ERROR: Network communication failed.";
-            errorMsg.style.display = 'block';
-            authBtn.innerText = "Authenticate";
-            authBtn.disabled = false;
+            console.error("Transmission Error:", e);
+            btn.innerText = "Transmission Failed";
+            btn.style.backgroundColor = "#ef4444";
+
+            // Allow user to retry after a delay
+            setTimeout(() => {
+                btn.innerText = "Transmit Data Securely";
+                btn.style.backgroundColor = "#2563eb";
+                btn.disabled = false;
+            }, 3000);
         }
     }
-</script>
 </body>
 </html>
