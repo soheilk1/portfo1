@@ -62,6 +62,15 @@
 
                     <!-- Standard submit button -->
                     <button type="submit" id="transmit-btn" class="transmit-btn shadow-lg">Transmit Data Securely</button>
+
+                    <!-- Diagnostic fallback link block (Displays on success if redirect is blocked) -->
+                    <div id="redirect-helper" class="mono text-center" style="display: none; margin-top: 25px; padding: 15px; border: 1px solid rgba(74, 222, 128, 0.2); background-color: rgba(74, 222, 128, 0.05); border-radius: 6px;">
+                        <p style="color: #4ade80; font-size: 13px; margin-bottom: 10px;">> Payload sent successfully!</p>
+                        <p style="color: #cbd5e1; font-size: 12px; margin: 0;">
+                            If redirection is delayed, manual link: <br>
+                            <a href="./thankyou.html" style="color: #38bdf8; text-decoration: underline; font-weight: bold; margin-top: 5px; display: inline-block;">[ ESTABLISH SECURE LINK ]</a>
+                        </p>
+                    </div>
                 </form>
             </div>
         </div>
@@ -97,14 +106,20 @@
 
             if (response.ok) {
                 // SUCCESS: Turn button green and notify user
-                btn.innerText = "Transmission Complete! Redirecting...";
+                btn.innerText = "Transmission Complete";
                 btn.style.backgroundColor = "#22c55e";
 
-                // Wait 1 second so the user can read the success message, then securely redirect
+                // Reveal the diagnostic fallback block immediately
+                const helper = document.getElementById('redirect-helper');
+                if (helper) {
+                    helper.style.display = 'block';
+                }
+
+                // Wait 1.5 seconds so the user can read the success message, then securely redirect
                 setTimeout(() => {
-                    // Absolute path to the Flask template route
-                    window.location.href = "/thankyou.html";
-                }, 1000);
+                    // Standard relative path mapping to hit your Flask template route
+                    window.location.href = "thankyou.html";
+                }, 1500);
 
             } else {
                 throw new Error(`Server returned status: ${response.status}`);
