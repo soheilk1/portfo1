@@ -10,7 +10,6 @@
 
     <!-- Single Unified CSS File -->
     <link href="./static/main.3f6952e4.css" rel="stylesheet">
-
 </head>
 <body>
 
@@ -70,10 +69,12 @@
     © Soheil Karami | DevSecOps & IT Professional
 </footer>
 
+<!-- Scripts -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-async function handleTransmit() {
+<script>
+    async function handleTransmit() {
         const btn = document.querySelector('.transmit-btn');
         const email = document.getElementById('sender-email').value;
         const subject = document.getElementById('sender-subject').value;
@@ -109,5 +110,7 @@ async function handleTransmit() {
             }, 3000);
         }
     }
+</script>
+
 </body>
 </html>
