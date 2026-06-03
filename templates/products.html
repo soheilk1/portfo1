@@ -45,6 +45,22 @@
             -webkit-font-smoothing: antialiased;
         }
 
+        /* CRITICAL FIX: Stops Tailwind's .collapse utility from hiding Bootstrap's navbar */
+        .navbar-collapse.collapse {
+            visibility: visible !important;
+        }
+
+        /* Extra style overrides for standard menu padding on Tailwind containers */
+        .navbar-inverse {
+            background-color: rgba(15, 23, 42, 0.95) !important;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(51, 65, 85, 0.5) !important;
+            padding-top: 15px !important;
+            padding-bottom: 15px !important;
+            z-index: 1000;
+        }
+
         .fade-in { animation: fadeIn 0.6s ease-out forwards; opacity: 0; }
         .delay-100 { animation-delay: 100ms; }
         .delay-200 { animation-delay: 200ms; }
