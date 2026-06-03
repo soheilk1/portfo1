@@ -58,6 +58,8 @@
                     <input type="text" id="sender-subject" required placeholder="Project Inquiry" class="payload-input">
                     <label class="payload-label">Encrypted Payload (Message)</label>
                     <textarea id="sender-message" required rows="6" placeholder="Enter your message here..." class="payload-input" style="resize: vertical;"></textarea>
+
+                    <!-- Added ID to button for reliable targeting -->
                     <button type="submit" id="transmit-btn" class="transmit-btn shadow-lg">Transmit Data Securely</button>
                 </form>
             </div>
@@ -92,8 +94,15 @@
             });
 
             if (response.ok) {
-                // SUCCESS: Redirect to thank you page
-                window.location.href = './thankyou.html';
+                // SUCCESS: Turn button green
+                btn.innerText = "Transmission Complete";
+                btn.style.backgroundColor = "#22c55e";
+
+                // Wait 1 second so the user sees the green success, THEN redirect
+                setTimeout(() => {
+                    window.location.href = '/thankyou.html';
+                }, 1000);
+
             } else {
                 throw new Error(`Server returned status: ${response.status}`);
             }
@@ -114,11 +123,3 @@
 
 </body>
 </html>
-```
-
-### Why this works now:
-1.  **Correct Script Placement:** The `handleTransmit` logic is now inside a proper `<script>` block.
-2.  **Button ID added:** I added `id="transmit-btn"` to your button so the JavaScript can find it reliably.
-3.  **Path Consistency:** Used a relative path `/api/send_contact` which works consistently with your Flask routing.
-
-**Test it now!** If it still doesn't redirect, please **press F12**, go to the **Console** tab, and copy/paste any errors you see there!
