@@ -8,14 +8,17 @@ from email.message import EmailMessage
 import google.generativeai as genai
 from dotenv import load_dotenv
 from flask import Flask, render_template, request, redirect, jsonify, make_response
+
+
+
+app = Flask(__name__)
+
 from flask import request, redirect
 
 @app.before_request
 def force_https():
     if request.headers.get('X-Forwarded-Proto') == 'http':
         return redirect(request.url.replace('http://', 'https://', 1), code=301)
-
-app = Flask(__name__)
 
 # ==========================================
 # 1. LOAD HIDDEN SECRETS (.env)
