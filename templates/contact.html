@@ -100,7 +100,13 @@
 
                 // Wait 1 second so the user sees the green success, THEN redirect
                 setTimeout(() => {
-                    window.location.href = './thankyou.html';
+                    try {
+                        // Using './' ensures it works locally and in subdirectories
+                        window.location.href = './thankyou.html';
+                    } catch (err) {
+                        console.error("Redirect blocked by preview environment:", err);
+                        btn.innerText = "Redirect Triggered (Preview Mode)";
+                    }
                 }, 1000);
 
             } else {
