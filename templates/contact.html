@@ -51,8 +51,8 @@
         <!-- Right Column -->
         <div class="col-md-6">
             <div class="payload-box">
-                <!-- Cleaned form tag: No inline onsubmit handlers -->
-                <form id="contact-form">
+                <!-- Inline onsubmit completely locks out the browser's default refresh behavior -->
+                <form id="contact-form" onsubmit="event.preventDefault(); handleTransmit(); return false;">
                     <label class="payload-label">Target Address (Email)</label>
                     <input type="email" id="sender-email" required placeholder="user@domain.com" class="payload-input">
                     <label class="payload-label">Subject Protocol</label>
@@ -77,23 +77,18 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 <script>
-    // Bind the event listener directly in JavaScript for maximum reliability
-    document.getElementById('contact-form').addEventListener('submit', async function(event) {
-
-        // 1. Instantly stop the browser from refreshing the page
-        event.preventDefault();
-
+    async function handleTransmit() {
         const btn = document.getElementById('transmit-btn');
         const email = document.getElementById('sender-email').value;
         const subject = document.getElementById('sender-subject').value;
         const message = document.getElementById('sender-message').value;
 
-        // 2. Visual feedback
+        // Visual feedback
         btn.innerText = "Encrypting & Transmitting...";
         btn.disabled = true;
 
         try {
-            // 3. Send the data to your Flask backend
+            // Send the data to your Flask backend
             const response = await fetch('/api/send_contact', {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -101,15 +96,15 @@
             });
 
             if (response.ok) {
-                // 4. SUCCESS: Turn button green and notify user
+                // SUCCESS: Turn button green and notify user
                 btn.innerText = "Transmission Complete! Redirecting...";
                 btn.style.backgroundColor = "#22c55e";
 
-                // 5. Wait 1.5 seconds so the user can read the success message, then securely redirect
+                // Wait 1 second so the user can read the success message, then securely redirect
                 setTimeout(() => {
-                    // Using standard relative path mapping to hit your Flask 'thankyou.html' route
-                    window.location.href = "thankyou.html";
-                }, 1500);
+                    // Absolute path to the Flask template route
+                    window.location.href = "/thankyou.html";
+                }, 1000);
 
             } else {
                 throw new Error(`Server returned status: ${response.status}`);
@@ -126,7 +121,7 @@
                 btn.disabled = false;
             }, 3000);
         }
-    });
+    }
 </script>
 
 </body>
