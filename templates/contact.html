@@ -51,7 +51,8 @@
         <!-- Right Column -->
         <div class="col-md-6">
             <div class="payload-box">
-                <form id="contact-form" onsubmit="event.preventDefault(); handleTransmit();">
+                <!-- Removed onsubmit from the form to prevent conflicts -->
+                <form id="contact-form">
                     <label class="payload-label">Target Address (Email)</label>
                     <input type="email" id="sender-email" required placeholder="user@domain.com" class="payload-input">
                     <label class="payload-label">Subject Protocol</label>
@@ -59,8 +60,8 @@
                     <label class="payload-label">Encrypted Payload (Message)</label>
                     <textarea id="sender-message" required rows="6" placeholder="Enter your message here..." class="payload-input" style="resize: vertical;"></textarea>
 
-                    <!-- Added ID to button for reliable targeting -->
-                    <button type="submit" id="transmit-btn" class="transmit-btn shadow-lg">Transmit Data Securely</button>
+                    <!-- Changed type="submit" to type="button" and added onclick -->
+                    <button type="button" id="transmit-btn" class="transmit-btn shadow-lg" onclick="handleTransmit()">Transmit Data Securely</button>
                 </form>
             </div>
         </div>
@@ -82,6 +83,17 @@
         const subject = document.getElementById('sender-subject').value;
         const message = document.getElementById('sender-message').value;
 
+        // Basic validation since we removed the standard form submit
+        if (!email || !subject || !message) {
+            btn.innerText = "Please fill all fields";
+            btn.style.backgroundColor = "#ef4444";
+            setTimeout(() => {
+                btn.innerText = "Transmit Data Securely";
+                btn.style.backgroundColor = "#2563eb";
+            }, 2000);
+            return;
+        }
+
         // Visual feedback
         btn.innerText = "Encrypting & Transmitting...";
         btn.disabled = true;
@@ -94,15 +106,8 @@
             });
 
             if (response.ok) {
-                // SUCCESS: Turn button green
-                btn.innerText = "Transmission Complete";
-                btn.style.backgroundColor = "#22c55e";
-
-                // Wait 1 second so the user sees the green success, THEN force redirect
-                setTimeout(() => {
-                    window.location.href = 'thankyou.html';
-                }, 1000);
-
+                // SUCCESS: Force immediate redirect using absolute path relative to Flask root
+                window.location.href = "/thankyou.html";
             } else {
                 throw new Error(`Server returned status: ${response.status}`);
             }
