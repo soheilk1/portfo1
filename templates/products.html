@@ -1,59 +1,98 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title data-gumroad-field="name">ocdaqy</title>
+    <title>ocdaqy | Professional Digital Product</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'media',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#3b82f6',
+                    }
+                }
+            }
+        }
+    </script>
     <style>
-        .gradient-text {
-            background: linear-gradient(to right, #38bdf8, #818cf8);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+        /* Custom smooth scroll behavior */
+        html { scroll-behavior: smooth; }
+        .bg-pattern {
+            background-image: radial-gradient(#e5e7eb 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+        .dark .bg-pattern {
+            background-image: radial-gradient(#1f2937 1px, transparent 1px);
         }
     </style>
 </head>
-<body class="bg-slate-950 text-slate-100 font-sans antialiased">
+<body class="bg-gray-50 dark:bg-gray-950 text-gray-900 dark:text-gray-100 transition-colors duration-300">
 
-    <!-- Header / Hero Section -->
-    <header class="max-w-4xl mx-auto px-6 py-20 text-center">
-        <h1 class="text-5xl md:text-6xl font-black mb-6 gradient-text" data-gumroad-field="name">
-            ocdaqy
-        </h1>
-        <div class="text-xl text-slate-400 mb-10" data-gumroad-field="description">
-            <!-- Gumroad will populate the product description here -->
-        </div>
+    <div class="relative min-h-screen flex flex-col items-center justify-center p-6 bg-pattern">
+        <main class="max-w-4xl w-full text-center space-y-8">
+            <div class="space-y-4">
+                <h1 class="text-5xl md:text-7xl font-extrabold tracking-tight" data-gumroad-field="name">
+                    ocdaqy
+                </h1>
+                <p class="text-xl md:text-2xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto" data-gumroad-field="description">
+                    The ultimate toolkit for modern professionals. Designed to streamline your workflow and boost your productivity.
+                </p>
+            </div>
 
-        <div class="flex justify-center items-center gap-6">
-            <div class="text-3xl font-bold" data-gumroad-field="price">$0.00</div>
-            <button data-gumroad-action="buy" class="bg-blue-600 hover:bg-blue-500 text-white font-bold py-4 px-10 rounded-xl transition-all shadow-lg shadow-blue-900/20">
-                Get Access Now
-            </button>
-        </div>
-    </header>
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <button data-gumroad-action="buy" class="px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl shadow-lg transition-all transform hover:scale-105 active:scale-95">
+                    Buy Now — <span data-gumroad-field="price"></span>
+                </button>
+            </div>
 
-    <!-- Features / Info Section -->
-    <section class="max-w-4xl mx-auto px-6 pb-20">
-        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-10">
-            <h2 class="text-2xl font-bold mb-6 text-white">Why Choose ocdaqy?</h2>
-            <ul class="space-y-4 text-slate-300">
-                <li class="flex items-start gap-3">
-                    <span class="text-blue-500 font-bold">✓</span> Premium quality assets designed for scale.
-                </li>
-                <li class="flex items-start gap-3">
-                    <span class="text-blue-500 font-bold">✓</span> Instant delivery straight to your inbox.
-                </li>
-                <li class="flex items-start gap-3">
-                    <span class="text-blue-500 font-bold">✓</span> Fully documented and ready for production.
-                </li>
-            </ul>
-        </div>
-    </section>
+            <div class="grid md:grid-cols-3 gap-6 mt-16 text-left">
+                <div class="p-6 bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-800 shadow-sm">
+                    <div class="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center mb-4 text-blue-600">⚡</div>
+                    <h3 class="font-bold text-lg mb-2">Fast Workflow</h3>
+                    <p class="text-sm text-gray-600 dark:text-gray-400">Save hours every week with our optimized automation scripts.</p>
+                </div>
+                <div class="p-6 bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-800 shadow-sm">
+                    <div class="w-12 h-12 bg-purple-100 dark:bg-purple-900/30 rounded-lg flex items-center justify-center mb-4 text-purple-600">🔒</div>
+                    <h3 class="font-bold text-lg mb-2">Secure Access</h3>
+                    <p class="text-sm text-gray-600 dark:text-gray-400">Lifetime updates included with every purchase.</p>
+                </div>
+                <div class="p-6 bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-800 shadow-sm">
+                    <div class="w-12 h-12 bg-green-100 dark:bg-green-900/30 rounded-lg flex items-center justify-center mb-4 text-green-600">🎯</div>
+                    <h3 class="font-bold text-lg mb-2">Pro Results</h3>
+                    <p class="text-sm text-gray-600 dark:text-gray-400">Used by over 500+ professionals worldwide.</p>
+                </div>
+            </div>
 
-    <!-- Footer -->
-    <footer class="text-center pb-10 text-slate-600 text-sm">
-        Powered by Gumroad
-    </footer>
+            <section class="mt-16 p-8 bg-white dark:bg-gray-900 rounded-3xl shadow-xl border border-gray-100 dark:border-gray-800">
+                <h2 class="text-2xl font-bold mb-6">Support this Project</h2>
+                <div class="flex flex-col sm:flex-row items-center gap-4 max-w-md mx-auto">
+                    <div class="relative w-full">
+                        <span class="absolute left-4 top-3 text-gray-500">$</span>
+                        <input id="gr-price" type="number" min="0" step="0.01" placeholder="Enter amount"
+                               class="w-full pl-8 pr-4 py-3 bg-gray-50 dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-blue-500 outline-none" />
+                    </div>
+                    <button id="gr-buy" type="button" class="w-full sm:w-auto bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900 font-bold py-3 px-6 rounded-xl hover:opacity-90 transition-opacity">
+                        I want this
+                    </button>
+                </div>
+            </section>
+        </main>
+    </div>
 
+    <script>
+        // Handle custom price submission to Gumroad
+        document.getElementById("gr-buy").addEventListener("click", function () {
+            var v = (document.getElementById("gr-price").value || "").trim(), params = {};
+            if (v !== "") {
+                var n = parseFloat(v);
+                if (!isNaN(n) && n >= 0) params.price = String(n);
+            }
+            // Post message to parent container to open checkout
+            parent.postMessage({ type: "gumroad:checkout", params: params }, "*");
+        });
+    </script>
 </body>
 </html>
