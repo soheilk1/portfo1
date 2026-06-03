@@ -98,14 +98,9 @@
                 btn.innerText = "Transmission Complete";
                 btn.style.backgroundColor = "#22c55e";
 
-                // Wait 1 second so the user sees the green success, THEN redirect
+                // Wait 1 second so the user sees the green success, THEN force redirect
                 setTimeout(() => {
-                    if (window.location.protocol === 'blob:' || window.location.origin === 'null') {
-                        btn.innerText = "Redirect Triggered (Preview Mode)";
-                    } else {
-                        // Direct relative filename assignment
-                        window.location.assign('thankyou.html');
-                    }
+                    window.location.href = 'thankyou.html';
                 }, 1000);
 
             } else {
