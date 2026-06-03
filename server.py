@@ -8,15 +8,11 @@ from email.message import EmailMessage
 import google.generativeai as genai
 from dotenv import load_dotenv
 from flask import Flask, render_template, request, redirect, jsonify, make_response
-from flask_talisman import Talisman
+
 
 
 app = Flask(__name__)
-Talisman(app)
 
-@app.route("/")
-def index():
-    return "You are safely on HTTPS!"
 
 # ==========================================
 # 1. LOAD HIDDEN SECRETS (.env)
@@ -43,6 +39,17 @@ try:
 except Exception as e:
     GEMINI_READY = False
     GEMINI_ERROR = str(e)
+
+
+# ==========================================
+# 3.5 GOOGLE CLOUD HTTPS REDIRECT HOOK
+# ==========================================
+@app.before_request
+def enforce_https_on_gcp():
+    # Google Cloud Load Balancers, Cloud Run, and App Engine pass 'X-Forwarded-Proto'
+    if request.headers.get('X-Forwarded-Proto') == 'http':
+        url = request.url.replace('http://', 'https://', 1)
+        return redirect(url, code=301)
 
 
 # ==========================================
