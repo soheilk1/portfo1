@@ -74,48 +74,52 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 <script>
-    setTimeout(() => {
-        fetch("/api/track_view", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ page: "contact" })
-        }).catch(e => {
-            // Silently ignore local dev errors
-        });
-    }, 1000);
+    async function checkAdmin() {
+        const passElement = document.getElementById('admin-pass-entry');
+        const errorMsg = document.getElementById('login-error-msg');
+        const authBtn = document.getElementById('auth-btn');
 
-    async function handleTransmit() {
-        const btn = document.querySelector('.transmit-btn');
-        const email = document.getElementById('sender-email').value;
-        const subject = document.getElementById('sender-subject').value;
-        const message = document.getElementById('sender-message').value;
+        if (!passElement) return;
+        const pass = passElement.value;
 
-        btn.innerText = "Encrypting & Transmitting...";
-        btn.disabled = true;
+        if (!pass) return;
+
+        // Reset UI to loading state
+        errorMsg.style.display = 'none';
+        authBtn.innerText = "Authenticating...";
+        authBtn.disabled = true;
 
         try {
-            const response = await fetch(`/api/send_contact`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ email: email, subject: subject, message: message })
+            const response = await fetch('/api/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ password: pass })
             });
 
+            const data = await response.json();
+
             if (response.ok) {
-                btn.innerText = "Transmission Complete";
-                btn.style.backgroundColor = "#22c55e";
-                document.getElementById('contact-form').reset();
+                sessionStorage.setItem('admin_session_pass', pass);
+
+                // Safe redirect check
+                if (window.location.protocol === 'blob:' || window.location.origin === 'null') {
+                    authBtn.innerText = "Auth Success";
+                    errorMsg.innerText = "> Navigation disabled in preview environment.";
+                    errorMsg.style.display = 'block';
+                } else {
+                    window.location.href = './portal.html';
+                }
             } else {
-                throw new Error(`Server status: ${response.status}`);
+                errorMsg.innerText = "> ERROR: " + (data.error || "Access Denied");
+                errorMsg.style.display = 'block';
+                authBtn.innerText = "Authenticate";
+                authBtn.disabled = false;
             }
         } catch (e) {
-            btn.innerText = "Transmission Failed";
-            btn.style.backgroundColor = "#ef4444";
-        } finally {
-            setTimeout(() => {
-                btn.innerText = "Transmit Data Securely";
-                btn.style.backgroundColor = "#2563eb";
-                btn.disabled = false;
-            }, 3000);
+            errorMsg.innerText = "> ERROR: Network communication failed.";
+            errorMsg.style.display = 'block';
+            authBtn.innerText = "Authenticate";
+            authBtn.disabled = false;
         }
     }
 </script>
