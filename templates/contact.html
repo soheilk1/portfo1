@@ -5,41 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact | Soheil Karami</title>
 
-    <!-- Required Bootstrap CSS for grid and navigation -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
 
-    <!-- All CSS is now loaded globally from this single file -->
+    <!-- Single Unified CSS File -->
     <link href="./static/main.3f6952e4.css" rel="stylesheet">
+
 </head>
 <body>
 
-<header>
-  <nav class="navbar navbar-fixed-top navbar-inverse">
-    <div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false" style="border-color: #475569;">
-              <span class="sr-only">Toggle navigation</span>
-              <span class="icon-bar" style="background-color: white;"></span>
-              <span class="icon-bar" style="background-color: white;"></span>
-              <span class="icon-bar" style="background-color: white;"></span>
-            </button>
-        </div>
-
-      <div class="collapse navbar-collapse" id="navbar-collapse">
-        <ul class="nav navbar-nav">
-          <li><a href="./index.html">01 : Home</a></li>
-          <li><a href="./works.html">02 : Works</a></li>
-          <li><a href="./about.html">03 : About me</a></li>
-          <li><a href="./contact.html" class="active">04 : Contact</a></li>
-          <li><a href="./resume.html">05 : Resume</a></li>
-        </ul>
-      </div>
-    </div>
-  </nav>
-</header>
+<!-- Unified Navigation Bar -->
+<script src="./static/navbar.js"></script>
 
 <div class="glow-bg"></div>
 
@@ -68,8 +44,8 @@
             </div>
             <div style="margin-top: 30px; margin-bottom: 30px;">
                 <h3 class="mono" style="font-size: 11px; color: #64748b; text-transform: uppercase; letter-spacing: 1px; font-weight: bold; margin-bottom: 20px;">Encrypted Networks</h3>
-                <a href="https://www.linkedin.com/in/soheil-karami-00a28077/" target="_blank" class="social-link"><span class="arrow">▶</span> LinkedIn Profile</a>
-                <a href="https://github.com/soheilk1" target="_blank" class="social-link"><span class="arrow">▶</span> GitHub Repository</a>
+                <a href="https://linkedin.com/in/soheil-karami" target="_blank" class="social-link"><span class="arrow">▶</span> LinkedIn Profile</a>
+                <a href="https://github.com/soheilk" target="_blank" class="social-link"><span class="arrow">▶</span> GitHub Repository</a>
             </div>
         </div>
 
@@ -94,10 +70,8 @@
     © Soheil Karami | DevSecOps & IT Professional
 </footer>
 
-<!-- External Scripts for Navigation Toggle -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="./static/main.70a66962.js"></script>
 
 <script>
     setTimeout(() => {
@@ -105,8 +79,8 @@
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ page: "contact" })
-        }).catch(err => {
-            // Silently ignoring network errors from local preview environments
+        }).catch(e => {
+            // Silently ignore local dev errors
         });
     }, 1000);
 
@@ -120,7 +94,7 @@
         btn.disabled = true;
 
         try {
-            const response = await fetch("/api/send_contact", {
+            const response = await fetch(`/api/send_contact`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ email: email, subject: subject, message: message })
@@ -130,19 +104,13 @@
                 btn.innerText = "Transmission Complete";
                 btn.style.backgroundColor = "#22c55e";
                 document.getElementById('contact-form').reset();
-
-                // Redirect user to the success page
-                setTimeout(() => {
-                    window.location.href = './thankyou.html';
-                }, 800);
-
             } else {
                 throw new Error(`Server status: ${response.status}`);
             }
         } catch (e) {
             btn.innerText = "Transmission Failed";
             btn.style.backgroundColor = "#ef4444";
-
+        } finally {
             setTimeout(() => {
                 btn.innerText = "Transmit Data Securely";
                 btn.style.backgroundColor = "#2563eb";

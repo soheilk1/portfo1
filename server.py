@@ -239,7 +239,7 @@ def change_password():
 
 
 # ==========================================
-# 8. AI API (KNOWLEDGE BASE)
+# 8. AI API (KNOWLEDGE BASE & CHAT MEMORY)
 # ==========================================
 @app.route('/ask_gemini', methods=['POST', 'OPTIONS'])
 def ask_gemini():
@@ -251,6 +251,8 @@ def ask_gemini():
 
         data = request.get_json(silent=True) or {}
         user_prompt = data.get('prompt')
+        chat_history = data.get('history', [])  # Retrieve the chat history from Javascript
+
         if not user_prompt: return jsonify({"error": "No question provided."}), 200
 
         # DYNAMICALLY FIND COMPATIBLE MODEL
@@ -282,12 +284,21 @@ def ask_gemini():
         system_instruction = (
             "You are the professional AI assistant for Soheil Karami. "
             "Keep your answers brief, professional, and confident. "
-            f"Use the following profile data to answer questions about him:\n{soheil_profile}\n\n"
-            f"Please answer this question from a recruiter/visitor: {user_prompt}"
+            f"Use the following profile data to answer questions about him:\n{soheil_profile}"
         )
 
-        model = genai.GenerativeModel(available_model_name)
-        response = model.generate_content(system_instruction)
+        # Initialize the model with the system instruction
+        model = genai.GenerativeModel(
+            model_name=available_model_name,
+            system_instruction=system_instruction
+        )
+
+        # Start the chat session passing the memory history!
+        chat = model.start_chat(history=chat_history)
+
+        # Send the user's new message
+        response = chat.send_message(user_prompt)
+
         return jsonify({"reply": response.text}), 200
 
     except Exception as e:

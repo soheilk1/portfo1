@@ -9,184 +9,11 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <link href="./static/main.3f6952e4.css" rel="stylesheet">
-
-    <style>
-        body, html {
-            margin: 0 !important;
-            padding: 0 !important;
-            min-height: 100% !important;
-            background-color: #0f172a !important;
-            font-family: 'Inter', sans-serif !important;
-            color: #f8fafc !important;
-        }
-        .mono { font-family: 'JetBrains Mono', monospace; }
-
-        /* Unified Navigation Styles */
-        .navbar-inverse {
-            background-color: rgba(15, 23, 42, 0.95) !important;
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border-bottom: 1px solid rgba(51, 65, 85, 0.5) !important;
-            padding-top: 15px !important;
-            padding-bottom: 15px !important;
-            z-index: 1000;
-        }
-
-        /* Component Overrides for Resume Page */
-        .profile-card {
-            background-color: #1e293b;
-            border: 1px solid #334155;
-            border-radius: 12px;
-            padding: 30px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-            margin-bottom: 25px;
-        }
-        .profile-title { font-size: 2.5rem; font-weight: 900; margin: 0 0 10px 0; }
-        .profile-subtitle { font-size: 1.2rem; color: #38bdf8; margin-bottom: 15px; }
-
-        .skill-badge {
-            display: inline-block;
-            padding: 6px 14px;
-            background-color: #0f172a;
-            color: #cbd5e1;
-            border: 1px solid #334155;
-            border-radius: 20px;
-            font-size: 11px;
-            font-weight: 600;
-            margin: 4px 4px 0 0;
-        }
-        .skill-badge.highlight {
-            background-color: rgba(37, 99, 235, 0.2);
-            color: #93c5fd;
-            border-color: rgba(37, 99, 235, 0.4);
-        }
-
-        .root-access-box {
-            background-color: #000;
-            border-top: 4px solid #ef4444;
-            border-radius: 12px;
-            padding: 25px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
-            margin-bottom: 30px;
-        }
-        .root-input {
-            width: 100%;
-            background-color: #0f172a;
-            border: 1px solid #1e293b;
-            color: #cbd5e1;
-            padding: 12px;
-            border-radius: 4px;
-            margin-bottom: 10px;
-            font-size: 12px;
-            outline: none;
-        }
-        .root-btn {
-            width: 100%;
-            background-color: #ef4444;
-            color: white;
-            border: none;
-            padding: 12px;
-            border-radius: 4px;
-            font-weight: bold;
-            font-size: 11px;
-            text-transform: uppercase;
-        }
-
-        .chat-container {
-            display: flex;
-            flex-direction: column;
-            height: 600px;
-            background-color: #0f172a;
-            border: 1px solid #1e293b;
-            border-radius: 12px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-            overflow: hidden;
-            margin-bottom: 30px;
-        }
-        .chat-header {
-            background-color: #151e2e;
-            border-bottom: 1px solid #1e293b;
-            padding: 15px 20px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 13px;
-            font-weight: bold;
-        }
-        .chat-history {
-            flex-grow: 1;
-            padding: 20px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-        }
-        .chat-input-area {
-            background-color: #151e2e;
-            border-top: 1px solid #1e293b;
-            padding: 15px;
-            position: relative;
-        }
-        .chat-input {
-            width: 100%;
-            background-color: #0f172a;
-            border: 1px solid #334155;
-            color: #f8fafc;
-            border-radius: 8px;
-            padding: 14px 60px 14px 15px;
-            outline: none;
-            font-size: 14px;
-        }
-        .chat-btn {
-            position: absolute;
-            right: 25px;
-            top: 22px;
-            background-color: #2563eb;
-            color: white;
-            border: none;
-            padding: 8px 14px;
-            border-radius: 6px;
-        }
-        .msg-bubble {
-            padding: 12px 16px;
-            border-radius: 14px;
-            font-size: 14px;
-            max-width: 85%;
-            margin-bottom: 15px;
-            line-height: 1.5;
-        }
-        .msg-ai { background-color: #1e293b; border: 1px solid #334155; align-self: flex-start; }
-        .msg-user { background-color: #2563eb; color: white; align-self: flex-end; margin-left: auto; }
-
-        @media (max-width: 991px) {
-            .chat-container { height: 500px; }
-            .profile-title { font-size: 2rem; }
-        }
-    </style>
 </head>
 <body>
 
-<header>
-  <nav class="navbar navbar-fixed-top navbar-inverse">
-    <div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
-              <span class="icon-bar" style="background-color: white;"></span>
-              <span class="icon-bar" style="background-color: white;"></span>
-              <span class="icon-bar" style="background-color: white;"></span>
-            </button>
-        </div>
-      <div class="collapse navbar-collapse" id="navbar-collapse">
-        <ul class="nav navbar-nav">
-          <li><a href="./index.html">01 : Home</a></li>
-          <li><a href="./works.html">02 : Works</a></li>
-          <li><a href="./about.html">03 : About me</a></li>
-          <li><a href="./contact.html">04 : Contact</a></li>
-          <li><a href="./resume.html" class="active">05 : Resume</a></li>
-        </ul>
-      </div>
-    </div>
-  </nav>
-</header>
+<!-- Unified Navigation Bar -->
+<script src="./static/navbar.js"></script>
 
 <div class="container" style="padding-top: 100px;">
     <!-- TOP ROW: Professional Info (Name & Title) -->
@@ -205,9 +32,7 @@
 
     <!-- MAIN CONTENT ROW: Restructured for Mobile Top Chat -->
     <div class="row">
-        <!-- RIGHT COLUMN (col-md-7): AI Chat
-             On Mobile (xs/sm) it is first.
-             On Desktop (md/lg) it is pushed to the right. -->
+        <!-- RIGHT COLUMN (col-md-7): AI Chat -->
         <div class="col-md-7 col-md-push-5">
             <div class="chat-container">
                 <div class="chat-header">
@@ -227,9 +52,7 @@
             </div>
         </div>
 
-        <!-- LEFT COLUMN (col-md-5): Sidebar Content
-             On Mobile (xs/sm) it is second.
-             On Desktop (md/lg) it is pulled to the left. -->
+        <!-- LEFT COLUMN (col-md-5): Sidebar Content -->
         <div class="col-md-5 col-md-pull-7">
             <div class="profile-card" style="padding: 20px 30px;">
                 <h3 style="font-size: 11px; color: #64748b; text-transform: uppercase; letter-spacing: 1px; font-weight: bold; margin-top: 0;">Core Competencies</h3>
@@ -242,12 +65,11 @@
                 </div>
             </div>
 
+            <!-- Root Access is kept here because it is the gateway to your portal -->
             <div class="root-access-box mono">
                 <div style="color: #ef4444; font-size: 12px; font-weight: bold; margin-bottom: 15px;">> ROOT_ACCESS_REQUIRED</div>
                 <input type="password" id="admin-pass-entry" placeholder="Admin Password" class="root-input">
-
                 <div id="login-error-msg" style="color: #ef4444; font-size: 11px; margin-bottom: 10px; display: none;"></div>
-
                 <button onclick="checkAdmin()" id="auth-btn" class="root-btn">Authenticate</button>
             </div>
         </div>
@@ -268,6 +90,9 @@
         }).catch(err => { /* Silent in local env */ });
     }, 1000);
 
+    // --- NEW: Conversation Memory Array ---
+    let conversationHistory = [];
+
     async function sendToAI() {
         const input = document.getElementById('ai-input');
         const btn = document.getElementById('ai-btn');
@@ -276,18 +101,17 @@
 
         if(!prompt) return;
 
-        // 1. Disable inputs
+        // 1. Disable inputs & Add to UI
         input.disabled = true;
         btn.disabled = true;
         btn.innerText = "...";
 
-        // 2. Add user message
         history.innerHTML += `
             <span style="font-size: 10px; color: #64748b; margin-bottom: 5px; font-family: monospace; text-align: right; margin-left: auto;">YOU</span>
             <div class="msg-bubble msg-user">${escapeHTML(prompt)}</div>
         `;
 
-        // 3. Show Terminal Loading (Visual Fetching)
+        // 2. Show Terminal Loading
         const loadingId = 'loading-' + Date.now();
         history.innerHTML += `
             <div id="${loadingId}">
@@ -302,10 +126,14 @@
         history.scrollTop = history.scrollHeight;
 
         try {
+            // 3. Send the prompt AND the history array to Python
             const res = await fetch("/ask_gemini", {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ prompt: prompt })
+                body: JSON.stringify({
+                    prompt: prompt,
+                    history: conversationHistory
+                })
             });
             const data = await res.json();
 
@@ -319,6 +147,13 @@
                     <div class="msg-bubble msg-ai" style="border: 1px solid #ef4444; color: #fca5a5;">${data.error}</div>
                 `;
             } else {
+                // 4. Save the exchange to our memory array for next time!
+                conversationHistory.push({ role: "user", parts: [prompt] });
+                conversationHistory.push({ role: "model", parts: [data.reply] });
+
+                // Keep history small to save tokens (keep last 6 exchanges)
+                if (conversationHistory.length > 12) conversationHistory.splice(0, 2);
+
                 history.innerHTML += `
                     <span style="font-size: 10px; color: #38bdf8; margin-bottom: 5px; font-family: monospace;">GEMINI_AI</span>
                     <div class="msg-bubble msg-ai">${data.reply || 'No response.'}</div>
@@ -344,13 +179,11 @@
 
         if (!pass) return;
 
-        // Reset UI to loading state
         errorMsg.style.display = 'none';
         authBtn.innerText = "Authenticating...";
         authBtn.disabled = true;
 
         try {
-            // Ask the Python server if the password is correct
             const response = await fetch('/api/login', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -360,10 +193,7 @@
             const data = await response.json();
 
             if (response.ok) {
-                // Success! Save session and redirect
                 sessionStorage.setItem('admin_session_pass', pass);
-
-                // Safe redirect logic
                 if (window.location.protocol === 'blob:' || window.location.origin === 'null') {
                     authBtn.innerText = "Redirect Triggered";
                     errorMsg.innerText = "Automatic navigation is disabled in preview.";
@@ -372,7 +202,6 @@
                     window.location.href = './portal.html';
                 }
             } else {
-                // Failed! Show the error message from the server (e.g., "2 attempts remaining")
                 errorMsg.innerText = "> ERROR: " + (data.error || "Access Denied");
                 errorMsg.style.display = 'block';
                 authBtn.innerText = "Authenticate";
@@ -393,7 +222,6 @@
     }
 </script>
 
-<!-- External Scripts for Navigation Toggle -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </body>
