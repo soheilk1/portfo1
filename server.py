@@ -11,7 +11,7 @@ from flask import Flask, render_template, request, redirect, jsonify, make_respo
 
 
 
-app = Flask(__name__)
+
 
 from flask import request, redirect
 
