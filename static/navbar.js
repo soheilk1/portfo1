@@ -1,3 +1,29 @@
+(function() {
+    // 1. Ensure Bootstrap 3 core CSS is loaded
+    if (!document.querySelector('link[href*="bootstrap.min.css"]') && !document.querySelector('link[href*="bootstrap/3.3.7"]')) {
+        const bootstrapCSS = document.createElement('link');
+        bootstrapCSS.rel = 'stylesheet';
+        bootstrapCSS.href = 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css';
+        document.head.appendChild(bootstrapCSS);
+    }
+
+    // 2. Ensure Inter and JetBrains Mono Google Fonts are loaded
+    if (!document.querySelector('link[href*="fonts.googleapis.com"]')) {
+        const fontsLink = document.createElement('link');
+        fontsLink.rel = 'stylesheet';
+        fontsLink.href = 'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap';
+        document.head.appendChild(fontsLink);
+    }
+
+    // 3. Ensure your local custom style rules (main.3f6952e4.css) are loaded
+    if (!document.querySelector('link[href*="main.3f6952e4.css"]')) {
+        const localCSS = document.createElement('link');
+        localCSS.rel = 'stylesheet';
+        localCSS.href = './static/main.3f6952e4.css';
+        document.head.appendChild(localCSS);
+    }
+})();
+
 const navbarHTML = `
 <header>
   <nav class="navbar navbar-fixed-top navbar-inverse">
@@ -25,24 +51,36 @@ const navbarHTML = `
 </header>
 `;
 
-// Inject the HTML
 document.write(navbarHTML);
 
-// Dynamically set the "active" class based on the current URL
 window.addEventListener('DOMContentLoaded', () => {
     const path = window.location.pathname;
 
+    // Ensure all active navigation states are stripped first to avoid multiple highlights
+    const navItems = ['nav-home', 'nav-works', 'nav-about', 'nav-contact', 'nav-resume', 'nav-products'];
+    navItems.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.classList.remove('active');
+    });
+
+    // Highlight the active element
     if (path.endsWith('/') || path.includes('index.html')) {
-        document.getElementById('nav-home').classList.add('active');
+        const el = document.getElementById('nav-home');
+        if (el) el.classList.add('active');
     } else if (path.includes('works.html')) {
-        document.getElementById('nav-works').classList.add('active');
+        const el = document.getElementById('nav-works');
+        if (el) el.classList.add('active');
     } else if (path.includes('about.html')) {
-        document.getElementById('nav-about').classList.add('active');
-    } else if (path.includes('contact.html')) {
-        document.getElementById('nav-contact').classList.add('active');
+        const el = document.getElementById('nav-about');
+        if (el) el.classList.add('active');
+    } else if (path.includes('contact.html') || path.includes('thankyou.html')) {
+        const el = document.getElementById('nav-contact');
+        if (el) el.classList.add('active');
     } else if (path.includes('resume.html')) {
-        document.getElementById('nav-resume').classList.add('active');
+        const el = document.getElementById('nav-resume');
+        if (el) el.classList.add('active');
     } else if (path.includes('products.html') || path.includes('checkout.html')) {
-        document.getElementById('nav-products').classList.add('active');
+        const el = document.getElementById('nav-products');
+        if (el) el.classList.add('active');
     }
 });
