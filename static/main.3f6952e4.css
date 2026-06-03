@@ -71,6 +71,11 @@ body, html {
     border-bottom: 2px solid #38bdf8;
 }
 
+/* Tailwind Compatibility Guardrail: Prevents Tailwind from hiding the Bootstrap Navbar */
+.navbar-collapse.collapse {
+    visibility: visible !important;
+}
+
 /* ==========================================================================
    PAGE HEADERS (Works, About, Contact)
    ========================================================================== */
@@ -79,7 +84,7 @@ body, html {
     font-weight: 800 !important;
     letter-spacing: -1px !important;
     color: #ffffff !important;
-    margin-top: 80px !important;
+    margin-top: 130px !important;
     margin-bottom: 15px !important;
 }
 .page-subtitle {
@@ -272,26 +277,4 @@ body, html {
 .success-container { min-height: 85vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 80px 20px 40px 20px; position: relative; z-index: 10; }
 .status-code { font-family: 'Roboto Mono', monospace; color: #4ade80; font-size: 1.6rem; margin-bottom: 25px; letter-spacing: 2px; text-transform: uppercase; border: 1px solid #4ade80; padding: 10px 20px; border-radius: 6px; background-color: rgba(74, 222, 128, 0.1); animation: successPulse 2s infinite; }
 @keyframes successPulse { 0% { box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.4); } 70% { box-shadow: 0 0 0 15px rgba(74, 222, 128, 0); } 100% { box-shadow: 0 0 0 0 rgba(74, 222, 128, 0); } }
-.success-title { font-size: 5.5rem !important; font-weight: 900 !important; letter-spacing: -1px !important; color: #ffffff !important; margin-bottom: 25px !important; margin-top: 0 !important; background: linear-gradient(to right, #ffffff, #94a3b8) !important; -webkit-background-clip: text !important; -webkit-text-fill-color: transparent !important; line-height: 1.1 !important; }
-.success-subtitle { color: #94a3b8 !important; font-size: 1.6rem !important; margin-bottom: 45px !important; max-width: 800px; line-height: 1.6; }
-.terminal-output { font-family: 'Roboto Mono', monospace; color: #a3bea3; background-color: #050505; border: 1px solid #334155; border-left: 4px solid #4ade80; border-radius: 8px; padding: 30px; margin-bottom: 45px; text-align: left; width: 100%; max-width: 650px; font-size: 1.3rem; line-height: 1.7; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
-.terminal-output span.prompt { color: #38bdf8; }
-.terminal-output span.success { color: #4ade80; font-weight: bold; }
-.btn-return { background-color: transparent !important; color: #f8fafc !important; padding: 18px 45px !important; border-radius: 8px !important; font-size: 1.4rem !important; font-weight: 600 !important; text-decoration: none !important; transition: all 0.3s ease !important; border: 1px solid #475569 !important; display: inline-block; }
-.btn-return:hover { background-color: #1e293b !important; border-color: #38bdf8 !important; color: white !important; transform: translateY(-2px); box-shadow: 0 4px 15px rgba(56, 189, 248, 0.2); }
-
-/* ==========================================================================
-   MOBILE RESPONSIVE FIXES (All Pages)
-   ========================================================================== */
-@media (max-width: 767px) {
-    .navbar-collapse { background-color: #0f172a; border-top: 1px solid #334155; }
-    .hero-title { font-size: 2.5rem !important; }
-    .hero-subtitle { font-size: 1.2rem !important; height: 60px !important; }
-    .btn-container { flex-direction: column; gap: 15px; width: 100%; max-width: 300px; }
-    .btn-primary-custom, .btn-secondary-custom { width: 100%; text-align: center; }
-    .trust-bar span { display: block; margin: 10px 0; }
-    .page-title { font-size: 2.5rem !important; }
-    .card-container { padding: 20px !important; margin-top: -20px !important; }
-    .btn-return { width: 100%; max-width: 350px; text-align: center; font-size: 1.2rem !important; }
-    .terminal-output { font-size: 1.1rem; }
-}
+.success-title { font-size: 5.5rem !important; font-weight: 900 !important; letter-spacing: -1px !important; color: #ffffff !important; margin-bottom: 25px !important; margin-top: 0 !important; background: linear-gradient
