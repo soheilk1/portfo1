@@ -84,6 +84,7 @@ window.addEventListener('DOMContentLoaded', () => {
         if (el) el.classList.add('active');
     }
 
+    // --- MOBILE MENU TOGGLE FIX ---
     // Find the toggle button dynamically by class so we don't rely on an ID
     const toggleBtn = document.querySelector('.navbar-toggle');
     const navbarCollapse = document.getElementById('navbar-collapse');
@@ -118,12 +119,3 @@ window.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
-```
-eof
-
-### To verify:
-1. Replace your live `navbar.js` file with this new script.
-2. Upload the file to your server.
-3. Open your mobile phone browser, visit your site, and do a refresh.
-
-Clicking the hamburger menu button once will open it, and clicking it a second time will cleanly close it again! Let me know when you've uploaded it.
