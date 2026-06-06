@@ -79,8 +79,6 @@ window.addEventListener('DOMContentLoaded', () => {
     } else if (path.includes('resume.html')) {
         const el = document.getElementById('nav-resume');
         if (el) el.classList.add('active');
-    } else if (path.includes('products.html') || path.includes('checkout.html')) {
-        const el = document.getElementById('nav-products');
-        if (el) el.classList.add('active');
+
     }
 });
