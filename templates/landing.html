@@ -1,41 +1,229 @@
-<!-- ... existing code ... -->
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure FastAPI Core Boilerplate | ocdaqy</title>
+
+    <!-- CRITICAL: This is the script that allows the Gumroad popup to work on your personal website -->
+    <script src="https://gumroad.com/js/gumroad.js"></script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'media',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: { 50: '#f0fdfa', 100: '#ccfbf1', 500: '#14b8a6', 600: '#0d9488', 700: '#0f766e' },
+                        accent: { 500: '#3b82f6', 600: '#2563eb' }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'Fira Code', 'monospace']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .grid-bg { background-image: radial-gradient(circle, rgba(20, 184, 166, 0.05) 1px, transparent 1px); background-size: 24px 24px; }
+        .dark .grid-bg { background-image: radial-gradient(circle, rgba(20, 184, 166, 0.08) 1px, transparent 1px); }
+        .glow-effect { box-shadow: 0 0 40px -10px rgba(20, 184, 166, 0.3); }
+        .accent-glow { box-shadow: 0 0 40px -10px rgba(59, 130, 246, 0.25); }
+    </style>
+</head>
+<body class="bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 font-sans transition-colors duration-300 min-h-screen flex flex-col grid-bg">
+
+    <header class="sticky top-0 z-50 backdrop-blur-md bg-slate-50/80 dark:bg-slate-950/80 border-b border-slate-200 dark:border-slate-900">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-500 to-accent-500 flex items-center justify-center text-white shadow-md">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                    </svg>
+                </div>
+                <div>
+                    <span class="font-extrabold text-lg tracking-tight bg-gradient-to-r from-brand-600 to-accent-600 dark:from-brand-500 dark:to-accent-500 bg-clip-text text-transparent">
+                        ocdaqy
+                    </span>
+                    <span class="hidden sm:inline-block text-xs bg-brand-100 dark:bg-brand-900/40 text-brand-700 dark:text-brand-300 px-2 py-0.5 rounded-full ml-2 font-medium">Production Ready</span>
+                </div>
+            </div>
             <div>
-                <!-- Gumroad Link -->
-                <a href="https://soheil3005.gumroad.com/l/ocdaqy" data-gumroad-overlay-checkout="true" class="inline-flex items-center justify-center px-4 py-2 text-sm font-semibold text-white bg-slate-900 hover:bg-slate-800 dark:bg-slate-100 dark:hover:bg-slate-200 dark:text-slate-900 rounded-lg transition-all shadow-sm">
+                <!-- FIXED: Standard Link -->
+                <a href="https://soheil3005.gumroad.com/l/ocdaqy" class="inline-flex items-center justify-center px-4 py-2 text-sm font-semibold text-white bg-slate-900 hover:bg-slate-800 dark:bg-slate-100 dark:hover:bg-slate-200 dark:text-slate-900 rounded-lg transition-all shadow-sm">
                     Get Boilerplate
                 </a>
             </div>
-<!-- ... existing code ... -->
+        </div>
+    </header>
+
+    <section class="relative pt-12 pb-20 overflow-hidden">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-12 gap-12 items-center">
+
+                <div class="lg:col-span-7 space-y-6 text-left">
+                    <div class="inline-flex items-center space-x-2 bg-slate-200/50 dark:bg-slate-900/60 p-1.5 pr-3 rounded-full text-xs font-semibold">
+                        <span class="bg-brand-500 text-white px-2 py-1 rounded-full text-[10px] tracking-wide uppercase font-bold">FastAPI</span>
+                        <span class="text-slate-600 dark:text-slate-400">Secure Architecture Scaffold</span>
+                    </div>
+
+                    <h1 class="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight leading-none text-slate-900 dark:text-slate-50">
+                        Stop configuring. <br class="hidden sm:block" />
+                        <span class="bg-gradient-to-r from-brand-500 to-accent-500 bg-clip-text text-transparent">Start Building.</span>
+                    </h1>
+
+                    <p class="text-lg md:text-xl text-slate-600 dark:text-slate-300 max-w-xl leading-relaxed">
+                        A production-grade, highly secure FastAPI core template designed to skip 50+ hours of architectural boilerplate. Preconfigured database connection, authentication, and security.
+                    </p>
+
                     <div class="flex flex-col sm:flex-row gap-4 pt-4">
-                        <!-- Standard Gumroad link for website popup -->
-                        <a href="https://soheil3005.gumroad.com/l/ocdaqy" data-gumroad-overlay-checkout="true" class="inline-flex items-center justify-center px-8 py-4 bg-brand-600 hover:bg-brand-500 dark:bg-brand-500 dark:hover:bg-brand-400 text-white font-bold rounded-xl shadow-lg transition-all transform hover:-translate-y-0.5 active:scale-95 text-lg">
+                        <!-- FIXED: Standard Link -->
+                        <a href="https://soheil3005.gumroad.com/l/ocdaqy" class="inline-flex items-center justify-center px-8 py-4 bg-brand-600 hover:bg-brand-500 dark:bg-brand-500 dark:hover:bg-brand-400 text-white font-bold rounded-xl shadow-lg transition-all transform hover:-translate-y-0.5 active:scale-95 text-lg">
                             Instant Access — $39
                         </a>
                         <a href="#features" class="inline-flex items-center justify-center px-8 py-4 bg-white dark:bg-slate-900 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 font-semibold rounded-xl border border-slate-200 dark:border-slate-800 transition-all text-lg">
-<!-- ... existing code ... -->
+                            Explore Features
+                        </a>
+                    </div>
+
+                    <div class="pt-6 grid grid-cols-3 gap-4 max-w-lg border-t border-slate-200 dark:border-slate-900">
+                        <div class="flex items-center space-x-2"><span class="text-brand-500 font-bold">✓</span><span class="text-sm font-medium text-slate-500 dark:text-slate-400">OAuth2 JWT</span></div>
+                        <div class="flex items-center space-x-2"><span class="text-brand-500 font-bold">✓</span><span class="text-sm font-medium text-slate-500 dark:text-slate-400">Dockerized</span></div>
+                        <div class="flex items-center space-x-2"><span class="text-brand-500 font-bold">✓</span><span class="text-sm font-medium text-slate-500 dark:text-slate-400">SQLAlchemy 2.0</span></div>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-5 relative">
+                    <div class="absolute inset-0 bg-gradient-to-tr from-brand-500 to-accent-500 rounded-3xl opacity-10 blur-xl"></div>
+                    <div class="relative bg-slate-900 rounded-2xl border border-slate-800 shadow-2xl overflow-hidden accent-glow">
+                        <div class="px-4 py-3 bg-slate-950 border-b border-slate-800 flex items-center justify-between">
+                            <div class="flex space-x-2">
+                                <span class="w-3 h-3 bg-red-500 rounded-full"></span>
+                                <span class="w-3 h-3 bg-yellow-500 rounded-full"></span>
+                                <span class="w-3 h-3 bg-green-500 rounded-full"></span>
+                            </div>
+                            <span class="text-xs font-mono text-slate-500">app/core/security.py</span>
+                            <div class="w-4"></div>
+                        </div>
+                        <div class="p-6 font-mono text-xs overflow-x-auto text-left leading-relaxed text-slate-300">
+                            <p class="text-slate-500"><span class="text-emerald-500">import</span> jwt, fastapi, passlib</p>
+                            <p class="text-slate-500"><span class="text-emerald-500">from</span> app.schemas <span class="text-emerald-500">import</span> TokenData</p>
+                            <p class="text-slate-400">&nbsp;</p>
+                            <p><span class="text-purple-400">def</span> <span class="text-blue-400">verify_access_token</span>(token: str) -&gt; TokenData:</p>
+                            <p>&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">try</span>:</p>
+                            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;payload = jwt.decode(</p>
+                            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;token, </p>
+                            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;settings.SECRET_KEY, </p>
+                            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;algorithms=[ALGORITHM]</p>
+                            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)</p>
+                            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;user_id: str = payload.get(<span class="text-teal-400">"sub"</span>)</p>
+                            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">if</span> user_id is None:</p>
+                            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">raise</span> CredentialsException</p>
+                            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">return</span> TokenData(id=user_id)</p>
+                            <p>&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">except</span> JWTError:</p>
+                            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">raise</span> CredentialsException</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="features" class="py-20 bg-white/50 dark:bg-slate-900/30 border-y border-slate-200 dark:border-slate-900">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <h2 class="text-3xl font-extrabold text-slate-900 dark:text-slate-50 sm:text-4xl">Everything you need to launch securely</h2>
+                <p class="mt-4 text-lg text-slate-600 dark:text-slate-400">A foundational scaffold focusing exclusively on security, structure, and database integrity.</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Shortened for focus, feature cards here -->
+                <div class="p-6 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm transition-all hover:scale-[1.02]">
+                    <h3 class="text-lg font-bold text-slate-900 dark:text-slate-100 mb-2">OAuth2 & JWT Auth</h3>
+                    <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">Industry standard token-based authentication with secure password hashing using bcrypt. Secure login flows, password resets, and user roles preconfigured.</p>
+                </div>
+                <div class="p-6 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm transition-all hover:scale-[1.02]">
+                    <h3 class="text-lg font-bold text-slate-900 dark:text-slate-100 mb-2">Database & Alembic</h3>
+                    <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">Modern SQLAlchemy 2.0 async database integration. Comes out-of-the-box with auto-generating database migration scenarios powered by Alembic.</p>
+                </div>
+                <div class="p-6 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm transition-all hover:scale-[1.02]">
+                    <h3 class="text-lg font-bold text-slate-900 dark:text-slate-100 mb-2">Docker Environment</h3>
+                    <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">Multi-stage Docker builds. Local docker-compose profiles configures backend container, testing suite, and PostgreSQL containers seamlessly in 1 command.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="pricing" class="py-20 bg-slate-100/50 dark:bg-slate-900/20 border-t border-slate-200 dark:border-slate-900">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-3xl font-extrabold text-slate-900 dark:text-slate-50 mb-4">Secure your framework copy</h2>
+            <p class="text-lg text-slate-600 dark:text-slate-400 max-w-xl mx-auto mb-12">Gain lifetime access to the secure core boilerplate.</p>
+
+            <div class="grid md:grid-cols-2 gap-8 text-left max-w-3xl mx-auto items-stretch">
+
+                <div class="bg-white dark:bg-slate-900 p-8 rounded-3xl border-2 border-brand-500 shadow-xl flex flex-col justify-between relative glow-effect">
+                    <div>
+                        <h4 class="text-xl font-bold mb-2">Lifetime Access</h4>
+                        <p class="text-xs text-slate-500 dark:text-slate-400 mb-6">Complete source file repository.</p>
                         <div class="flex items-baseline mb-6">
                             <span class="text-5xl font-black text-slate-900 dark:text-slate-100">$39</span>
                         </div>
                     </div>
-                    <a href="https://soheil3005.gumroad.com/l/ocdaqy" data-gumroad-overlay-checkout="true" class="w-full bg-brand-600 hover:bg-brand-500 dark:bg-brand-500 dark:hover:bg-brand-400 text-white font-bold py-4 px-6 rounded-xl shadow-md transition-all text-center block">
+                    <!-- FIXED: Standard Link -->
+                    <a href="https://soheil3005.gumroad.com/l/ocdaqy" class="w-full bg-brand-600 hover:bg-brand-500 dark:bg-brand-500 dark:hover:bg-brand-400 text-white font-bold py-4 px-6 rounded-xl shadow-md transition-all text-center block">
                         Instant Checkout
                     </a>
                 </div>
-<!-- ... existing code ... -->
+
+                <div class="bg-white dark:bg-slate-900 p-8 rounded-3xl border border-slate-200 dark:border-slate-800 flex flex-col justify-between">
+                    <div>
+                        <h4 class="text-xl font-bold mb-2">Support Development</h4>
+                        <p class="text-xs text-slate-500 dark:text-slate-400 mb-6">Contribute a customizable tier.</p>
+
+                        <div class="space-y-4 mb-8">
+                            <label class="block text-xs font-bold uppercase tracking-wider text-slate-500" for="gr-price">Your Custom Amount ($)</label>
+                            <div class="relative rounded-xl shadow-sm">
+                                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none"><span class="text-slate-500 sm:text-sm font-semibold">$</span></div>
+                                <input id="gr-price" type="number" min="1.00" step="1.00" placeholder="39.00" class="block w-full pl-8 pr-4 py-3.5 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl focus:ring-2 focus:ring-brand-500 focus:outline-none transition-all text-slate-900 dark:text-slate-100 font-mono" />
+                            </div>
+                        </div>
+                    </div>
+                    <!-- FIXED: Standard Link that gets updated by Javascript -->
+                    <a id="custom-pay-btn" href="https://soheil3005.gumroad.com/l/ocdaqy" class="w-full bg-slate-900 hover:bg-slate-800 dark:bg-slate-800 text-white font-bold py-4 px-6 rounded-xl transition-all text-center block">
+                        Process Custom Pay
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="mt-auto py-8 border-t border-slate-200 dark:border-slate-900 bg-slate-50 dark:bg-slate-950">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-xs text-slate-500 space-y-4">
+            <p>© 2026 ocdaqy. Built for fast, modern, and production-ready APIs.</p>
+        </div>
+    </footer>
+
     <script>
-        // Custom Price Button Logic for Personal Websites
-        // This appends the custom price directly to the Gumroad URL and triggers the popup.
-        document.getElementById("custom-pay-btn").addEventListener("click", function () {
-            let base_url = "https://soheil3005.gumroad.com/l/ocdaqy";
-            let customPrice = document.getElementById("gr-price").value;
+        // Custom Price Logic tailored for EXTERNAL websites.
+        // It appends the price dynamically to the Gumroad URL before it gets clicked.
+        const priceInput = document.getElementById("gr-price");
+        const customBtn = document.getElementById("custom-pay-btn");
+        const baseUrl = "https://soheil3005.gumroad.com/l/ocdaqy";
 
-            if (customPrice && !isNaN(customPrice) && parseFloat(customPrice) > 0) {
-<!-- ... existing code ... -->
-```
-
-### What to do next:
-1. Re-copy the code from the right panel (it has been automatically updated with these fixes).
-2. Paste it back into your website file and save it to your server.
-3. Open your website (`soheilk.online/landing.html`) and **do a Hard Refresh (Ctrl + F5)**.
-
-The buttons will now correctly locate your product and slide out the Gumroad payment overlay over your website!
+        priceInput.addEventListener("input", function () {
+            let val = priceInput.value.trim();
+            if (val !== "" && !isNaN(val) && parseFloat(val) > 0) {
+                // Attach the price to the link url
+                customBtn.href = baseUrl + "?price=" + val;
+            } else {
+                // Reset to default
+                customBtn.href = baseUrl;
+            }
+        });
+    </script>
+</body>
+</html>
