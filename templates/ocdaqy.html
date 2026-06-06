@@ -6,6 +6,8 @@
     <title>Secure FastAPI Core Boilerplate | ocdaqy</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://gumroad.com/js/gumroad.js"></script>
+
     <script>
         tailwind.config = {
             darkMode: 'media',
@@ -46,10 +48,10 @@
                 </div>
             </div>
             <div>
-                <!-- UNBLOCKABLE JS BUTTON -->
-                <button onclick="window.open('https://soheil3005.gumroad.com/l/ocdaqy', '_blank')" class="inline-flex items-center justify-center px-4 py-2 text-sm font-semibold text-white bg-slate-900 hover:bg-slate-800 dark:bg-slate-100 dark:hover:bg-slate-200 dark:text-slate-900 rounded-lg transition-all shadow-sm">
+                <!-- Added wanted=true and overlay attributes -->
+                <a href="https://soheil3005.gumroad.com/l/ocdaqy?wanted=true" data-gumroad-overlay-checkout="true" class="inline-flex items-center justify-center px-4 py-2 text-sm font-semibold text-white bg-slate-900 hover:bg-slate-800 dark:bg-slate-100 dark:hover:bg-slate-200 dark:text-slate-900 rounded-lg transition-all shadow-sm">
                     Get Boilerplate
-                </button>
+                </a>
             </div>
         </div>
     </header>
@@ -74,13 +76,13 @@
                     </p>
 
                     <div class="flex flex-col sm:flex-row gap-4 pt-4">
-                        <!-- UNBLOCKABLE JS BUTTON -->
-                        <button onclick="window.open('https://soheil3005.gumroad.com/l/ocdaqy', '_blank')" class="inline-flex items-center justify-center px-8 py-4 bg-brand-600 hover:bg-brand-500 dark:bg-brand-500 dark:hover:bg-brand-400 text-white font-bold rounded-xl shadow-lg transition-all transform hover:-translate-y-0.5 active:scale-95 text-lg cursor-pointer">
+                        <!-- Added wanted=true and overlay attributes -->
+                        <a href="https://soheil3005.gumroad.com/l/ocdaqy?wanted=true" data-gumroad-overlay-checkout="true" class="inline-flex items-center justify-center px-8 py-4 bg-brand-600 hover:bg-brand-500 dark:bg-brand-500 dark:hover:bg-brand-400 text-white font-bold rounded-xl shadow-lg transition-all transform hover:-translate-y-0.5 active:scale-95 text-lg">
                             Instant Access — $39
-                        </button>
-                        <button onclick="document.getElementById('features').scrollIntoView({behavior: 'smooth'})" class="inline-flex items-center justify-center px-8 py-4 bg-white dark:bg-slate-900 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 font-semibold rounded-xl border border-slate-200 dark:border-slate-800 transition-all text-lg cursor-pointer">
+                        </a>
+                        <a href="#features" class="inline-flex items-center justify-center px-8 py-4 bg-white dark:bg-slate-900 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 font-semibold rounded-xl border border-slate-200 dark:border-slate-800 transition-all text-lg">
                             Explore Features
-                        </button>
+                        </a>
                     </div>
 
                     <div class="pt-6 grid grid-cols-3 gap-4 max-w-lg border-t border-slate-200 dark:border-slate-900">
@@ -165,10 +167,10 @@
                             <span class="text-5xl font-black text-slate-900 dark:text-slate-100">$39</span>
                         </div>
                     </div>
-                    <!-- UNBLOCKABLE JS BUTTON -->
-                    <button onclick="window.open('https://soheil3005.gumroad.com/l/ocdaqy', '_blank')" class="w-full bg-brand-600 hover:bg-brand-500 dark:bg-brand-500 dark:hover:bg-brand-400 text-white font-bold py-4 px-6 rounded-xl shadow-md transition-all text-center block cursor-pointer">
+                    <!-- Added wanted=true and overlay attributes -->
+                    <a href="https://soheil3005.gumroad.com/l/ocdaqy?wanted=true" data-gumroad-overlay-checkout="true" class="w-full bg-brand-600 hover:bg-brand-500 dark:bg-brand-500 dark:hover:bg-brand-400 text-white font-bold py-4 px-6 rounded-xl shadow-md transition-all text-center block">
                         Instant Checkout
-                    </button>
+                    </a>
                 </div>
 
                 <div class="bg-white dark:bg-slate-900 p-8 rounded-3xl border border-slate-200 dark:border-slate-800 flex flex-col justify-between">
@@ -184,10 +186,10 @@
                             </div>
                         </div>
                     </div>
-                    <!-- UNBLOCKABLE JS BUTTON FOR CUSTOM PRICE -->
-                    <button onclick="submitCustomPrice()" class="w-full bg-slate-900 hover:bg-slate-800 dark:bg-slate-800 text-white font-bold py-4 px-6 rounded-xl transition-all text-center block cursor-pointer">
+                    <!-- Dynamic link for custom price using wanted=true trick -->
+                    <a id="custom-pay-btn" href="https://soheil3005.gumroad.com/l/ocdaqy?wanted=true" target="_blank" class="w-full bg-slate-900 hover:bg-slate-800 dark:bg-slate-800 text-white font-bold py-4 px-6 rounded-xl transition-all text-center block cursor-pointer">
                         Process Custom Pay
-                    </button>
+                    </a>
                 </div>
 
             </div>
@@ -202,18 +204,21 @@
     </footer>
 
     <script>
-        // Bulletproof Javascript execution function. Unblockable by CSS overlapping or normal <a> tag hijacking.
-        function submitCustomPrice() {
-            const priceInput = document.getElementById("gr-price");
+        // Custom Price Logic tailored to skip the product page and go straight to payment.
+        const priceInput = document.getElementById("gr-price");
+        const customBtn = document.getElementById("custom-pay-btn");
+        const baseUrl = "https://soheil3005.gumroad.com/l/ocdaqy";
+
+        priceInput.addEventListener("input", function () {
             let val = priceInput.value.trim();
-            let finalUrl = "https://soheil3005.gumroad.com/l/ocdaqy";
-
             if (val !== "" && !isNaN(val) && parseFloat(val) > 0) {
-                finalUrl += "?price=" + val;
+                // Attach the price AND the wanted=true parameter to skip product page
+                customBtn.href = baseUrl + "?price=" + val + "&wanted=true";
+            } else {
+                // Reset to default direct checkout
+                customBtn.href = baseUrl + "?wanted=true";
             }
-
-            window.open(finalUrl, "_blank");
-        }
+        });
     </script>
 </body>
 </html>
