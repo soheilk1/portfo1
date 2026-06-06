@@ -29,7 +29,7 @@ const navbarHTML = `
   <nav class="navbar navbar-fixed-top navbar-inverse">
     <div class="container">
         <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" id="custom-navbar-toggle" aria-expanded="false" style="border-color: #475569;">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false" style="border-color: #475569;">
               <span class="sr-only">Toggle navigation</span>
               <span class="icon-bar" style="background-color: white;"></span>
               <span class="icon-bar" style="background-color: white;"></span>
@@ -84,35 +84,46 @@ window.addEventListener('DOMContentLoaded', () => {
         if (el) el.classList.add('active');
     }
 
-    // 4. Robust Native Mobile Hamburger Toggle Fix (No jQuery needed!)
-    const toggleBtn = document.getElementById('custom-navbar-toggle');
+    // Find the toggle button dynamically by class so we don't rely on an ID
+    const toggleBtn = document.querySelector('.navbar-toggle');
     const navbarCollapse = document.getElementById('navbar-collapse');
 
     if (toggleBtn && navbarCollapse) {
         toggleBtn.addEventListener('click', function(e) {
             e.stopPropagation();
-            const isExpanded = this.getAttribute('aria-expanded') === 'true';
 
-            if (isExpanded) {
-                // Collapse the menu
-                this.setAttribute('aria-expanded', 'false');
-                this.classList.add('collapsed');
-                navbarCollapse.classList.remove('in');
-            } else {
-                // Expand the menu
-                this.setAttribute('aria-expanded', 'true');
+            // Check current expanded state from standard Bootstrap classes
+            const isCollapsed = this.classList.contains('collapsed');
+
+            if (isCollapsed) {
+                // Open the mobile menu dropdown
                 this.classList.remove('collapsed');
+                this.setAttribute('aria-expanded', 'true');
                 navbarCollapse.classList.add('in');
+            } else {
+                // Close the mobile menu dropdown
+                this.classList.add('collapsed');
+                this.setAttribute('aria-expanded', 'false');
+                navbarCollapse.classList.remove('in');
             }
         });
 
-        // Close mobile menu automatically if user clicks anywhere outside of it
+        // Auto-close menu if the user taps anywhere outside of the dropdown wrapper
         document.addEventListener('click', function(e) {
             if (!navbarCollapse.contains(e.target) && e.target !== toggleBtn) {
-                toggleBtn.setAttribute('aria-expanded', 'false');
                 toggleBtn.classList.add('collapsed');
+                toggleBtn.setAttribute('aria-expanded', 'false');
                 navbarCollapse.classList.remove('in');
             }
         });
     }
 });
+```
+eof
+
+### To verify:
+1. Replace your live `navbar.js` file with this new script.
+2. Upload the file to your server.
+3. Open your mobile phone browser, visit your site, and do a refresh.
+
+Clicking the hamburger menu button once will open it, and clicking it a second time will cleanly close it again! Let me know when you've uploaded it.
