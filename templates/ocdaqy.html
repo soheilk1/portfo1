@@ -4,20 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Secure FastAPI Core Boilerplate | ocdaqy</title>
-
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
-            darkMode: 'media',
             theme: {
                 extend: {
                     colors: {
-                        brand: { 50: '#f0fdfa', 100: '#ccfbf1', 500: '#14b8a6', 600: '#0d9488', 700: '#0f766e' },
+                        brand: { 50: '#f0fdfa', 100: '#ccfbf1', 500: '#14b8a6', 600: '#0d9488' },
                         accent: { 500: '#3b82f6', 600: '#2563eb' }
-                    },
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                        mono: ['JetBrains Mono', 'Fira Code', 'monospace']
                     }
                 }
             }
@@ -25,106 +19,115 @@
     </script>
     <style>
         .grid-bg { background-image: radial-gradient(circle, rgba(20, 184, 166, 0.05) 1px, transparent 1px); background-size: 24px 24px; }
-        .dark .grid-bg { background-image: radial-gradient(circle, rgba(20, 184, 166, 0.08) 1px, transparent 1px); }
         .glow-effect { box-shadow: 0 0 40px -10px rgba(20, 184, 166, 0.3); }
-        .accent-glow { box-shadow: 0 0 40px -10px rgba(59, 130, 246, 0.25); }
     </style>
 </head>
-<body class="bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 font-sans transition-colors duration-300 min-h-screen flex flex-col grid-bg">
+<body class="bg-slate-50 text-slate-900 font-sans min-h-screen grid-bg">
 
-    <header class="sticky top-0 z-50 backdrop-blur-md bg-slate-50/80 dark:bg-slate-950/80 border-b border-slate-200 dark:border-slate-900">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+    <header class="sticky top-0 z-50 bg-slate-50/80 backdrop-blur-md border-b border-slate-200">
+        <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
             <div class="flex items-center space-x-3">
-                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-500 to-accent-500 flex items-center justify-center text-white shadow-md">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
-                    </svg>
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-500 to-accent-500 flex items-center justify-center text-white">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
                 </div>
-                <div>
-                    <span class="hidden sm:inline-block text-xs bg-brand-100 dark:bg-brand-900/40 text-brand-700 dark:text-brand-300 px-2 py-0.5 rounded-full ml-2 font-medium">Production Ready</span>
-                </div>
+                <span class="font-extrabold text-lg">ocdaqy</span>
+                <span class="text-xs bg-brand-100 text-brand-700 px-2 py-0.5 rounded-full font-medium">Production Ready</span>
             </div>
-            <div>
-                <a href="https://soheil3005.gumroad.com/l/ocdaqy?wanted=true" target="_blank" class="inline-flex items-center justify-center px-4 py-2 text-sm font-semibold text-white bg-slate-900 hover:bg-slate-800 dark:bg-slate-100 dark:hover:bg-slate-200 dark:text-slate-900 rounded-lg transition-all shadow-sm">
-                    Get Boilerplate
-                </a>
-            </div>
+            <a href="https://soheil3005.gumroad.com/checkout/" target="_blank" class="px-4 py-2 text-sm font-semibold text-white bg-slate-900 hover:bg-slate-800 rounded-lg transition-all shadow-sm">
+                Get Boilerplate
+            </a>
         </div>
     </header>
 
     <section class="relative pt-12 pb-20 overflow-hidden">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-6xl mx-auto px-4">
             <div class="grid lg:grid-cols-12 gap-12 items-center">
-
-                <div class="lg:col-span-7 space-y-6 text-left">
-                    <div class="inline-flex items-center space-x-2 bg-slate-200/50 dark:bg-slate-900/60 p-1.5 pr-3 rounded-full text-xs font-semibold">
-                        <span class="bg-brand-500 text-white px-2 py-1 rounded-full text-[10px] tracking-wide uppercase font-bold">FastAPI</span>
-                        <span class="text-slate-600 dark:text-slate-400">Secure Architecture Scaffold</span>
-                    </div>
-
-                    <h1 class="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight leading-none text-slate-900 dark:text-slate-50">
-                        Stop configuring. <br class="hidden sm:block" />
-                        <span class="bg-gradient-to-r from-brand-500 to-accent-500 bg-clip-text text-transparent">Start Building.</span>
+                <div class="lg:col-span-7 space-y-6">
+                    <span class="inline-flex items-center bg-slate-200/50 p-1.5 pr-3 rounded-full text-xs font-semibold">
+                        <span class="bg-brand-500 text-white px-2 py-1 rounded-full text-[10px] uppercase font-bold">FastAPI</span>
+                        <span class="ml-2 text-slate-600">Secure Architecture Scaffold</span>
+                    </span>
+                    <h1 class="text-5xl md:text-6xl font-black tracking-tight leading-none">
+                        Stop configuring.<br/><span class="bg-gradient-to-r from-brand-500 to-accent-500 bg-clip-text text-transparent">Start Building.</span>
                     </h1>
-
-                    <p class="text-lg md:text-xl text-slate-600 dark:text-slate-300 max-w-xl leading-relaxed">
-                        A production-grade, highly secure FastAPI core template designed to skip 50+ hours of architectural boilerplate. Preconfigured database connection, authentication, and security.
+                    <p class="text-xl text-slate-600 max-w-xl leading-relaxed">
+                        A production-grade, highly secure FastAPI core template designed to skip 50+ hours of architectural boilerplate.
                     </p>
-
-                    <div class="flex flex-col sm:flex-row gap-4 pt-4">
-                        <a href="https://soheil3005.gumroad.com/l/ocdaqy?wanted=true" target="_blank" class="inline-flex items-center justify-center px-8 py-4 bg-brand-600 hover:bg-brand-500 dark:bg-brand-500 dark:hover:bg-brand-400 text-white font-bold rounded-xl shadow-lg transition-all transform hover:-translate-y-0.5 active:scale-95 text-lg cursor-pointer">
+                    <div class="flex gap-4 pt-4">
+                        <a href="https://soheil3005.gumroad.com/checkout/" target="_blank" class="px-8 py-4 bg-brand-600 hover:bg-brand-500 text-white font-bold rounded-xl shadow-lg transition-all text-lg">
                             Instant Access — $39
                         </a>
-                        <a href="#features" class="inline-flex items-center justify-center px-8 py-4 bg-white dark:bg-slate-900 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 font-semibold rounded-xl border border-slate-200 dark:border-slate-800 transition-all text-lg">
+                        <a href="#features" class="px-8 py-4 bg-white hover:bg-slate-100 text-slate-700 font-semibold rounded-xl border border-slate-200 transition-all text-lg">
                             Explore Features
                         </a>
                     </div>
                 </div>
 
                 <div class="lg:col-span-5 relative">
-                    <div class="absolute inset-0 bg-gradient-to-tr from-brand-500 to-accent-500 rounded-3xl opacity-10 blur-xl"></div>
-                    <div class="relative bg-slate-900 rounded-2xl border border-slate-800 shadow-2xl overflow-hidden accent-glow">
-                        <div class="px-4 py-3 bg-slate-950 border-b border-slate-800 flex items-center justify-between">
-                            <div class="flex space-x-2">
-                                <span class="w-3 h-3 bg-red-500 rounded-full"></span>
-                                <span class="w-3 h-3 bg-yellow-500 rounded-full"></span>
-                                <span class="w-3 h-3 bg-green-500 rounded-full"></span>
-                            </div>
-                            <span class="text-xs font-mono text-slate-500">app/core/security.py</span>
+                    <div class="relative bg-slate-900 rounded-2xl border border-slate-800 shadow-2xl overflow-hidden p-6 font-mono text-xs text-slate-300">
+                        <div class="flex space-x-2 mb-4">
+                            <div class="w-3 h-3 bg-red-500 rounded-full"></div>
+                            <div class="w-3 h-3 bg-yellow-500 rounded-full"></div>
+                            <div class="w-3 h-3 bg-green-500 rounded-full"></div>
                         </div>
-                        <div class="p-6 font-mono text-xs overflow-x-auto text-left leading-relaxed text-slate-300">
-                            <p class="text-slate-500"><span class="text-emerald-500">import</span> jwt, fastapi, passlib</p>
-                            <p class="text-slate-500"><span class="text-emerald-500">from</span> app.schemas <span class="text-emerald-500">import</span> TokenData</p>
-                            <p class="text-slate-400">&nbsp;</p>
-                            <p><span class="text-purple-400">def</span> <span class="text-blue-400">verify_access_token</span>(token: str) -&gt; TokenData:</p>
-                            <p>&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">try</span>:</p>
-                            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;payload = jwt.decode(</p>
-                            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;token, </p>
-                            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;settings.SECRET_KEY, </p>
-                            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;algorithms=[ALGORITHM]</p>
-                            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)</p>
-                            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;user_id: str = payload.get(<span class="text-teal-400">"sub"</span>)</p>
-                            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">if</span> user_id is None:</p>
-                            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">raise</span> CredentialsException</p>
-                            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">return</span> TokenData(id=user_id)</p>
-                            <p>&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">except</span> JWTError:</p>
-                            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">raise</span> CredentialsException</p>
-                        </div>
+                        <p class="text-slate-500"><span class="text-emerald-500">import</span> jwt, fastapi</p>
+                        <p class="text-purple-400">def <span class="text-blue-400">verify_access_token</span>(token: str):</p>
+                        <p>&nbsp;&nbsp;<span class="text-purple-400">try</span>: payload = jwt.decode(...)</p>
+                        <p>&nbsp;&nbsp;<span class="text-purple-400">return</span> TokenData(id=user_id)</p>
+                        <p>&nbsp;&nbsp;<span class="text-purple-400">except</span> JWTError: <span class="text-purple-400">raise</span>...</p>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <script>
-        console.log("File updated: Checking for wanted=true in link...");
+    <section id="features" class="py-20 bg-white border-y border-slate-200">
+        <div class="max-w-6xl mx-auto px-4">
+            <h2 class="text-3xl font-extrabold text-center mb-16">Everything you need to launch securely</h2>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="p-6 bg-white border border-slate-200 rounded-2xl shadow-sm transition-all hover:scale-[1.02]">
+                    <h3 class="text-lg font-bold mb-2">OAuth2 & JWT Auth</h3>
+                    <p class="text-sm text-slate-600 leading-relaxed">Industry standard token-based authentication with secure password hashing.</p>
+                </div>
+                <div class="p-6 bg-white border border-slate-200 rounded-2xl shadow-sm transition-all hover:scale-[1.02]">
+                    <h3 class="text-lg font-bold mb-2">Database & Alembic</h3>
+                    <p class="text-sm text-slate-600 leading-relaxed">Modern SQLAlchemy 2.0 async database integration with migrations.</p>
+                </div>
+                <div class="p-6 bg-white border border-slate-200 rounded-2xl shadow-sm transition-all hover:scale-[1.02]">
+                    <h3 class="text-lg font-bold mb-2">Docker Environment</h3>
+                    <p class="text-sm text-slate-600 leading-relaxed">Multi-stage Docker builds configured for easy deployment.</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-        // Debugging verification
-        const links = document.querySelectorAll('a');
-        links.forEach(link => {
-            if (link.href.includes("gumroad")) {
-                console.log("Verified link:", link.href);
-            }
+    <section class="py-20">
+        <div class="max-w-4xl mx-auto px-4 text-center">
+            <h2 class="text-3xl font-extrabold mb-12">Secure your framework copy</h2>
+            <div class="grid md:grid-cols-2 gap-8 text-left items-stretch">
+                <div class="p-8 rounded-3xl border-2 border-brand-500 shadow-xl flex flex-col justify-between relative glow-effect bg-white">
+                    <h4 class="text-xl font-bold mb-2">Lifetime Access</h4>
+                    <p class="text-xs text-slate-500 mb-6">Complete source file repository.</p>
+                    <div class="flex items-baseline mb-6"><span class="text-5xl font-black">$39</span></div>
+                    <a href="https://soheil3005.gumroad.com/checkout/" target="_blank" class="w-full bg-brand-600 hover:bg-brand-500 text-white font-bold py-4 rounded-xl text-center block">Instant Checkout</a>
+                </div>
+                <div class="p-8 rounded-3xl border border-slate-200 flex flex-col justify-between bg-white">
+                    <h4 class="text-xl font-bold mb-2">Support Development</h4>
+                    <p class="text-xs text-slate-500 mb-6">Contribute any amount to support updates.</p>
+                    <div class="space-y-4 mb-8">
+                        <input id="gr-price" type="number" placeholder="39.00" class="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl font-mono" />
+                    </div>
+                    <button id="gr-buy" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-4 rounded-xl text-center">Process Custom Pay</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        document.getElementById("gr-buy").addEventListener("click", function() {
+            var v = document.getElementById("gr-price").value;
+            var url = "https://soheil3005.gumroad.com/checkout/?price=" + (v || "39");
+            window.open(url, '_blank');
         });
     </script>
 </body>
