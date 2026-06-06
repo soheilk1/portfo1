@@ -29,7 +29,7 @@ const navbarHTML = `
   <nav class="navbar navbar-fixed-top navbar-inverse">
     <div class="container">
         <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false" style="border-color: #475569;">
+            <button type="button" class="navbar-toggle collapsed" id="custom-navbar-toggle" aria-expanded="false" style="border-color: #475569;">
               <span class="sr-only">Toggle navigation</span>
               <span class="icon-bar" style="background-color: white;"></span>
               <span class="icon-bar" style="background-color: white;"></span>
@@ -82,5 +82,37 @@ window.addEventListener('DOMContentLoaded', () => {
     } else if (path.includes('landing.html') || path.includes('checkout.html')) {
         const el = document.getElementById('nav-products');
         if (el) el.classList.add('active');
+    }
+
+    // 4. Robust Native Mobile Hamburger Toggle Fix (No jQuery needed!)
+    const toggleBtn = document.getElementById('custom-navbar-toggle');
+    const navbarCollapse = document.getElementById('navbar-collapse');
+
+    if (toggleBtn && navbarCollapse) {
+        toggleBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            const isExpanded = this.getAttribute('aria-expanded') === 'true';
+
+            if (isExpanded) {
+                // Collapse the menu
+                this.setAttribute('aria-expanded', 'false');
+                this.classList.add('collapsed');
+                navbarCollapse.classList.remove('in');
+            } else {
+                // Expand the menu
+                this.setAttribute('aria-expanded', 'true');
+                this.classList.remove('collapsed');
+                navbarCollapse.classList.add('in');
+            }
+        });
+
+        // Close mobile menu automatically if user clicks anywhere outside of it
+        document.addEventListener('click', function(e) {
+            if (!navbarCollapse.contains(e.target) && e.target !== toggleBtn) {
+                toggleBtn.setAttribute('aria-expanded', 'false');
+                toggleBtn.classList.add('collapsed');
+                navbarCollapse.classList.remove('in');
+            }
+        });
     }
 });
