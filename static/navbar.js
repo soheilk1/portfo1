@@ -43,7 +43,7 @@ const navbarHTML = `
           <li><a href="./about.html" id="nav-about">03 : About me</a></li>
           <li><a href="./contact.html" id="nav-contact">04 : Contact</a></li>
           <li><a href="./resume.html" id="nav-resume">05 : Resume</a></li>
-          <li><a href="./products.html" id="nav-products">06 : Products</a></li>
+          <li><a href="./landing.html" id="nav-products">06 : landing</a></li>
         </ul>
       </div>
     </div>
@@ -79,6 +79,8 @@ window.addEventListener('DOMContentLoaded', () => {
     } else if (path.includes('resume.html')) {
         const el = document.getElementById('nav-resume');
         if (el) el.classList.add('active');
-
+    } else if (path.includes('landing.html') || path.includes('checkout.html')) {
+        const el = document.getElementById('nav-products');
+        if (el) el.classList.add('active');
     }
 });
