@@ -6,7 +6,6 @@
     <title>Secure FastAPI Core Boilerplate | ocdaqy</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
-
     <script>
         tailwind.config = {
             darkMode: 'media',
@@ -42,12 +41,10 @@
                     </svg>
                 </div>
                 <div>
-                    <span class="font-bold text-lg">ocdaqy</span>
                     <span class="hidden sm:inline-block text-xs bg-brand-100 dark:bg-brand-900/40 text-brand-700 dark:text-brand-300 px-2 py-0.5 rounded-full ml-2 font-medium">Production Ready</span>
                 </div>
             </div>
             <div>
-                <!-- Pure direct link -->
                 <a href="https://soheil3005.gumroad.com/l/ocdaqy?wanted=true" target="_blank" class="inline-flex items-center justify-center px-4 py-2 text-sm font-semibold text-white bg-slate-900 hover:bg-slate-800 dark:bg-slate-100 dark:hover:bg-slate-200 dark:text-slate-900 rounded-lg transition-all shadow-sm">
                     Get Boilerplate
                 </a>
@@ -75,19 +72,12 @@
                     </p>
 
                     <div class="flex flex-col sm:flex-row gap-4 pt-4">
-                        <!-- UPDATED: Pointing directly to checkout with wanted=true -->
                         <a href="https://soheil3005.gumroad.com/l/ocdaqy?wanted=true" target="_blank" class="inline-flex items-center justify-center px-8 py-4 bg-brand-600 hover:bg-brand-500 dark:bg-brand-500 dark:hover:bg-brand-400 text-white font-bold rounded-xl shadow-lg transition-all transform hover:-translate-y-0.5 active:scale-95 text-lg cursor-pointer">
                             Instant Access — $39
                         </a>
                         <a href="#features" class="inline-flex items-center justify-center px-8 py-4 bg-white dark:bg-slate-900 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 font-semibold rounded-xl border border-slate-200 dark:border-slate-800 transition-all text-lg">
                             Explore Features
                         </a>
-                    </div>
-
-                    <div class="pt-6 grid grid-cols-3 gap-4 max-w-lg border-t border-slate-200 dark:border-slate-900">
-                        <div class="flex items-center space-x-2"><span class="text-brand-500 font-bold">✓</span><span class="text-sm font-medium text-slate-500 dark:text-slate-400">OAuth2 JWT</span></div>
-                        <div class="flex items-center space-x-2"><span class="text-brand-500 font-bold">✓</span><span class="text-sm font-medium text-slate-500 dark:text-slate-400">Dockerized</span></div>
-                        <div class="flex items-center space-x-2"><span class="text-brand-500 font-bold">✓</span><span class="text-sm font-medium text-slate-500 dark:text-slate-400">SQLAlchemy 2.0</span></div>
                     </div>
                 </div>
 
@@ -101,7 +91,6 @@
                                 <span class="w-3 h-3 bg-green-500 rounded-full"></span>
                             </div>
                             <span class="text-xs font-mono text-slate-500">app/core/security.py</span>
-                            <div class="w-4"></div>
                         </div>
                         <div class="p-6 font-mono text-xs overflow-x-auto text-left leading-relaxed text-slate-300">
                             <p class="text-slate-500"><span class="text-emerald-500">import</span> jwt, fastapi, passlib</p>
@@ -127,95 +116,14 @@
         </div>
     </section>
 
-    <section id="features" class="py-20 bg-white/50 dark:bg-slate-900/30 border-y border-slate-200 dark:border-slate-900">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center max-w-3xl mx-auto mb-16">
-                <h2 class="text-3xl font-extrabold text-slate-900 dark:text-slate-50 sm:text-4xl">Everything you need to launch securely</h2>
-                <p class="mt-4 text-lg text-slate-600 dark:text-slate-400">A foundational scaffold focusing exclusively on security, structure, and database integrity.</p>
-            </div>
-
-            <div class="grid md:grid-cols-3 gap-8">
-                <div class="p-6 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm transition-all hover:scale-[1.02]">
-                    <h3 class="text-lg font-bold text-slate-900 dark:text-slate-100 mb-2">OAuth2 & JWT Auth</h3>
-                    <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">Industry standard token-based authentication with secure password hashing using bcrypt. Secure login flows, password resets, and user roles preconfigured.</p>
-                </div>
-                <div class="p-6 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm transition-all hover:scale-[1.02]">
-                    <h3 class="text-lg font-bold text-slate-900 dark:text-slate-100 mb-2">Database & Alembic</h3>
-                    <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">Modern SQLAlchemy 2.0 async database integration. Comes out-of-the-box with auto-generating database migration scenarios powered by Alembic.</p>
-                </div>
-                <div class="p-6 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm transition-all hover:scale-[1.02]">
-                    <h3 class="text-lg font-bold text-slate-900 dark:text-slate-100 mb-2">Docker Environment</h3>
-                    <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">Multi-stage Docker builds. Local docker-compose profiles configures backend container, testing suite, and PostgreSQL containers seamlessly in 1 command.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="pricing" class="py-20 bg-slate-100/50 dark:bg-slate-900/20 border-t border-slate-200 dark:border-slate-900">
-        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h2 class="text-3xl font-extrabold text-slate-900 dark:text-slate-50 mb-4">Secure your framework copy</h2>
-            <p class="text-lg text-slate-600 dark:text-slate-400 max-w-xl mx-auto mb-12">Gain lifetime access to the secure core boilerplate.</p>
-
-            <div class="grid md:grid-cols-2 gap-8 text-left max-w-3xl mx-auto items-stretch">
-
-                <div class="bg-white dark:bg-slate-900 p-8 rounded-3xl border-2 border-brand-500 shadow-xl flex flex-col justify-between relative glow-effect">
-                    <div>
-                        <h4 class="text-xl font-bold mb-2">Lifetime Access</h4>
-                        <p class="text-xs text-slate-500 dark:text-slate-400 mb-6">Complete source file repository.</p>
-                        <div class="flex items-baseline mb-6">
-                            <span class="text-5xl font-black text-slate-900 dark:text-slate-100">$39</span>
-                        </div>
-                    </div>
-                    <!-- Pure direct link -->
-                    <a href="https://soheil3005.gumroad.com/l/ocdaqy?wanted=true" target="_blank" class="w-full bg-brand-600 hover:bg-brand-500 dark:bg-brand-500 dark:hover:bg-brand-400 text-white font-bold py-4 px-6 rounded-xl shadow-md transition-all text-center block">
-                        Instant Checkout
-                    </a>
-                </div>
-
-                <div class="bg-white dark:bg-slate-900 p-8 rounded-3xl border border-slate-200 dark:border-slate-800 flex flex-col justify-between">
-                    <div>
-                        <h4 class="text-xl font-bold mb-2">Support Development</h4>
-                        <p class="text-xs text-slate-500 dark:text-slate-400 mb-6">Contribute a customizable tier.</p>
-
-                        <div class="space-y-4 mb-8">
-                            <label class="block text-xs font-bold uppercase tracking-wider text-slate-500" for="gr-price">Your Custom Amount ($)</label>
-                            <div class="relative rounded-xl shadow-sm">
-                                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none"><span class="text-slate-500 sm:text-sm font-semibold">$</span></div>
-                                <input id="gr-price" type="number" min="1.00" step="1.00" placeholder="39.00" class="block w-full pl-8 pr-4 py-3.5 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl focus:ring-2 focus:ring-brand-500 focus:outline-none transition-all text-slate-900 dark:text-slate-100 font-mono" />
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Dynamic link for custom price using wanted=true trick -->
-                    <a id="custom-pay-btn" href="https://soheil3005.gumroad.com/l/ocdaqy?wanted=true" target="_blank" class="w-full bg-slate-900 hover:bg-slate-800 dark:bg-slate-800 text-white font-bold py-4 px-6 rounded-xl transition-all text-center block cursor-pointer">
-                        Process Custom Pay
-                    </a>
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="mt-auto py-8 border-t border-slate-200 dark:border-slate-900 bg-slate-50 dark:bg-slate-950">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-xs text-slate-500 space-y-4">
-            <p>© 2026 ocdaqy. Built for fast, modern, and production-ready APIs.</p>
-        </div>
-    </footer>
-
     <script>
-        // Custom Price Logic tailored to skip the product page and go straight to payment.
-        const priceInput = document.getElementById("gr-price");
-        const customBtn = document.getElementById("custom-pay-btn");
-        const baseUrl = "https://soheil3005.gumroad.com/l/ocdaqy";
+        console.log("File updated: Checking for wanted=true in link...");
 
-        priceInput.addEventListener("input", function () {
-            let val = priceInput.value.trim();
-            if (val !== "" && !isNaN(val) && parseFloat(val) > 0) {
-                // Attach the price AND the wanted=true parameter to skip product page
-                customBtn.href = baseUrl + "?price=" + val + "&wanted=true";
-            } else {
-                // Reset to default direct checkout
-                customBtn.href = baseUrl + "?wanted=true";
+        // Debugging verification
+        const links = document.querySelectorAll('a');
+        links.forEach(link => {
+            if (link.href.includes("gumroad")) {
+                console.log("Verified link:", link.href);
             }
         });
     </script>
