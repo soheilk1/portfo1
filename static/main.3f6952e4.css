@@ -301,3 +301,23 @@ body, html {
         box-sizing: border-box !important;
     }
 }
+
+/* BULLETPROOF MOBILE MENU FIX: Override Bootstrap animations that get stuck */
+.navbar-collapse.collapse {
+    display: none !important;
+    visibility: visible !important;
+    height: auto !important;
+}
+.navbar-collapse.collapse.in {
+    display: block !important;
+}
+
+.hero-title { font-size: 2.5rem !important; }
+.hero-subtitle { font-size: 1.2rem !important; height: 60px !important; }
+.btn-container { flex-direction: column; gap: 15px; width: 100%; max-width: 300px; }
+.btn-primary-custom, .btn-secondary-custom { width: 100%; text-align: center; }
+.trust-bar span { display: block; margin: 10px 0; }
+.page-title { font-size: 2.5rem !important; }
+.card-container { padding: 20px !important; margin-top: -20px !important; }
+.btn-return { width: 100%; max-width: 350px; text-align: center; font-size: 1.2rem !important; }
+.terminal-output { font-size: 1.1rem; }

@@ -24,14 +24,13 @@
     }
 })();
 
-// ... (keep the top part of your navbar.js exactly as it is)
-
 const navbarHTML = `
 <header>
   <nav class="navbar navbar-fixed-top navbar-inverse">
     <div class="container">
         <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false" style="border-color: #475569;">
+            <!-- Removed data-toggle to bypass Bootstrap animation glitches -->
+            <button type="button" id="custom-mobile-btn" class="navbar-toggle collapsed" aria-expanded="false" style="border-color: #475569;">
               <span class="sr-only">Toggle navigation</span>
               <span class="icon-bar" style="background-color: white;"></span>
               <span class="icon-bar" style="background-color: white;"></span>
@@ -45,7 +44,6 @@ const navbarHTML = `
           <li><a href="./about.html" id="nav-about">03 : About me</a></li>
           <li><a href="./contact.html" id="nav-contact">04 : Contact</a></li>
           <li><a href="./resume.html" id="nav-resume">05 : Resume</a></li>
-          <!-- Ensure this filename matches your actual file exactly -->
           <li><a href="./landing.html" id="nav-products">06 : Products</a></li>
         </ul>
       </div>
@@ -54,12 +52,30 @@ const navbarHTML = `
 </header>
 `;
 
-// ... (rest of your navbar.js)
-
 document.write(navbarHTML);
 
 window.addEventListener('DOMContentLoaded', () => {
     const path = window.location.pathname;
+
+    // --- BULLETPROOF MOBILE MENU FIX ---
+    const mobileBtn = document.getElementById('custom-mobile-btn');
+    const collapseMenu = document.getElementById('navbar-collapse');
+
+    if (mobileBtn && collapseMenu) {
+        mobileBtn.addEventListener('click', function(e) {
+            e.preventDefault(); // Stop default browser behaviors
+            const isCurrentlyOpen = collapseMenu.classList.contains('in');
+
+            // Instantly toggle the menu state classes
+            if (isCurrentlyOpen) {
+                collapseMenu.classList.remove('in');
+                mobileBtn.classList.add('collapsed');
+            } else {
+                collapseMenu.classList.add('in');
+                mobileBtn.classList.remove('collapsed');
+            }
+        });
+    }
 
     // Ensure all active navigation states are stripped first to avoid multiple highlights
     const navItems = ['nav-home', 'nav-works', 'nav-about', 'nav-contact', 'nav-resume', 'nav-products'];
