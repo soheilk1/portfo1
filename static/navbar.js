@@ -43,7 +43,7 @@ const navbarHTML = `
           <li><a href="./about.html" id="nav-about">03 : About me</a></li>
           <li><a href="./contact.html" id="nav-contact">04 : Contact</a></li>
           <li><a href="./resume.html" id="nav-resume">05 : Resume</a></li>
-          <li><a href="./landing.html" id="nav-products">06 : landing</a></li>
+          <li><a href="./products.html" id="nav-products">06 : Products</a></li>
         </ul>
       </div>
     </div>
@@ -79,43 +79,8 @@ window.addEventListener('DOMContentLoaded', () => {
     } else if (path.includes('resume.html')) {
         const el = document.getElementById('nav-resume');
         if (el) el.classList.add('active');
-    } else if (path.includes('landing.html') || path.includes('checkout.html')) {
+    } else if (path.includes('products.html') || path.includes('checkout.html') || path.includes('landing.html')) {
         const el = document.getElementById('nav-products');
         if (el) el.classList.add('active');
-    }
-
-    // --- MOBILE MENU TOGGLE FIX ---
-    // Find the toggle button dynamically by class so we don't rely on an ID
-    const toggleBtn = document.querySelector('.navbar-toggle');
-    const navbarCollapse = document.getElementById('navbar-collapse');
-
-    if (toggleBtn && navbarCollapse) {
-        toggleBtn.addEventListener('click', function(e) {
-            e.stopPropagation();
-
-            // Check current expanded state from standard Bootstrap classes
-            const isCollapsed = this.classList.contains('collapsed');
-
-            if (isCollapsed) {
-                // Open the mobile menu dropdown
-                this.classList.remove('collapsed');
-                this.setAttribute('aria-expanded', 'true');
-                navbarCollapse.classList.add('in');
-            } else {
-                // Close the mobile menu dropdown
-                this.classList.add('collapsed');
-                this.setAttribute('aria-expanded', 'false');
-                navbarCollapse.classList.remove('in');
-            }
-        });
-
-        // Auto-close menu if the user taps anywhere outside of the dropdown wrapper
-        document.addEventListener('click', function(e) {
-            if (!navbarCollapse.contains(e.target) && e.target !== toggleBtn) {
-                toggleBtn.classList.add('collapsed');
-                toggleBtn.setAttribute('aria-expanded', 'false');
-                navbarCollapse.classList.remove('in');
-            }
-        });
     }
 });
