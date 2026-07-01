@@ -15,13 +15,38 @@
         document.head.appendChild(fontsLink);
     }
 
-    // 3. Ensure your local custom style rules (main.3f6952e4.css) are loaded
-    if (!document.querySelector('link[href*="main.3f6952e4.css"]')) {
-        const localCSS = document.createElement('link');
-        localCSS.rel = 'stylesheet';
-        localCSS.href = './static/main.3f6952e4.css';
-        document.head.appendChild(localCSS);
-    }
+    // 3. BULLETPROOF CSS INJECTOR (Fixes PC disappearing and Mobile sticking)
+    const fixCSS = document.createElement('style');
+    fixCSS.innerHTML = `
+        /* Desktop (PC) Failsafe: Forces menu to always be visible and right-aligned */
+        @media (min-width: 768px) {
+            #navbar-collapse.collapse {
+                display: block !important;
+                visibility: visible !important;
+                height: auto !important;
+                opacity: 1 !important;
+            }
+            .navbar-nav.navbar-right {
+                float: right !important;
+            }
+            .navbar-nav > li {
+                float: left !important;
+            }
+        }
+
+        /* Mobile Failsafe: Bypasses broken Bootstrap animations */
+        @media (max-width: 767px) {
+            #navbar-collapse.collapse {
+                display: none !important;
+                visibility: visible !important;
+                height: auto !important;
+            }
+            #navbar-collapse.collapse.in {
+                display: block !important;
+            }
+        }
+    `;
+    document.head.appendChild(fixCSS);
 })();
 
 const navbarHTML = `
@@ -29,16 +54,18 @@ const navbarHTML = `
   <nav class="navbar navbar-fixed-top navbar-inverse">
     <div class="container">
         <div class="navbar-header">
-            <!-- Removed data-toggle to bypass Bootstrap animation glitches -->
+            <!-- Mobile Hamburger Button -->
             <button type="button" id="custom-mobile-btn" class="navbar-toggle collapsed" aria-expanded="false" style="border-color: #475569;">
               <span class="sr-only">Toggle navigation</span>
               <span class="icon-bar" style="background-color: white;"></span>
               <span class="icon-bar" style="background-color: white;"></span>
               <span class="icon-bar" style="background-color: white;"></span>
             </button>
+            <a class="navbar-brand visible-xs" href="index.html" style="color: #38bdf8; font-weight: 900; font-family: 'JetBrains Mono', monospace; font-size: 14px;">SOHEIL-K //</a>
         </div>
       <div class="collapse navbar-collapse" id="navbar-collapse">
-        <ul class="nav navbar-nav">
+        <!-- Added navbar-right to ensure desktop alignment -->
+        <ul class="nav navbar-nav navbar-right">
           <li><a href="./index.html" id="nav-home">01 : Home</a></li>
           <li><a href="./works.html" id="nav-works">02 : Works</a></li>
           <li><a href="./about.html" id="nav-about">03 : About me</a></li>
@@ -63,10 +90,9 @@ window.addEventListener('DOMContentLoaded', () => {
 
     if (mobileBtn && collapseMenu) {
         mobileBtn.addEventListener('click', function(e) {
-            e.preventDefault(); // Stop default browser behaviors
+            e.preventDefault();
             const isCurrentlyOpen = collapseMenu.classList.contains('in');
 
-            // Instantly toggle the menu state classes
             if (isCurrentlyOpen) {
                 collapseMenu.classList.remove('in');
                 mobileBtn.classList.add('collapsed');
@@ -77,7 +103,7 @@ window.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Ensure all active navigation states are stripped first to avoid multiple highlights
+    // Ensure all active navigation states are stripped first
     const navItems = ['nav-home', 'nav-works', 'nav-about', 'nav-contact', 'nav-resume', 'nav-products'];
     navItems.forEach(id => {
         const el = document.getElementById(id);
