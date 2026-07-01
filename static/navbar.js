@@ -18,7 +18,7 @@
     // 3. BULLETPROOF CSS INJECTOR (Fixes PC disappearing and Mobile sticking)
     const fixCSS = document.createElement('style');
     fixCSS.innerHTML = `
-        /* Desktop (PC) Failsafe: Forces menu to always be visible and right-aligned */
+        /* Desktop (PC) Failsafe: Forces menu to always be visible and left-aligned */
         @media (min-width: 768px) {
             #navbar-collapse.collapse {
                 display: block !important;
@@ -26,8 +26,9 @@
                 height: auto !important;
                 opacity: 1 !important;
             }
-            .navbar-nav.navbar-right {
-                float: right !important;
+            .navbar-nav {
+                float: left !important;
+                margin-left: 0 !important;
             }
             .navbar-nav > li {
                 float: left !important;
@@ -64,8 +65,8 @@ const navbarHTML = `
             <a class="navbar-brand visible-xs" href="index.html" style="color: #38bdf8; font-weight: 900; font-family: 'JetBrains Mono', monospace; font-size: 14px;">SOHEIL-K //</a>
         </div>
       <div class="collapse navbar-collapse" id="navbar-collapse">
-        <!-- Added navbar-right to ensure desktop alignment -->
-        <ul class="nav navbar-nav navbar-right">
+        <!-- Changed to navbar-left to ensure desktop alignment to the left -->
+        <ul class="nav navbar-nav navbar-left" style="padding-left: 0;">
           <li><a href="./index.html" id="nav-home">01 : Home</a></li>
           <li><a href="./works.html" id="nav-works">02 : Works</a></li>
           <li><a href="./about.html" id="nav-about">03 : About me</a></li>
