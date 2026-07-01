@@ -24,6 +24,8 @@
     }
 })();
 
+// ... (keep the top part of your navbar.js exactly as it is)
+
 const navbarHTML = `
 <header>
   <nav class="navbar navbar-fixed-top navbar-inverse">
@@ -43,13 +45,16 @@ const navbarHTML = `
           <li><a href="./about.html" id="nav-about">03 : About me</a></li>
           <li><a href="./contact.html" id="nav-contact">04 : Contact</a></li>
           <li><a href="./resume.html" id="nav-resume">05 : Resume</a></li>
-          <li><a href="./products.html" id="nav-products">06 : Products</a></li>
+          <!-- Ensure this filename matches your actual file exactly -->
+          <li><a href="./landing.html" id="nav-products">06 : Products</a></li>
         </ul>
       </div>
     </div>
   </nav>
 </header>
 `;
+
+// ... (rest of your navbar.js)
 
 document.write(navbarHTML);
 
