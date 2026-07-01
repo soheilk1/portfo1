@@ -174,36 +174,35 @@
     </footer>
 
     <!-- Interactive Options State & Integration Logic -->
+<!-- Interactive Options State & Integration Logic -->
+<!-- Interactive Options State & Integration Logic -->
     <script>
         const products = {
             'secure-fastapi': {
                 id: 'ocdaqy',
                 name: 'Secure FastAPI Blueprint',
+                url: 'https://soheil3005.gumroad.com/l/ocdaqy', // Standard URL
                 price: '$49.00',
                 numericPrice: '49.00',
-                description: 'Scaffold your secure, production-ready Python backend in seconds. Includes fully integrated OAuth2, JWT token authorization, SQLModel, PostgreSQL integrations, custom rate limiters, security headers, Docker setup, and complete Pytest coverage.',
+                description: 'Scaffold your secure, production-ready Python backend in seconds.',
                 features: [
                     'OAuth2 & JWT Scopes Scaffolding',
                     'SQLModel & Alembic DB Migrations ready',
-                    'Advanced Security Headers & Rate-Limiting',
-                    'Docker-Compose & CI/CD deployment files',
-                    'Asynchronous Request Pipeline Setup',
-                    'Complete Pytest Suite Coverage'
+                    'Advanced Security Headers & Rate-Limiting'
                 ]
             },
             'ai-microsaas': {
                 id: 'htibuy',
                 name: 'AI Micro-SaaS Template',
-                price: '$79.00',
-                numericPrice: '79.00',
-                description: 'Turn your AI concepts into a generating revenue stream. Comes complete with a Next.js modern dark-mode user interface frontend, Python Flask micro-service layer, multi-turn AI chat state hooks, ready-to-use Stripe billing webhook integrations, and complete user auth wrappers.',
+                // UPDATED: Your specific provided checkout URL
+                url: 'https://soheil3005.gumroad.com/l/htibuy',
+                price: '$89.00',
+                numericPrice: '89.00',
+                description: 'Turn your AI concepts into a generating revenue stream. Comes complete with a Next.js modern dark-mode UI, Python Flask micro-service, and Stripe billing.',
                 features: [
                     'Stripe Portal & Subscription Scaffolding',
                     'Gemini 2.5 & OpenAI API integration wrapper',
-                    'Modern Dark UI Frontend Component Library',
-                    'User Roles, Database Sync, & Usage Logs',
-                    'Clean Webhook Routing Scaffolding',
-                    'Optimized Production Vercel Scaffolding'
+                    'Modern Dark UI Frontend Component Library'
                 ]
             }
         };
@@ -232,8 +231,8 @@
                 descEl.innerText = currentItem.description;
                 priceEl.innerText = currentItem.price;
 
-                // Update Buy Link target for Gumroad overlays
-                buyBtn.setAttribute('href', `https://gumroad.com/l/${currentItem.id}`);
+                // Update Buy Link target to the specific URL
+                buyBtn.setAttribute('href', currentItem.url);
 
                 // Rebuild specifications
                 featuresContainer.innerHTML = '';
@@ -254,23 +253,6 @@
                 featuresContainer.style.opacity = '1';
             }, 150);
         }
-
-        // Action Trigger Event Listener for secure checkout handshake inside iframes
-        document.getElementById("gr-buy").addEventListener("click", function (e) {
-            const dropdown = document.getElementById("product-dropdown");
-            const selectedKey = dropdown.value;
-            const prod = products[selectedKey];
-
-            // Post dynamic transaction details safely up to Gumroad Parent Window sandbox frame
-            parent.postMessage({
-                type: "gumroad:checkout",
-                params: {
-                    product: prod.id,
-                    variant: prod.name,
-                    price: prod.numericPrice
-                }
-            }, "*");
-        });
 
         // Initialize state configuration immediately
         window.onload = function() {
