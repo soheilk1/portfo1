@@ -7,6 +7,7 @@ from datetime import datetime
 from email.message import EmailMessage
 import google.generativeai as genai
 from dotenv import load_dotenv
+from flask import Response
 from flask import Flask, render_template, request, redirect, jsonify, make_response
 
 
@@ -351,3 +352,30 @@ def send_contact():
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 8080))
     app.run(host='0.0.0.0', port=port)
+
+# ==========================================
+# 10. Sitemap Route
+# ==========================================
+
+@app.route('/sitemap.xml')
+def sitemap():
+    xml_content = """<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://soheilk.online/</loc>
+    <lastmod>2026-04-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://soheilk.online/resume</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://soheilk.online/portal</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+</urlset>"""
+    return Response(xml_content, mimetype='application/xml')
