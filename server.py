@@ -361,19 +361,34 @@ if __name__ == '__main__':
 def sitemap():
     xml_content = """<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <!-- Home / Portal Page -->
   <url>
     <loc>https://soheilk.online/</loc>
-    <lastmod>2026-04-27</lastmod>
+    <lastmod>2026-07-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
+
+  <!-- Product Landing Page -->
+  <url>
+    <loc>https://soheilk.online/landing.html</loc>
+    <lastmod>2026-07-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Resume Page -->
   <url>
     <loc>https://soheilk.online/resume</loc>
+    <lastmod>2026-07-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
+
+  <!-- Secure Portal -->
   <url>
     <loc>https://soheilk.online/portal</loc>
+    <lastmod>2026-07-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
