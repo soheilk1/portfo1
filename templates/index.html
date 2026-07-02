@@ -1,25 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta content="IE=edge" http-equiv="X-UA-Compatible">
   <meta content="width=device-width,initial-scale=1" name="viewport">
-  <meta content="description" name="DevSecOps & Cloud Engineer Portfolio">
+  <title>Soheil Karami | DevSecOps & IT Professional</title>
 
-  <meta name="msapplication-tap-highlight" content="no">
-  <link rel="apple-touch-icon" sizes="180x180" href="./static/assets/apple-icon-180x180.png">
-  <link href="./static/assets/favicon.ico" rel="icon">
-
-  <title>Soheil Karami | DevSecOps Engineer</title>
-
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;700;900&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+  <!-- Required Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
 
   <!-- Single Unified CSS File -->
   <link href="./static/main.3f6952e4.css" rel="stylesheet">
 </head>
-
 <body class="home-body">
 <div id="site-border-left"></div>
 <div id="site-border-right"></div>
@@ -29,83 +21,40 @@
 <!-- Unified Navigation Bar -->
 <script src="./static/navbar.js"></script>
 
-<div class="glow-bg index-glow"></div>
-<div class="hero-container">
-    <h1 class="hero-title">Soheil Karami</h1>
+<div class="glow-bg"></div>
 
-    <div class="hero-subtitle">
-        <span id="custom-typewriter"></span><span class="typing-cursor"></span>
-    </div>
+<main class="hero-container">
+    <h1 class="hero-title">Soheil Karami</h1>
 
     <div class="btn-container">
         <a href="./resume.html" class="btn-primary-custom">Interact with AI Resume ✨</a>
         <a href="./works.html" class="btn-secondary-custom">View Engineering Projects</a>
     </div>
-</div>
 
-<div class="trust-bar">
-    <span>AWS & Azure</span> •
-    <span>Python Automation</span> •
-    <span>Cybersecurity</span> •
-    <span>DevSecOps</span>
-</div>
-
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-
-      setTimeout(() => {
-          fetch("/api/track_view", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ page: "home" })
-          })
-          .catch(err => {
-              // Silently ignore local dev errors
-          });
-      }, 1000);
-
-      const titles = [
-          "Cloud Infrastructure Engineer",
-          "DevSecOps Specialist",
-          "Python Backend Developer",
-          "IT Operations Manager"
-      ];
-
-      let titleIndex = 0;
-      let charIndex = 0;
-      let isDeleting = false;
-      const typewriterElement = document.getElementById("custom-typewriter");
-
-      function type() {
-          const currentTitle = titles[titleIndex];
-
-          if (isDeleting) {
-              typewriterElement.textContent = currentTitle.substring(0, charIndex - 1);
-              charIndex--;
-          } else {
-              typewriterElement.textContent = currentTitle.substring(0, charIndex + 1);
-              charIndex++;
-          }
-
-          let typingSpeed = isDeleting ? 40 : 80;
-
-          if (!isDeleting && charIndex === currentTitle.length) {
-              typingSpeed = 2000;
-              isDeleting = true;
-          } else if (isDeleting && charIndex === 0) {
-              isDeleting = false;
-              titleIndex = (titleIndex + 1) % titles.length;
-              typingSpeed = 500;
-          }
-          setTimeout(type, typingSpeed);
-      }
-      setTimeout(type, 1000);
-  });
-</script>
+    <div class="trust-bar">
+        <span>AWS & AZURE</span>
+        <span class="bullet">•</span>
+        <span>PYTHON AUTOMATION</span>
+        <span class="bullet">•</span>
+        <span>CYBERSECURITY</span>
+        <span class="bullet">•</span>
+        <span>DEVSECOPS</span>
+    </div>
+</main>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="./static/main.70a66962.js"></script>
 
+<script>
+    setTimeout(() => {
+        fetch("/api/track_view", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ page: "home" })
+        }).catch(err => {
+            // Silently ignore local dev errors
+        });
+    }, 1000);
+</script>
 </body>
 </html>
