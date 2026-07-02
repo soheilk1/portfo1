@@ -348,7 +348,7 @@ def sitemap():
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://soheilk.online/portal</loc>
+    <loc>https://soheilk.online/about</loc>
     <lastmod>2026-07-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
