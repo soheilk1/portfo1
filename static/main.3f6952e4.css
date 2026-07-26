@@ -271,6 +271,206 @@ body, html {
 .btn-return { background-color: transparent !important; color: #f8fafc !important; padding: 18px 45px !important; border-radius: 8px !important; font-size: 1.4rem !important; font-weight: 600 !important; text-decoration: none !important; transition: all 0.3s ease !important; border: 1px solid #475569 !important; display: inline-block; }
 .btn-return:hover { background-color: #1e293b !important; border-color: #38bdf8 !important; color: white !important; transform: translateY(-2px); box-shadow: 0 4px 15px rgba(56, 189, 248, 0.2); }
 
+
+/* ==========================================================================
+PWNED PASSWORD CHECKER PAGE
+========================================================================== */
+
+.pwned-main-wrapper {
+display: flex;
+flex-direction: column;
+justify-content: center;
+flex-grow: 1;
+padding-top: 140px;
+padding-bottom: 80px;
+position: relative;
+z-index: 10;
+}
+
+.pwned-container {
+max-width: 900px;
+margin-left: auto;
+margin-right: auto;
+padding-left: 16px;
+padding-right: 16px;
+width: 100%;
+}
+
+.pwned-header {
+text-align: center;
+padding-top: 20px;
+padding-bottom: 20px;
+}
+
+.pwned-badge {
+display: inline-flex;
+align-items: center;
+gap: 8px;
+padding: 6px 16px;
+border-radius: 9999px;
+background-color: rgba(30, 58, 138, 0.5);
+color: #38bdf8;
+font-size: 14px;
+font-weight: 500;
+margin-bottom: 24px;
+border: 1px solid rgba(56, 189, 248, 0.2);
+font-family: 'JetBrains Mono', monospace;
+}
+
+.pwned-badge-icon {
+width: 20px;
+height: 20px;
+}
+
+.pwned-page-title {
+font-size: 4rem !important;
+font-weight: 800 !important;
+color: #ffffff !important;
+margin-top: 0 !important;
+margin-bottom: 20px !important;
+}
+
+.pwned-title-highlight {
+background: linear-gradient(to right, #38bdf8, #67e8f9);
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+}
+
+.pwned-header-desc {
+margin-top: 16px;
+max-width: 700px;
+margin-left: auto;
+margin-right: auto;
+font-size: 1.25rem;
+color: #94a3b8;
+line-height: 1.7;
+}
+
+.pwned-card {
+background-color: #1e293b;
+border-radius: 16px;
+padding: 40px;
+border: 1px solid #334155;
+box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+margin-bottom: 48px;
+}
+
+.pwned-input-group {
+position: relative;
+margin-bottom: 24px;
+}
+
+.pwned-input {
+width: 100%;
+background-color: #0f172a;
+border: 1px solid #475569;
+border-radius: 12px;
+padding: 20px 24px;
+color: #ffffff;
+font-size: 1.4rem;
+font-family: 'JetBrains Mono', monospace;
+outline: none;
+transition: all 0.2s ease-in-out;
+}
+
+.pwned-input:focus {
+border-color: #38bdf8;
+box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.25);
+}
+
+.pwned-input::placeholder {
+color: #64748b;
+}
+
+.pwned-eye-btn {
+position: absolute;
+right: 20px;
+top: 50%;
+transform: translateY(-50%);
+color: #94a3b8;
+background: transparent;
+border: none;
+padding: 8px;
+cursor: pointer;
+transition: color 0.2s ease;
+}
+
+.pwned-eye-btn:hover {
+color: #ffffff;
+}
+
+.pwned-eye-icon {
+width: 28px;
+height: 28px;
+}
+
+.pwned-submit-btn {
+width: 100%;
+background-color: #2563eb;
+color: #ffffff;
+font-weight: 700;
+font-size: 1.3rem;
+padding: 20px;
+border-radius: 12px;
+border: 1px solid #2563eb;
+box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.3);
+cursor: pointer;
+transition: all 0.2s ease-in-out;
+display: flex;
+justify-content: center;
+align-items: center;
+gap: 12px;
+}
+
+.pwned-submit-btn:hover {
+background-color: #3b82f6;
+border-color: #3b82f6;
+transform: translateY(-1px);
+}
+
+.pwned-submit-btn:disabled {
+opacity: 0.7;
+cursor: not-allowed;
+}
+
+.pwned-result-container {
+margin-top: 32px;
+border-radius: 12px;
+padding: 28px;
+border: 1px solid #334155;
+transition: all 0.3s ease-in-out;
+}
+
+.pwned-result-danger {
+background-color: rgba(127, 29, 29, 0.25);
+border-color: rgba(239, 68, 68, 0.5);
+}
+
+.pwned-result-success {
+background-color: rgba(6, 78, 59, 0.25);
+border-color: rgba(16, 185, 129, 0.5);
+}
+
+.pwned-result-title {
+font-size: 1.5rem;
+font-weight: 700;
+margin-bottom: 8px;
+}
+
+.pwned-result-title-danger {
+color: #fca5a5;
+}
+
+.pwned-result-title-success {
+color: #6ee7b7;
+}
+
+.pwned-result-text {
+color: #cbd5e1;
+font-size: 1.15rem;
+line-height: 1.6;
+}
+
 /* ==========================================================================
    MOBILE RESPONSIVE FIXES (All Pages)
    ========================================================================== */
@@ -295,3 +495,4 @@ body, html {
     .btn-return { width: 100%; max-width: 350px; text-align: center; font-size: 1.2rem !important; }
     .terminal-output { font-size: 1.1rem; }
 }
+
